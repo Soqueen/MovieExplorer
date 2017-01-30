@@ -1,2 +1,3 @@
 # ecse428
-Software Engineering Practice
+#### Movie Explorer
+

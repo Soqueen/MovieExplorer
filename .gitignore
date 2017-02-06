@@ -1,4 +1,14 @@
 # Created by https://www.gitignore.io/api/macos,pycharm
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media
+movie_explorer/movie_rating/migrations/*
+!movie_explorer/movie_rating/migrations/__init__.py
 
 ### macOS ###
 *.DS_Store

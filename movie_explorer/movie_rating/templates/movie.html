@@ -1,0 +1,25 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Movie Explorer </title>
+  <meta name="description" content="The Movie Explorer">
+  <meta name="author" content="Aimee Ascencio tihi">
+
+</head>
+
+<body>
+<!-- For testing purposes -->
+{% block content %}
+<h1>RANDOM MOVIES </h1>
+
+{% for movie in results %}
+<h4>
+  {{movie.title}}
+</h4>
+{% endfor %}
+{% endblock %}
+
+</body>

@@ -121,3 +121,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TMDB_API_KEY = '889c9ad70b777c9c124863f3ab386089'

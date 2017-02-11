@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name="index"),
+    url(r'^movies/$', views.MovieView.as_view(), name="movies"),
 ]

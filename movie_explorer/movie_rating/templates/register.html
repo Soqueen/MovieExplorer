@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome!{% endblock %}
+
+{% block content %}
+<h2>Registration</h2>
+<!--Django need to end ther url with '/'. Note that instead of '/register', it becomes '/register/'-->
+<form method="POST" action='/register/'>{% csrf_token %}
+    First name:<br>
+    <input type="text" name="first_name">
+    <br>
+    Last name:<br>
+    <input type="text" name="last_name">
+    <br>
+    Email:<br>
+    <input type="email" name="email">
+    <br>
+    Username:<br>
+    <input type="text" name="username">
+    <br>
+    Password:<br>
+    <input type="password" name="password">
+    <br><br>
+    <input type="submit" value="Register">
+</form>
+
+{% endblock %}

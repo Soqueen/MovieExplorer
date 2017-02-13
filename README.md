@@ -12,11 +12,6 @@
 #####Pip for python3
 
 ###  General installation of python package
-#####Flask==0.12
-#####Flask-SocketIO==2.8.2
-#####Flask-WTF==0.14.2
-#####python-socketio==1.6.3
-#####pymongo==3.4.0
 #####Django==1.10.1
 #####django-extensions==1.7.6
 #####tmdbsimple==1.5.0

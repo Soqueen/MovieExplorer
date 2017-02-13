@@ -47,6 +47,5 @@ def register(request):
                                          username=username, password=password)
             response["status"] = 'success'
             return JsonResponse(response, safe=False)
-        return redirect('/')
     else:
         return render(request, 'register.html')

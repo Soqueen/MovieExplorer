@@ -15,6 +15,6 @@
 #####Django==1.10.1
 #####django-extensions==1.7.6
 #####tmdbsimple==1.5.0
-####Note, you can also run the `python3 pip3_requirement.txt` file to install all the python package
+####Note, you can also run the `pip3 install -r pip3_requirement.txt` file to install all the python package
 
 

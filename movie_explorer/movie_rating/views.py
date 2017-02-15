@@ -20,8 +20,12 @@ class MovieView(TemplateView):
 
     def get_context_data(self, **kwargs):
         movies = tmdb.Movies()
+        config = tmdb.Configuration().info()
+
         context = {}
         context['results'] = movies.upcoming()['results']
+        context['image_path'] = config['images']['base_url']+config['images']['poster_sizes'][2]
+
         return context
 
 

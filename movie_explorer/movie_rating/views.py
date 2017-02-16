@@ -26,7 +26,6 @@ class MovieView(TemplateView):
         context = {}
         context['results'] = movies.upcoming()['results']
         context['image_path'] = config['images']['base_url']+config['images']['poster_sizes'][POSTER_SIZE]
-
         return context
 
 

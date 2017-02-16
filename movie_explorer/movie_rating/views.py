@@ -23,7 +23,7 @@ class MovieView(TemplateView):
         config = tmdb.Configuration().info()
 
         context = {}
-        context['results'] = movies.upcoming()['results']
+        context['results'] = movies.top_rated()['results']
         context['image_path'] = config['images']['base_url']+config['images']['poster_sizes'][2]
 
         return context

@@ -7,18 +7,40 @@
         Register in Movie Explorer!
     </section>
 <!--Django need to end ther url with '/'. Note that instead of '/register', it becomes '/register/'-->
+{%if error%}
+    <div> <p style="color:red"> {{ error }} </p></div>
+{% elif success%}
+    <div> <p style="color:green">{{ success }} </p></div>
+{% endif %}
+
+
 <form method="POST" action='/register/'>{% csrf_token %}
     First name:
     <input type="text" name="first_name">
     <br><br>
     Last name:
     <input type="text" name="last_name">
+<<<<<<< HEAD
     <br><br>
     Email:
     <input type="email" name="email">
     <br><br>
     Username:
     <input type="text" name="username">
+=======
+    <br>
+    Email:<br>
+    <input type="text" name="email">
+    <br>
+    Username:<br>
+    <input type="text" name="username">
+    <br>
+    Password:<br>
+    <input type="password" name="password">
+    <br>
+    Confirmed Password:<br>
+    <input type="password" name="confirm_pwd">
+>>>>>>> origin/dev
     <br><br>
     Password:
     <input type="password" name="password">

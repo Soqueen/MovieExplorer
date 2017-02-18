@@ -3,25 +3,73 @@
 {% block title %}Welcome!{% endblock %}
 
 {% block content %}
-<h2>Registration</h2>
-<!--Django need to end ther url with '/'. Note that instead of '/register', it becomes '/register/'-->
-<form method="POST" action='/register/'>{% csrf_token %}
-    First name:<br>
-    <input type="text" name="first_name">
-    <br>
-    Last name:<br>
-    <input type="text" name="last_name">
-    <br>
-    Email:<br>
-    <input type="email" name="email">
-    <br>
-    Username:<br>
-    <input type="text" name="username">
-    <br>
-    Password:<br>
-    <input type="password" name="password">
-    <br><br>
-    <input type="submit" value="Register">
-</form>
+    <section class="page-title">
+        Register in Movie Explorer!
+    </section>
+<!--Django need to end the url with '/'. Note that instead of '/register', it becomes '/register/'-->
+{%if error%}
+    <div> <p style="color:red"> {{ error }} </p></div>
+{% elif success%}
+    <div> <p style="color:green">{{ success }} </p></div>
+{% endif %}
+
+    <section class="form-container">
+        <form method="POST" action='/register/'>
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>
+                        First name:
+                    </td>
+                    <td>
+                        <input type="text" name="first_name" placeholder="ex: John...">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Last name:
+                    </td>
+                    <td>
+                        <input type="text" name="last_name" placeholder="ex: Smith...">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email:
+                    </td>
+                    <td>
+                        <input type="email" name="email" placeholder="ex: JS@email.com">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Username:
+                    </td>
+                    <td>
+                        <input type="text" name="username" placeholder="ex: JS01">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Password:
+                    </td>
+                    <td>
+                        <input type="password" name="password">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Confirm Password:
+                    </td>
+                    <td>
+                        <input type="password" name="confirm_pwd">
+                    </td>
+                </tr>
+            </table><br>
+            <div class="submit-div">
+                <input type="submit" value="Register">
+            </div>
+        </form>
+    </section>
 
 {% endblock %}

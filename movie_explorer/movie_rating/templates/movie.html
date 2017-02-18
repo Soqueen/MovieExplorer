@@ -7,20 +7,63 @@
   <title>The Movie Explorer </title>
   <meta name="description" content="The Movie Explorer">
   <meta name="author" content="Aimee Ascencio tihi">
-
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
+    <script src="{% static "js/movies.js" %}"></script>
 </head>
 
 <body>
-<!-- For testing purposes -->
-{% block content %}
-<h1>RANDOM MOVIES </h1>
+    <header>
+        <div class="header-container">
+            <img src="{% static "img/profile_white.png" %}">
+            <div class="header-input-div">
+                <a href="{% url 'login' %}">
+                    <input type="button" value="log in">
+                </a>
+                <div class="input-dialog">
+                </div>
+            </div>
+            <div class="header-input-div">
+                <a href="{% url 'register' %}">
+                    <input type="button" value="sign up">
+                </a>
+            </div>
+        </div>
+    </header>
+    <section class="header-empty">
+    </section>
+    <section class="page-title">
+        Welcome to Movie Explorer!
+    </section>
 
-{% for movie in results %}
-<h4>
-  {{movie.title}}
-</h4>
-<img src="{{image_path}}{{movie.poster_path}}"}}>
-{% endfor %}
-{% endblock %}
+    <!-- Section used for displaying search bar -->
+    <section class="search-section">
+        <input type="text" class="search-bar" placeholder="Search any movie...">
+    </section>
+
+    <!-- Section used for displaying upcoming movies -->
+        <section class="playing-movies">
+        <div class="prev" onclick="prev();">
+            <
+        </div>
+        <div class="next" onclick="next();">
+            >
+        </div>
+        {% block content %}
+            <span class="subtitle">NOW PLAYING</span><br><br>
+
+            <div id="movies-container">
+                <input type="hidden" id="translate-value" value="0">
+            {% for movie in results %}
+                <div class="movie-poster">
+                    <img src="{{image_path}}{{movie.poster_path}}"}}><br><br>
+                    <span>
+                        {{movie.title}}
+                    </span>
+                </div>
+            {% endfor %}
+            </div>
+        </section>
+    {% endblock %}
 
 </body>

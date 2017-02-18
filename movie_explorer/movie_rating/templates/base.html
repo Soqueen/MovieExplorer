@@ -3,9 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}Movie Explorer Login{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/register.css" %}">
 </head>
 <body>
-<header>
+<!--<header>
     <h1>MOVIE EXPLORER</h1>
     {% if user.is_authenticated %}
     Hi {{ user.username }}!
@@ -14,12 +17,34 @@
     <a href="{% url 'login' %}">login</a>
 
     {% endif %}
-</header>
-<hr>
+</header>-->
+    <header>
+        <div class="header-container">
+            <img src="{% static "img/profile_white.png" %}">
+            <div class="header-input-div">
+                <a href="{% url 'movies' %}">
+                    <input type="button" value="home">
+                </a>
+            </div>
+            <div class="header-input-div">
+                <a href="{% url 'login' %}">
+                    <input type="button" value="log in">
+                </a>
+                <div class="input-dialog">
+                </div>
+            </div>
+            <div class="header-input-div">
+                <a href="{% url 'register' %}">
+                    <input type="button" value="sign up">
+                </a>
+            </div>
+        </div>
+    </header>
+    <section class="header-empty">
+    </section>
 <main>
     {% block content %}
     {% endblock %}
 </main>
-<hr>
 </body>
 </html>

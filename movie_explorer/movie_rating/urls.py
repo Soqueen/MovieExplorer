@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
+    url(r'^$', views.MovieView.as_view(), name='home'),
     url(r'^home/', views.home, name='home'),
     url(r'^register/', views.register, name='register'),
     url(r'^login/', auth_views.login, name='login'),

@@ -1,3 +1,8 @@
+@keyframes nextMovies {
+    0% {transform: translateX(0px);}
+    100% {transform: translateX(100px);}
+}
+
 html, body {
     height: 100%;
 }
@@ -110,8 +115,7 @@ section.playing-movies {
 div.movie-poster {
     display: inline-block;
     width: 185px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-right: 40px;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -129,4 +133,44 @@ div.movie-poster > span {
     margin-left: 150px;
     font-size: 150%;
     font-weight: bold;
+}
+
+div#movies-container {
+    transition: .6s;
+}
+
+div.next {
+    position: absolute;
+    top:0;
+    right: 0;
+    width: 75px;
+    height: 100%;
+    padding-left: 15px;
+    background-color: rgba(33,33,33,1);
+    text-align: left;
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 409px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+div.prev {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 75px;
+    height: 100%;
+    padding-right: 15px;
+    background-color: rgba(33,33,33,1);
+    text-align: right;
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 409px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+div.prev:hover, div.next:hover {
+    box-shadow: 0px 0px 30px 0px rgba(240,240,240,1);
 }

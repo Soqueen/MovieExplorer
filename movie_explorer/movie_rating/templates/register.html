@@ -14,7 +14,8 @@
 {% endif %}
 
     <section class="form-container">
-        <form method="POST" action='/register/'>{% csrf_token %}
+        <form method="POST" action='/register/'>
+            {% csrf_token %}
             <table>
                 <tr>
                     <td>

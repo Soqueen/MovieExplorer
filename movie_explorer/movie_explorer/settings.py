@@ -27,8 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['104.131.51.38', '127.0.0.1']
 
-LOGIN_REDIRECT_URL = '/home'
+LOGIN_REDIRECT_URL = '/movies'
 
+
+AUTHENTICATION_BACKENDS = [
+    'movie_rating.views.UserModelEmailBackend',    # Login with email
+    'django.contrib.auth.backends.ModelBackend',    # Login with username
+]
 
 # Application definition
 

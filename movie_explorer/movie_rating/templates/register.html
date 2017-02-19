@@ -7,8 +7,14 @@
         Register in Movie Explorer!
     </section>
 <!--Django need to end the url with '/'. Note that instead of '/register', it becomes '/register/'-->
-{%if error%}
-    <div> <p style="color:red"> {{ error }} </p></div>
+{%if errors%}
+    <div>
+            {% for error in errors %}
+            <td><font color="red">
+                {{ error }}
+            </font></td>
+            {% endfor %}
+    </div>
 {% elif success%}
     <div> <p style="color:green">{{ success }} </p></div>
 {% endif %}
@@ -17,22 +23,23 @@
         <form method="POST" action='/register/'>
             {% csrf_token %}
             <table>
-                <tr>
-                    <td>
-                        First name:
-                    </td>
-                    <td>
-                        <input type="text" name="first_name" placeholder="ex: John...">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Last name:
-                    </td>
-                    <td>
-                        <input type="text" name="last_name" placeholder="ex: Smith...">
-                    </td>
-                </tr>
+                <!--Disable the fields for the first sprint. It should enable back after.-->
+                <!--<tr>-->
+                    <!--<td>-->
+                        <!--First name:-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<input type="text" name="first_name" placeholder="ex: John...">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>-->
+                        <!--Last name:-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<input type="text" name="last_name" placeholder="ex: Smith...">-->
+                    <!--</td>-->
+                <!--</tr>-->
                 <tr>
                     <td>
                         Email:

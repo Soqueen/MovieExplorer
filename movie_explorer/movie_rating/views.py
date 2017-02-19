@@ -11,26 +11,34 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from .models import MovieRatings
+import requests
 
 
 # Create your views here.
-def home(request):
-    return render(request, 'home.html')
-
-
 class MovieView(TemplateView):
     tmdb.API_KEY = settings.TMDB_API_KEY
     template_name = 'movie.html'  # SET TEMPLATE NAME
 
     def get_context_data(self, **kwargs):
-        movies = tmdb.Movies()
-        config = tmdb.Configuration().info()
-        POSTER_SIZE = 2
+        try:
+            movies = tmdb.Movies()
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 2
 
-        context = {}
-        context['results'] = movies.upcoming()['results']
-        context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-        return context
+            context = {}
+            context['status'] = 'success'
+            context['results'] = movies.top_rated(page = 1)['results'][:10]
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            return context
+        except requests.exceptions.HTTPError as e:
+            context = {}
+            print ("THE API IS WRONG")
+            context["status"] = 'failure'
+            return context
+
+
+def home(request):
+    return render(request, 'home.html')
 
 
 def register(request):
@@ -39,18 +47,23 @@ def register(request):
         response = dict(
             errors=list(),
         )
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
+        # This field firstname and lastname are disable
+        #  for first sprint and should be enable back in the second sprint.
+
+        # first_name = request.POST['first_name']
+        # last_name = request.POST['last_name']
         email = request.POST['email']
         username = request.POST['username']
         password = request.POST['password']
         confirm_pwd = request.POST['confirm_pwd']
 
         #   Check if the fields are not empty
-        if not first_name.strip():
-            response['errors'].append(' Please fill in your first name.')
-        if not last_name.strip():
-            response['errors'].append(' Please fill in your last name.')
+
+        # if not first_name.strip():
+        #     response['errors'].append(' Please fill in your first name.')
+        # if not last_name.strip():
+        #     response['errors'].append(' Please fill in your last name.')
+
         if not email.strip():
             response['errors'].append(' Please fill in your email address.')
         if not username.strip():
@@ -88,11 +101,17 @@ def register(request):
             return render(request, 'register.html', response)
         else:
             # Store the new user into the database
+
+            # User.objects.create_user(username,
+            #                          email=email,
+            #                          password=password,
+            #                          last_name=last_name,
+            #                          first_name=first_name)
+
+            # Once you enable firstname and lastname fields, please remove bellowed object.
             User.objects.create_user(username,
                                      email=email,
-                                     password=password,
-                                     last_name=last_name,
-                                     first_name=first_name)
+                                     password=password)
             response['success'] = 'You are successfully registered to Movie Explorer!'
             return render(request, 'register.html', response)
 

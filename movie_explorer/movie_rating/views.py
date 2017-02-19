@@ -47,6 +47,9 @@ def register(request):
         response = dict(
             errors=list(),
         )
+        # This field firstname and lastname are disable
+        #  for first sprint and should be enable back in the second sprint.
+
         # first_name = request.POST['first_name']
         # last_name = request.POST['last_name']
         email = request.POST['email']
@@ -55,10 +58,12 @@ def register(request):
         confirm_pwd = request.POST['confirm_pwd']
 
         #   Check if the fields are not empty
+
         # if not first_name.strip():
         #     response['errors'].append(' Please fill in your first name.')
         # if not last_name.strip():
         #     response['errors'].append(' Please fill in your last name.')
+
         if not email.strip():
             response['errors'].append(' Please fill in your email address.')
         if not username.strip():
@@ -96,11 +101,14 @@ def register(request):
             return render(request, 'register.html', response)
         else:
             # Store the new user into the database
+
             # User.objects.create_user(username,
             #                          email=email,
             #                          password=password,
             #                          last_name=last_name,
             #                          first_name=first_name)
+
+            # Once you enable firstname and lastname fields, please remove bellowed object.
             User.objects.create_user(username,
                                      email=email,
                                      password=password)

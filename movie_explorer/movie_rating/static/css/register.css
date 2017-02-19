@@ -37,3 +37,8 @@ section.form-container > form > div.submit-div > input {
     color: rgba(100,150,240,1);
     font-size: 100%;
 }
+
+p.error {
+    color: rgba(240,100,100,1);
+    font-size: 200%;
+}

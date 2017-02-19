@@ -7,8 +7,14 @@
         Register in Movie Explorer!
     </section>
 <!--Django need to end the url with '/'. Note that instead of '/register', it becomes '/register/'-->
-{%if error%}
-    <div> <p style="color:red"> {{ error }} </p></div>
+{%if errors%}
+    <div>
+            {% for error in errors %}
+            <td><font color="red">
+                {{ error }}
+            </font></td>
+            {% endfor %}
+    </div>
 {% elif success%}
     <div> <p style="color:green">{{ success }} </p></div>
 {% endif %}

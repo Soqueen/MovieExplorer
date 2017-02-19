@@ -31,7 +31,7 @@ LOGIN_REDIRECT_URL = '/movies'
 
 
 AUTHENTICATION_BACKENDS = [
-    'movie_rating.backends.UserModelEmailBackend',    # Login with email
+    'movie_rating.views.UserModelEmailBackend',    # Login with email
     'django.contrib.auth.backends.ModelBackend',    # Login with username
 ]
 

@@ -47,18 +47,18 @@ def register(request):
         response = dict(
             errors=list(),
         )
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
+        # first_name = request.POST['first_name']
+        # last_name = request.POST['last_name']
         email = request.POST['email']
         username = request.POST['username']
         password = request.POST['password']
         confirm_pwd = request.POST['confirm_pwd']
 
         #   Check if the fields are not empty
-        if not first_name.strip():
-            response['errors'].append(' Please fill in your first name.')
-        if not last_name.strip():
-            response['errors'].append(' Please fill in your last name.')
+        # if not first_name.strip():
+        #     response['errors'].append(' Please fill in your first name.')
+        # if not last_name.strip():
+        #     response['errors'].append(' Please fill in your last name.')
         if not email.strip():
             response['errors'].append(' Please fill in your email address.')
         if not username.strip():
@@ -96,11 +96,14 @@ def register(request):
             return render(request, 'register.html', response)
         else:
             # Store the new user into the database
+            # User.objects.create_user(username,
+            #                          email=email,
+            #                          password=password,
+            #                          last_name=last_name,
+            #                          first_name=first_name)
             User.objects.create_user(username,
                                      email=email,
-                                     password=password,
-                                     last_name=last_name,
-                                     first_name=first_name)
+                                     password=password)
             response['success'] = 'You are successfully registered to Movie Explorer!'
             return render(request, 'register.html', response)
 

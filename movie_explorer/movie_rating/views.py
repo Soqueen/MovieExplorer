@@ -27,7 +27,7 @@ class MovieView(TemplateView):
 
             context = {}
             context['status'] = 'success'
-            context['results'] = movies.top_rated(page = 1)['results']
+            context['results'] = movies.top_rated(page = 1)['results'][:10]
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
             return context
         except requests.exceptions.HTTPError as e:

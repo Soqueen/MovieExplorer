@@ -36,7 +36,9 @@ class MovieView(TemplateView):
 def register(request):
     """ Handle registration form """
     if request.method == 'POST':
-        response = dict()
+        response = dict(
+            errors=list(),
+        )
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         email = request.POST['email']
@@ -45,50 +47,54 @@ def register(request):
         confirm_pwd = request.POST['confirm_pwd']
 
         #   Check if the fields are not empty
-        if not first_name.strip() \
-                or not last_name.strip() \
-                or not email.strip() \
-                or not username.strip() \
-                or not password.strip():
-            response['error'] = 'Please fill all the fields'
-            return render(request, 'register.html', response)
+        if not first_name.strip():
+            response['errors'].append(' Please fill in your first name.')
+        if not last_name.strip():
+            response['errors'].append(' Please fill in your last name.')
+        if not email.strip():
+            response['errors'].append(' Please fill in your email address.')
+        if not username.strip():
+            response['errors'].append(' Please fill in your username.')
+        if not password:
+            response['errors'].append(' Please fill in your password.')
+        if not confirm_pwd:
+            response['errors'].append(' Please confirm your password.')
 
         # Check if both passwords are matched
         if password != confirm_pwd:
-            response['error'] = 'Passwords do not match'
-            return render(request, 'register.html', response)
+            response['errors'].append(' Passwords do not match.')
 
         # Check if  username is unique
         try:
             user = User.objects.get(username=username)
-            response['error'] = 'Username is already in used'
-            return render(request, 'register.html', response)
+            response['errors'].append(' Username is already in use.')
         except User.DoesNotExist:
             pass
 
         # Check if Email is unique
         try:
             user = User.objects.get(email=email)
-            response['error'] = 'Email is already in used'
-            return render(request, 'register.html', response)
+            response['errors'].append(' Email is already in use.')
         except User.DoesNotExist:
             pass
 
-        #   Check if the Email is valid format
+        # Check if the Email is valid format
         try:
             validate_email(email)
         except ValidationError:
-            response['error'] = 'Email is not in correct format'
-            return render(request, 'register.html', response)
+            response['errors'].append(' Email is not in correct format')
 
-        # Store the new user into the database
-        User.objects.create_user(username,
-                                 email=email,
-                                 password=password,
-                                 last_name=last_name,
-                                 first_name=first_name)
-        response['success'] = 'You are successfully register to Movie Explorer!'
-        return render(request, 'register.html', response)
+        if response['errors']:
+            return render(request, 'register.html', response)
+        else:
+            # Store the new user into the database
+            User.objects.create_user(username,
+                                     email=email,
+                                     password=password,
+                                     last_name=last_name,
+                                     first_name=first_name)
+            response['success'] = 'You are successfully registered to Movie Explorer!'
+            return render(request, 'register.html', response)
 
     else:
         return render(request, 'register.html')

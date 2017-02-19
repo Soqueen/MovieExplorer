@@ -11,26 +11,34 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from .models import MovieRatings
+import requests
 
 
 # Create your views here.
-def home(request):
-    return render(request, 'home.html')
-
-
 class MovieView(TemplateView):
     tmdb.API_KEY = settings.TMDB_API_KEY
     template_name = 'movie.html'  # SET TEMPLATE NAME
 
     def get_context_data(self, **kwargs):
-        movies = tmdb.Movies()
-        config = tmdb.Configuration().info()
-        POSTER_SIZE = 2
+        try:
+            movies = tmdb.Movies()
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 2
 
-        context = {}
-        context['results'] = movies.upcoming()['results']
-        context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-        return context
+            context = {}
+            context['status'] = 'success'
+            context['results'] = movies.top_rated(page = 1)['results'][:10]
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            return context
+        except requests.exceptions.HTTPError as e:
+            context = {}
+            print ("THE API IS WRONG")
+            context["status"] = 'failure'
+            return context
+
+
+def home(request):
+    return render(request, 'home.html')
 
 
 def register(request):

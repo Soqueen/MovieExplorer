@@ -16,13 +16,26 @@
     <header>
         <div class="header-container">
             <img src="{% static "img/profile_white.png" %}">
-            <div class="header-input-div">
-                <a href="{% url 'login' %}">
-                    <input type="button" value="log in">
-                </a>
-                <div class="input-dialog">
+            {% if user.is_authenticated %}
+                <div class="user-profile">
+                    Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
-            </div>
+                <div class="header-input-div">
+                    <a href="{% url 'logout' %}">
+                        <input type="button" value="log out">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div>
+            {% else %}
+                <div class="header-input-div">
+                    <a href="{% url 'login' %}">
+                        <input type="button" value="log in">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div>
+            {% endif %}
             <div class="header-input-div">
                 <a href="{% url 'register' %}">
                     <input type="button" value="sign up">

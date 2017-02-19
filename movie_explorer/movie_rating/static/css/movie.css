@@ -189,3 +189,19 @@ div.prev:hover, div.next:hover {
     font-size: 40px;
     color: rgba(175,125,75,1);
 }
+
+div.user-profile {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    left: 100px;
+    line-height: 75px;
+    line-height: 75px;
+    text-align: left;
+    font-size: 125%;
+    color: rgba(255,255,255,1);
+}
+
+span.user-name {
+    font-weight: bold;
+}

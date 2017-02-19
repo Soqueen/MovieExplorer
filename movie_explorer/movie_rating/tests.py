@@ -3,7 +3,7 @@ from django.test import TestCase
 from .views import MovieView
 from django.conf import settings
 # Create your tests here.
-
+import tmdbsimple as tmdb
 
 
 class Story4Cases(TestCase):
@@ -22,12 +22,16 @@ class Story4Cases(TestCase):
             moviesFound = True
         self.assertIs(moviesFound,True)
 
-    """
-    def test_is_API_missing_error(self):
 
-# Test to see if the appropriate error is return if the API is missing.
-
+    def test_ST4_2_API_missing_error(self):
+        """
+        Test to see if the appropriate error is return if the API is missing.
+        """
+        tmdb.API_KEY = '789c9ad70b777c9c124863f3ab386089' # setting an incorrect API key
+        # tmdb.API_KEY = '' # Need to implement error checking for this
         new_content = MovieView.get_context_data(self)
-        print(new_content)
-        print(settings.TMDB_API_KEY)
-    """
+        if(new_content['status'] == 'failure'):
+            errorFound = True
+        else:
+            errorFound = False
+        self.assertIs(errorFound,True)

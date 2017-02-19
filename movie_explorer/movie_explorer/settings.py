@@ -127,4 +127,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TMDB_API_KEY = '889c9ad70b777c9c124863f3ab386089'
+# Correct API KEY
+#TMDB_API_KEY = '889c9ad70b777c9c124863f3ab386089'
+
+# Fake API KEY for testing purposes
+TMDB_API_KEY = '889c9ad70b777c9c124863f3ab386088'

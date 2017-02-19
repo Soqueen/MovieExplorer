@@ -42,28 +42,35 @@
     </section>
 
     <!-- Section used for displaying upcoming movies -->
-        <section class="playing-movies">
-        <div class="prev" onclick="prev();">
-            <
-        </div>
-        <div class="next" onclick="next();">
-            >
-        </div>
-        {% block content %}
-            <span class="subtitle">TOP 10 MOVIES </span><br><br>
-
-            <div id="movies-container">
-                <input type="hidden" id="translate-value" value="0">
-            {% for movie in results %}
-                <div class="movie-poster">
-                    <img src="{{image_path}}{{movie.poster_path}}"}}><br><br>
-                    <span>
-                        {{movie.title}}
-                    </span>
-                </div>
-            {% endfor %}
+    {% block content %}
+        {% if status == 'failure' %}
+            <div id="movies-error">
+                OOPS...<br>
+                We could not retrieve movies from the database, please try again later...
             </div>
-        </section>
+        {% else %}
+            <section class="playing-movies">
+                <div class="prev" onclick="prev();">
+                    <
+                </div>
+                <div class="next" onclick="next();">
+                    >
+                </div>
+                <span class="subtitle">TOP 10 MOVIES </span><br><br>
+
+                <div id="movies-container">
+                    <input type="hidden" id="translate-value" value="0">
+                {% for movie in results %}
+                    <div class="movie-poster">
+                        <img src="{{image_path}}{{movie.poster_path}}"}}><br><br>
+                        <span>
+                            {{movie.title}}
+                        </span>
+                    </div>
+                {% endfor %}
+                </div>
+            </section>
+        {% endif %}
     {% endblock %}
 
 </body>

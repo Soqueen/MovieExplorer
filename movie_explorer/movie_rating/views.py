@@ -13,6 +13,11 @@ from django.views.generic import TemplateView
 from .models import MovieRatings
 import requests
 
+# For UserModelEmailBackend
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import ModelBackend
+
 
 # Create your views here.
 class MovieView(TemplateView):
@@ -30,7 +35,7 @@ class MovieView(TemplateView):
             context['results'] = movies.top_rated(page = 1)['results'][:10]
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
             return context
-        except requests.exceptions.HTTPError as e:
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
             context = {}
             print ("THE API IS WRONG")
             context["status"] = 'failure'
@@ -117,3 +122,16 @@ def register(request):
 
     else:
         return render(request, 'register.html')
+
+class UserModelEmailBackend(ModelBackend):
+
+    def authenticate(self, username="", password="", **kwargs):
+        try:
+            user = get_user_model().objects.get(email__iexact=username)
+            if check_password(password, user.password):
+                return user
+            else:
+                return None
+        except get_user_model().DoesNotExist:
+            # No user was found, return None - triggers default login failed
+            return None

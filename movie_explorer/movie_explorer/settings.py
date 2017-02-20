@@ -31,7 +31,7 @@ LOGIN_REDIRECT_URL = '/movies'
 
 
 AUTHENTICATION_BACKENDS = [
-    'movie_rating.backends.UserModelEmailBackend',    # Login with email
+    'movie_rating.views.UserModelEmailBackend',    # Login with email
     'django.contrib.auth.backends.ModelBackend',    # Login with username
 ]
 
@@ -127,4 +127,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# API KEY TO ACCESS THE MOVIE DB
 TMDB_API_KEY = '889c9ad70b777c9c124863f3ab386089'

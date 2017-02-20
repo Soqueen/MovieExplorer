@@ -35,7 +35,7 @@ class MovieView(TemplateView):
             context['results'] = movies.top_rated(page = 1)['results'][:10]
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
             return context
-        except requests.exceptions.HTTPError as e:
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
             context = {}
             print ("THE API IS WRONG")
             context["status"] = 'failure'

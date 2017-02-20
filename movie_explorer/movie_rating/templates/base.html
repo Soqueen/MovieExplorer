@@ -21,6 +21,11 @@
     <header>
         <div class="header-container">
             <img src="{% static "img/profile_white.png" %}">
+            {% if user.is_authenticated %}
+                <div class="user-profile">
+                    Welcome, <span class="user-name">{{ user.username }}</span>
+                </div>
+            {% endif %}
             <div class="header-input-div">
                 <a href="{% url 'movies' %}">
                     <input type="button" value="home">

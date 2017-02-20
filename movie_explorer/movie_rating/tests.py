@@ -23,14 +23,30 @@ class Story4Cases(TestCase):
         self.assertIs(moviesFound,True)
 
 
-    def test_ST4_2_API_missing_error(self):
+    def test_ST4_2_API_incorrect_errors(self):
         """
         Test to see if the appropriate error is return if the API is missing.
         """
-        tmdb.API_KEY = '789c9ad70b777c9c124863f3ab386089' # setting an incorrect API key
+        tmdb.API_KEY = '789c9ad70b777c9c124863f3ab386089' # setting an incorrect API key with the correct length
         # tmdb.API_KEY = '' # Need to implement error checking for this
         new_content = MovieView.get_context_data(self)
         if(new_content['status'] == 'failure'):
+            incorrectAPI_lengthGood = True
+        else:
+            incorrectAPI_lengthGood = False
+        tmdb.API_KEY = 'b777c9c124863f3ab386089' # setting an incorrect API key with an incorrect length
+        new_content = MovieView.get_context_data(self)
+        if (new_content['status'] == 'failure'):
+            incorrectAPI_lengthBad = True
+        else:
+            incorrectAPI_lengthBad = False
+        tmdb.API_KEY = ''  # setting an incorrect API key as an empty key
+        new_content = MovieView.get_context_data(self)
+        if (new_content['status'] == 'failure'):
+            incorrectAPI_empty = True
+        else:
+            incorrectAPI_empty = False
+        if(incorrectAPI_lengthGood and incorrectAPI_lengthBad and incorrectAPI_empty):
             errorFound = True
         else:
             errorFound = False

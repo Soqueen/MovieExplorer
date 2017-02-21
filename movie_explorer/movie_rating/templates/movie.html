@@ -17,10 +17,10 @@
         <div class="header-container">
             <img src="{% static "img/profile_white.png" %}">
             {% if user.is_authenticated %}
-                <!-- div class="user-profile">
+                <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
-                <div class="header-input-div">
+                <!-- div class="header-input-div">
                     <a href="{% url 'logout' %}">
                         <input type="button" value="log out">
                     </a>

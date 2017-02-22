@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^login/', auth_views.login, name='login'),
     url(r'^logout/', auth_views.logout, {'next_page': '/movies/'}, name='logout'),
     url(r'^movies/', views.MovieView.as_view(), name='movies'),
+    url(r'^search/', views.search, name='search'),
 ]

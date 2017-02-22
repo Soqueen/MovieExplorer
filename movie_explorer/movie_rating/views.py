@@ -135,3 +135,35 @@ class UserModelEmailBackend(ModelBackend):
         except get_user_model().DoesNotExist:
             # No user was found, return None - triggers default login failed
             return None
+
+
+def search(request):
+    """ Handle registration form """
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+
+        search_query = request.POST['search']
+
+        tmdb.API_KEY = settings.TMDB_API_KEY
+        try:
+            search = tmdb.Search()
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 2
+
+            context = {}
+            context['status'] = 'success'
+            context['results'] = search.movie(query=search_query)['results']
+            #context['results'] = movies.top_rated(page = 1)['results'][:10]
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            return render(request, 'search.html', context)
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
+            context = {}
+            print ("THE API IS WRONG")
+            context["status"] = 'failure'
+            return render(request, 'search.html', context)
+            
+    else:
+        return render(request, 'search.html')

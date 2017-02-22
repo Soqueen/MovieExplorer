@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^home/', views.home, name='home'),
     url(r'^register/', views.register, name='register'),
     url(r'^login/', auth_views.login, name='login'),
-    url(r'^logout/', auth_views.logout, name='logout'),
+    url(r'^logout/', auth_views.logout, {'next_page': '/movies/'}, name='logout'),
     url(r'^movies/', views.MovieView.as_view(), name='movies'),
 ]

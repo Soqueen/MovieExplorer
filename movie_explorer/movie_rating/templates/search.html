@@ -1,0 +1,95 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Movie Explorer </title>
+  <meta name="description" content="The Movie Explorer">
+  <meta name="author" content="Felix Dube">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
+    <script src="{% static "js/movies.js" %}"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <img src="{% static "img/profile_white.png" %}">
+            {% if user.is_authenticated %}
+                <div class="user-profile">
+                    Welcome, <span class="user-name">{{ user.username }}</span>
+                </div>
+                <div class="header-input-div">
+                    <a href="{% url 'logout' %}">
+                        <input type="button" value="log out">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div >
+            {% else %}
+                <div class="header-input-div">
+                    <a href="{% url 'login' %}">
+                        <input type="button" value="log in">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div>
+            {% endif %}
+            <div class="header-input-div">
+                <a href="{% url 'register' %}">
+                    <input type="button" value="sign up">
+                </a>
+            </div>
+        </div>
+    </header>
+    <section class="header-empty">
+    </section>
+    <section class="page-title">
+        Welcome to Movie Explorer!
+    </section>
+
+
+    <section class="search-section">
+        <form method="POST" action='/search/'>
+            {% csrf_token %}
+            <input type="text" class="search-bar" name="search">
+            <div class="submit-div">
+                <input type="submit" value="Search">
+            </div>
+        </form>
+    </section>
+
+    <!-- Section used for displaying search results -->
+    {% block content %}
+        {% if status == 'failure' %}
+            <div id="movies-error">
+                OOPS...<br>
+                We could not retrieve movies from the database, please try again later...
+            </div>
+        {% else %}
+            <section class="playing-movies">
+                <div class="prev" onclick="prev();">
+                    <
+                </div>
+                <div class="next" onclick="next();">
+                    >
+                </div>
+                <span class="subtitle">Search Results </span><br><br>
+
+                <div id="movies-container">
+                    <input type="hidden" id="translate-value" value="0">
+                {% for movie in results %}
+                    <div class="movie-poster">
+                        <img src="{{image_path}}{{movie.poster_path}}"}}><br><br>
+                        <span>
+                            {{movie.title}}
+                        </span>
+                    </div>
+                {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    {% endblock %}
+
+</body>

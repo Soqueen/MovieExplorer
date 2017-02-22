@@ -87,7 +87,7 @@ section.search-section {
     text-align: center;
 }
 
-section.search-section > input.search-bar {
+section.search-section > form > input.search-bar {
     display: inline-block;
     width: 50%;
     padding: 7px;

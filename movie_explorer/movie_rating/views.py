@@ -167,3 +167,42 @@ def search(request):
             
     else:
         return render(request, 'search.html')
+
+# Discover will both sort and filter by genre
+# For Sort, it will have a drop down menu kinda like this
+#     <select name="taskOption">
+#       <option value="popularity.desc">Popularity</option>
+#       <option value="release_date.desc">Release Date Descending</option>
+#       <option value="release_date.asc">Release Date Ascending</option>
+#     </select>
+
+
+def discover(request):
+    """ Handle registration form """
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+
+        sort_option = request.POST['sortOption']
+
+        tmdb.API_KEY = settings.TMDB_API_KEY
+        try:
+            discover = tmdb.Discover()
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 2
+
+            context = {}
+            context['status'] = 'success'
+            context['results'] = discover.movie(page=1, sort_by=sort_option)['results']
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            return render(request, 'movie.html', context)
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+            context = {}
+            print("THE API IS WRONG")
+            context["status"] = 'failure'
+            return render(request, 'movie.html', context)
+
+    else:
+        return render(request, 'movie.html')

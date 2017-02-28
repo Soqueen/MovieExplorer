@@ -54,21 +54,35 @@ class ChromeTest(unittest.TestCase):
 
         # Input username
         # Find and select the search box element on the page
-        search_box = self.driver.find_element_by_name('username')
-        # Enter text into the search box
-        search_box.send_keys('heng')
+        try:
+            search_box = self.driver.find_element_by_name('username')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # # Enter text into the search box
+        # search_box.send_keys('heng')
 
         # Input Email
-        search_box = self.driver.find_element_by_name('email')
-        search_box.send_keys('sok@lim.ca')
+        try:
+            search_box = self.driver.find_element_by_name('email')
+            search_box.send_keys('sok@lim.ca')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
 
         # Input Password
-        search_box = self.driver.find_element_by_name('password')
-        search_box.send_keys('heng')
+        try:
+            search_box = self.driver.find_element_by_name('password')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
 
         # Input Confirm Password
-        search_box = self.driver.find_element_by_name('confirm_pwd')
-        search_box.send_keys('heng')
+        try:
+            search_box = self.driver.find_element_by_name('confirm_pwd')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
 
         # Make sure the results page returned something
         assert "No results found." not in self.driver.page_source
@@ -92,21 +106,24 @@ class ChromeTest(unittest.TestCase):
         time.sleep(3)
 
         # Input username
-        search_box = self.driver.find_element_by_name('username')
-        search_box.send_keys('sokheng')
+        try:
+            search_box = self.driver.find_element_by_name('username')
+            search_box.send_keys('sokheng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
 
         # Input Password
-        search_box = self.driver.find_element_by_name('password')
-        search_box.send_keys('sokheng')
+        try:
+            search_box = self.driver.find_element_by_name('password')
+            search_box.send_keys('sokheng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
 
         # Make sure the results page returned something
         assert "No results found." not in self.driver.page_source
 
         # Submit the search box form
         search_box.submit()
-
-        # Can also use Keys function to submit
-        # search_box.send_keys(Keys.RETURN)
 
         # Another pause so we can see what's going on
         time.sleep(5)

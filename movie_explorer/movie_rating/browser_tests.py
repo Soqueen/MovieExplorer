@@ -1,17 +1,13 @@
-import os
 import datetime
+import os
 import time
 import unittest
+
 from selenium import webdriver
-from sys import platform
 from selenium.common.exceptions import NoSuchElementException
+from sys import platform
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-URL = 'http://movieexplorer.ddns.net/'
-# If you used different port than 8000, you can change it here.
-# But, make sure DO NOT push your change into Git
-LOCAL_URL = 'http://127.0.0.1:8000/'
-WAIT_TIME = 3
 
 #   Check the os platform of running computer
 if platform == 'linux':
@@ -22,6 +18,12 @@ else:
     driver_name = 'chromedriver_mac'
 
 DRIVER_DIR = os.path.join(BASE_DIR, "webdrivers", driver_name)
+
+# If you used different port than 8000, you can change it here.
+# But, make sure DO NOT push your change into Git
+LOCAL_URL = 'http://127.0.0.1:8000/'
+URL = 'http://movieexplorer.ddns.net/'
+WAIT_TIME = 3
 
 
 class ChromeTest(unittest.TestCase):
@@ -46,7 +48,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results. Make sure to put your image test name.
-        self.take_screen('test_home_page')
+        self.take_screen_shot('test_home_page')
 
     def test_register(self):
         # Go to google.com
@@ -93,7 +95,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results
-        self.take_screen('test_register')
+        self.take_screen_shot('test_register')
 
     def test_login(self):
         # Go to google.com
@@ -125,16 +127,16 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results
-        self.take_screen('test_login')
+        self.take_screen_shot('test_login')
 
-    def take_screen(self, test_name):
+    def take_screen_shot(self, test_name):
         """
         Taking screen shot of the test result. The purpose is need when the test fail
         :param test_name: Name of screen shot
         :return:
         """
         now = datetime.datetime.now()
-        directory = os.path.join(BASE_DIR, 'test_result', now.strftime("%Y-%m-%d"))
+        directory = os.path.join(BASE_DIR, 'test_results_img', now.strftime("%Y-%m-%d"))
         if not os.path.exists(directory):
             os.makedirs(directory)
         image_name = '.'.join([test_name + now.strftime("_%H:%M:%S"), 'png'])

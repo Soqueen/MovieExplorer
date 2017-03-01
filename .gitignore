@@ -15,8 +15,8 @@ movie_explorer/movie_rating/migrations/*
 .AppleDouble
 .LSOverride
 
-###Test###
-movie_explorer/movie_rating/test_result/*
+### Test Image ###
+movie_explorer/movie_rating/test_results_img/*
 
 # Icon must end with two \r
 Icon

@@ -17,6 +17,7 @@ movie_explorer/movie_rating/migrations/*
 
 ### Test Image ###
 movie_explorer/movie_rating/test_results_img/*
+movie_explorer/movie_rating/webdrivers/chromedriver_mac
 
 # Icon must end with two \r
 Icon

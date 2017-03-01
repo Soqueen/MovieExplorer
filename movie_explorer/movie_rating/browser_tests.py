@@ -12,8 +12,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 #   Check the os platform of running computer
 if platform == 'linux':
     driver_name = 'chromedriver_linux'
-elif platform == 'win32':
-    driver_name = 'chromedriver'
 else:
     driver_name = 'chromedriver_mac'
 

@@ -23,7 +23,7 @@ DRIVER_DIR = os.path.join(BASE_DIR, "webdrivers", driver_name)
 # But, make sure DO NOT push your change into Git
 LOCAL_URL = 'http://127.0.0.1:8000/'
 URL = 'http://movieexplorer.ddns.net/'
-WAIT_TIME = 3
+WAIT_TIME = 3  # wait time for browser to stay open for 3 seconds
 
 
 class ChromeTest(unittest.TestCase):
@@ -34,7 +34,7 @@ class ChromeTest(unittest.TestCase):
         # 1. Change to 'LOCAL_URL' instead of 'URL' if you test your local running server.
         # 2. Make sure to run local server before running the TestCases.
         # 3. Finally, Make sure DO NOT push your change here into Git
-        self.base_url = URL
+        self.base_url = LOCAL_URL
 
     # An individual test case. Must start with 'test_' (as per unittest module)
     def test_home_page(self):

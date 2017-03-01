@@ -34,7 +34,7 @@ class ChromeTest(unittest.TestCase):
         # 1. Change to 'LOCAL_URL' instead of 'URL' if you test your local running server.
         # 2. Make sure to run local server before running the TestCases.
         # 3. Finally, Make sure DO NOT push your change here into Git
-        self.base_url = LOCAL_URL
+        self.base_url = URL
 
     # An individual test case. Must start with 'test_' (as per unittest module)
     def test_home_page(self):

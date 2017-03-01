@@ -1,17 +1,17 @@
 import os
 import datetime
 import time
-import requests
 import unittest
 from selenium import webdriver
 from sys import platform
-from xml.etree import ElementTree
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-URL = 'http://104.131.51.38:8000/'
+URL = 'http://movieexplorer.ddns.net/'
+# If you used different port than 8000, you can change it here.
+# But, make sure DO NOT push your change into Git
 LOCAL_URL = 'http://127.0.0.1:8000/'
+WAIT_TIME = 3
 
 #   Check the os platform of running computer
 if platform == 'linux':
@@ -27,10 +27,12 @@ DRIVER_DIR = os.path.join(BASE_DIR, "webdrivers", driver_name)
 class ChromeTest(unittest.TestCase):
     # Anything declared in setUp will be executed for all test cases
     def setUp(self):
+        # clear database
         self.driver = webdriver.Chrome(DRIVER_DIR)
-        self.base_url = URL  # Change to 'LOCAL_URL' if you test your local running server
-        self.driver.set_window_size(1920, 1080)
-        self.driver.maximize_window()
+        # 1. Change to 'LOCAL_URL' instead of 'URL' if you test your local running server.
+        # 2. Make sure to run local server before running the TestCases.
+        # 3. Finally, Make sure DO NOT push your change here into Git
+        self.base_url = URL
 
     # An individual test case. Must start with 'test_' (as per unittest module)
     def test_home_page(self):
@@ -41,16 +43,16 @@ class ChromeTest(unittest.TestCase):
         self.assertEqual('The Movie Explorer', driver.title)
 
         # Pauses the screen for 5 seconds so we have time to confirm it arrived at the right page
-        time.sleep(3)
+        time.sleep(WAIT_TIME)
 
-        # Take a screen shot of the results
+        # Take a screen shot of the results. Make sure to put your image test name.
         self.take_screen('test_home_page')
 
     def test_register(self):
         # Go to google.com
         self.driver.get(os.path.join(self.base_url, 'register'))
         # Pauses the screen for 5 seconds so we have time to confirm it arrived at the right page
-        time.sleep(3)
+        time.sleep(WAIT_TIME)
 
         # Input username
         # Find and select the search box element on the page
@@ -59,9 +61,6 @@ class ChromeTest(unittest.TestCase):
             search_box.send_keys('heng')
         except NoSuchElementException:
             raise Exception('Cannot find Element name')
-
-        # # Enter text into the search box
-        # search_box.send_keys('heng')
 
         # Input Email
         try:
@@ -90,11 +89,8 @@ class ChromeTest(unittest.TestCase):
         # Submit the search box form
         search_box.submit()
 
-        # Can also use Keys function to submit
-        # search_box.send_keys(Keys.RETURN)
-
         # Another pause so we can see what's going on
-        time.sleep(3)
+        time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results
         self.take_screen('test_register')
@@ -103,7 +99,7 @@ class ChromeTest(unittest.TestCase):
         # Go to google.com
         self.driver.get(os.path.join(self.base_url, 'login'))
         # Pauses the screen for 5 seconds so we have time to confirm it arrived at the right page
-        time.sleep(3)
+        time.sleep(WAIT_TIME)
 
         # Input username
         try:
@@ -126,7 +122,7 @@ class ChromeTest(unittest.TestCase):
         search_box.submit()
 
         # Another pause so we can see what's going on
-        time.sleep(5)
+        time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results
         self.take_screen('test_login')
@@ -141,7 +137,7 @@ class ChromeTest(unittest.TestCase):
         directory = os.path.join(BASE_DIR, 'test_result', now.strftime("%Y-%m-%d"))
         if not os.path.exists(directory):
             os.makedirs(directory)
-        image_name = '.'.join([test_name + now.strftime("_%H:%M:S"), 'png'])
+        image_name = '.'.join([test_name + now.strftime("_%H:%M:%S"), 'png'])
         return self.driver.save_screenshot(os.path.join(directory, image_name))
 
     # Anything declared in tearDown will be executed for all test cases

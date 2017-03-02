@@ -48,7 +48,12 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results. Make sure to put your image test name.
         self.take_screen_shot('test_home_page')
 
-    def test_register(self):
+    # test_ST4_1_is_movie_List_Empty
+    def test_st1(self):
+        """
+        Test for registration. Note, It is the left over from the first sprint, so we do not implement the all the test cases
+        :return:
+        """
         # Go to google.com
         self.driver.get(os.path.join(self.base_url, 'register'))
         # Pauses the screen for 5 seconds so we have time to confirm it arrived at the right page
@@ -95,7 +100,11 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_register')
 
-    def test_login(self):
+    def test_st2(self):
+        """
+        Test for login. Note, It is the left over from the first sprint, so we do not implement the all the test cases
+        :return:
+        """
         # Go to google.com
         self.driver.get(os.path.join(self.base_url, 'login'))
         # Pauses the screen for 5 seconds so we have time to confirm it arrived at the right page
@@ -126,6 +135,13 @@ class ChromeTest(unittest.TestCase):
 
         # Take a screen shot of the results
         self.take_screen_shot('test_login')
+
+    def test_st5_1(self):
+        """
+        Test to Sort by release date acceding order
+        :return: None
+        """
+        
 
     def take_screen_shot(self, test_name):
         """

@@ -8,11 +8,13 @@
   <meta name="description" content="The Movie Explorer">
   <meta name="author" content="Felix Dube">
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
-    <script src="{% static "js/movies.js" %}"></script>
+    <!--<link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
+    <script src="{% static "js/movies.js" %}"></script>-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
 </head>
 
 <body>
+<div id="background-div"></div>
     <header>
         <div class="header-container">
             <img src="{% static "img/profile_white.png" %}">
@@ -67,25 +69,24 @@
             </div>
         {% else %}
             <section class="playing-movies">
-                <div class="prev" onclick="prev();">
-                    <
-                </div>
-                <div class="next" onclick="next();">
-                    >
-                </div>
-                <span class="subtitle">Search Results </span><br><br>
-
-                <div id="movies-container">
-                    <input type="hidden" id="translate-value" value="0">
+                <span class="subtitle">Search Results:</span><br><br>
                 {% for movie in results %}
-                    <div class="movie-poster">
-                        <img src="{{image_path}}{{movie.poster_path}}"}}><br><br>
-                        <span>
-                            {{movie.title}}
-                        </span>
+                    <!--<table class="search-result">
+                        <tr>
+                            <td class="img-container">
+                                <img src="{{image_path}}{{movie.poster_path}}"}}>
+                            </td>
+                            <td>
+                                <span class="movie-title">{{movie.title}}</span><br><br>
+                                <span class="movie-description">{{movie.overview}}</span>
+                            </td>
+                        </tr>
+                    </table>-->
+                    <div>
+                        <img src="{{image_path}}{{movie.poster_path}}"}}>
+                        <span class="movie-title">{{movie.title}}</span>
                     </div>
                 {% endfor %}
-                </div>
             </section>
         {% endif %}
     {% endblock %}

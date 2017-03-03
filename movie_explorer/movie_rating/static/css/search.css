@@ -116,6 +116,15 @@ section.playing-movies {
     padding-left: 10%;
     padding-right: 10%;
     text-align: center;
+    color: white;
+}
+
+section.errors {
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    text-align: center;
+    color: white;
 }
 
 section.playing-movies > div {

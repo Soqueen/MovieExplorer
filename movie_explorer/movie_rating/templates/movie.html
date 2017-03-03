@@ -60,10 +60,12 @@
     <!-- Section used for displaying upcoming movies -->
     {% block content %}
         {% if status == 'failure' %}
+        <section class="errors">
             <div id="movies-error">
                 OOPS...<br>
                 We could not retrieve movies from the database, please try again later...
             </div>
+        </section>
         {% else %}
             <section class="playing-movies">
                 <div class="prev" onclick="prev();">

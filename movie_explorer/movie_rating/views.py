@@ -140,25 +140,38 @@ def search(request):
 
         search_query = request.POST['search']
 
-        tmdb.API_KEY = settings.TMDB_API_KEY
-        try:
-            search = tmdb.Search()
-            config = tmdb.Configuration().info()
-            POSTER_SIZE = 2
-
+        if len(search_query) == 0:
             context = {}
-            context['status'] = 'success'
-            context['results'] = search.movie(query=search_query)['results']
-            #context['results'] = movies.top_rated(page = 1)['results'][:10]
-            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            context['status'] = 'empty'
             return render(request, 'search.html', context)
 
-        except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
-            context = {}
-            print ("THE API IS WRONG")
-            context["status"] = 'failure'
-            return render(request, 'search.html', context)
-            
+        else:
+            tmdb.API_KEY = settings.TMDB_API_KEY
+            try:
+                search = tmdb.Search()
+                config = tmdb.Configuration().info()
+                POSTER_SIZE = 2
+
+                context = {}
+
+                context['search'] = search_query
+
+                context['status'] = 'success'
+                context['results'] = search.movie(query=search_query)['results']
+                #context['results'] = movies.top_rated(page = 1)['results'][:10]
+                context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+                
+                if len(context['results']) == 0:
+                    context['status'] = 'noresult'
+
+                return render(request, 'search.html', context)
+
+            except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
+                context = {}
+                print ("THE API IS WRONG")
+                context["status"] = 'failure'
+                return render(request, 'search.html', context)
+                
     else:
         return render(request, 'search.html')
 

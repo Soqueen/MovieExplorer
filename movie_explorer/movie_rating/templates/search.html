@@ -63,10 +63,29 @@
     <!-- Section used for displaying search results -->
     {% block content %}
         {% if status == 'failure' %}
+         <section class="errors">
             <div id="movies-error">
                 OOPS...<br>
                 We could not retrieve movies from the database, please try again later...
             </div>
+        </section>
+
+        {% elif status == 'noresult' %}
+        <section class="errors">
+            <div id="movies-error">
+                OOPS...<br>
+                No movie found!
+            </div>
+        </section>
+
+        {% elif status == 'empty' %}
+         <section class="errors">
+            <div id="movies-error">
+                OOPS...<br>
+                Please enter a movie name in the search bar!
+            </div>
+        </section>
+
         {% else %}
             <section class="playing-movies">
                 <span class="subtitle">Search Results:</span><br><br>

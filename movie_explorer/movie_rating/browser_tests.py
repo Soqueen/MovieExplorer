@@ -343,6 +343,44 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st5_6')
 
+    def test_st4_1(self):
+        """
+        Display movies for search "Batman Begins"
+        There should only be one movie displayed
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("Batman Begins")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        try:
+            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
+            search_button.click()
+        except NoSuchElementException:
+            raise Exception('Canot find Element search button')
+
+        #Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st4_1')
+
+
+
+
     def take_screen_shot(self, test_name):
         """
         Taking screen shot of the test result. The purpose is need when the test fail

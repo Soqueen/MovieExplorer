@@ -411,7 +411,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results
-        self.take_screen_shot('test_st4_1')
+        self.take_screen_shot('test_st4_2')
 
 
     def take_screen_shot(self, test_name):

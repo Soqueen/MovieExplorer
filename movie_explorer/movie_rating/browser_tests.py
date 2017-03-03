@@ -472,6 +472,40 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_7')
 
+    def test_st4_8(self):
+        """
+        Check that the result for the keyword "ekkea" returns string "No results found"
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("ekkea")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        try:
+            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
+            search_button.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search button')
+
+        # Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "No results found." in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st4_8')
+
     def test_st6_1(self):
         """
         Filtering genre on page 1

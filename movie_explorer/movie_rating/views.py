@@ -165,6 +165,7 @@ def search(request):
 # ----This is goes to the home page----
 def sort(request):
     sort_option = 'popularity.desc'
+    genre_option = ''
     context = {}
     tmdb.API_KEY = settings.TMDB_API_KEY
 
@@ -176,10 +177,13 @@ def sort(request):
         if request.method == 'POST':
             context['status'] = 'success'
             sort_option = request.POST['sort_by']
+            genre_option = request.POST['genre']
 
-        context['results'] = discover.movie(page=1, sort_by=sort_option)['results']
+
+        context['results'] = discover.movie(page=1, sort_by=sort_option, with_genres=genre_option)['results']
         context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-        context['default_selected'] = sort_option
+        context['sort_selected'] = sort_option
+        context['genre_selected'] = genre_option
         return render(request, 'home.html', context)
 
     except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
@@ -187,7 +191,29 @@ def sort(request):
         context["status"] = 'failure'
         return render(request, 'home.html', context)
 
+def genre(request):
+    genre_option = '28'
+    context = {}
+    tmdb.API_KEY = settings.TMDB_API_KEY
 
+    try:
+        discover = tmdb.Discover()
+        config = tmdb.Configuration().info()
+        POSTER_SIZE = 2
+
+        if request.method == 'POST':
+            context['status'] = 'success'
+            genre_option = request.POST['genre']
+
+        context['results'] = discover.movie(page=1, sort_by=genre_option)['results']
+        context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+        context['default_selected'] = genre_option
+        return render(request, 'home.html', context)
+
+    except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+        print("THE API IS WRONG")
+        context["status"] = 'failure'
+        return render(request, 'home.html', context)
 
 
 

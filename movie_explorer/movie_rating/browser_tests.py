@@ -413,6 +413,26 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_2')
 
+    def test_st4_3(self):
+        """
+        Error to check when I blank search is made
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        # Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        assert "Error. Please enter a non blank keyword."
 
     def take_screen_shot(self, test_name):
         """

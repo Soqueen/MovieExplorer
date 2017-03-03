@@ -7,7 +7,7 @@
         Sign into Movie Explorer!
     </section>
     {% if user.is_authenticated %}
-        <script>location = "{% url "movies" %}"</script>
+        <script>location = "{% url 'home' %}"</script>
     {% else %}
         {% if form.errors %}
             <p class="error">Your username and password didn't match. Please try again.</p>

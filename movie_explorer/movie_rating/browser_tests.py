@@ -3,6 +3,7 @@ import os
 import time
 import unittest
 
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from sys import platform
@@ -349,7 +350,6 @@ class ChromeTest(unittest.TestCase):
         There should only be one movie displayed
         :return: None
         """
-        # TODO test case for keyword with 0 result
         self.driver.get(self.base_url)
         # Pauses the screen so we have time to confirm it arrived at the right page
         time.sleep(WAIT_TIME)
@@ -702,6 +702,69 @@ class ChromeTest(unittest.TestCase):
 
             # Take a screen shot of the results
             self.take_screen_shot('test_st6_6')
+
+    def test_st7_1and2(self):
+        """
+        Test login and logout from main page
+        Not tested on each page because top banner is independent of page
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm that we arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Verify login button is there and log in
+        try:
+            log_in = self.driver.find_element_by_name('log in')
+            log_in.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element Log in')
+
+        # Using login steps based off of ST2
+        # self.driver.get(os.path.join(self.base_url, 'login'))
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Input username
+        try:
+            search_box = self.driver.find_element_by_name('username')
+            search_box.send_keys('sokheng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Input Password
+        try:
+            search_box = self.driver.find_element_by_name('password')
+            search_box.send_keys('sokheng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Submit the search box form
+        search_box.submit()
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Verify logout button is there and logout
+        try:
+            log_out = self.driver.find_element_by_name('log out')
+            log_out.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element Log out')
+
+        time.sleep(WAIT_TIME)
+
+        # Verify log in button has reappeared
+        try:
+            log_in = self.driver.find_element_by_name('log in')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element Log in')
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st7_1and2')
 
     def take_screen_shot(self, test_name):
         """

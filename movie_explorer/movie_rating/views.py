@@ -159,6 +159,9 @@ def search(request):
                 POSTER_SIZE = 2
 
                 context = {}
+
+                context['search'] = search_query
+
                 context['status'] = 'success'
                 context['results'] = search.movie(query=search_query)['results']
                 #context['results'] = movies.top_rated(page = 1)['results'][:10]

@@ -18,6 +18,8 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
+# For sorting and genres
+from .forms import SortForm
 
 # Create your views here.
 class MovieView(TemplateView):
@@ -170,39 +172,79 @@ def search(request):
 
 # Discover will both sort and filter by genre
 # For Sort, it will have a drop down menu kinda like this
-#     <select name="taskOption">
+#     <select name="sortOption">
 #       <option value="popularity.desc">Popularity</option>
 #       <option value="release_date.desc">Release Date Descending</option>
 #       <option value="release_date.asc">Release Date Ascending</option>
 #     </select>
 
+def sort(request):
+    sort_option = 'popularity.desc'
+    context = {}
+    tmdb.API_KEY = settings.TMDB_API_KEY
 
-def discover(request):
-    """ Handle registration form """
-    if request.method == 'POST':
-        response = dict(
-            errors=list(),
-        )
+    try:
+        discover = tmdb.Discover()
+        config = tmdb.Configuration().info()
+        POSTER_SIZE = 2
 
-        sort_option = request.POST['sortOption']
-
-        tmdb.API_KEY = settings.TMDB_API_KEY
-        try:
-            discover = tmdb.Discover()
-            config = tmdb.Configuration().info()
-            POSTER_SIZE = 2
-
-            context = {}
+        if request.method == 'POST':
             context['status'] = 'success'
-            context['results'] = discover.movie(page=1, sort_by=sort_option)['results']
-            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-            return render(request, 'movie.html', context)
+            sort_option = request.POST['sort_by']
 
-        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
-            context = {}
-            print("THE API IS WRONG")
-            context["status"] = 'failure'
-            return render(request, 'movie.html', context)
+        context['results'] = discover.movie(page=1, sort_by=sort_option)['results']
+        context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+        context['default_selected'] = sort_option
+        return render(request, 'discover.html', context)
 
-    else:
-        return render(request, 'movie.html')
+    except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+        print("THE API IS WRONG")
+        context["status"] = 'failure'
+        return render(request, 'discover.html', context)
+
+# ---- Another way to do sort---
+# def sort(request):
+#     context = {'form': SortForm}
+#     sort_option = 'popularity.desc'
+#     tmdb.API_KEY = settings.TMDB_API_KEY
+#
+#
+#
+#     try:
+#         discover = tmdb.Discover()
+#         config = tmdb.Configuration().info()
+#         POSTER_SIZE = 2
+#
+#         if request.method == 'POST':
+#             context['status'] = 'success'
+#             sort_option = request.POST['sort_by']
+#
+#         context['results'] = discover.movie(page=1, sort_by=sort_option)['results']
+#         context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+#         return render(request, 'discover.html', context)
+#
+#     except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+#         print("THE API IS WRONG")
+#         context["status"] = 'failure'
+#         return render(request, 'discover.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

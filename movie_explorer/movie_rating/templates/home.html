@@ -64,7 +64,7 @@
     {% csrf_token %}
     <p>
         <label for="id_genre">Genre:</label>
-        <select id="id_genre" name="genre" onchange="this.form.submit();" required>
+        <select id="id_genre" name="genre" onchange="this.form.submit();">
             <option value=""{% if genre_selected == '' %}selected{% endif %}>All</option>
 			<option value="28"{% if genre_selected == '28' %}selected{% endif %}>Action</option>
 			<option value="12"{% if genre_selected == '12' %}selected{% endif %}>Adventure</option>
@@ -90,12 +90,18 @@
 <!-- Sort -->
     <p>
         <label for="id_sort_by">Sort by:</label>
-        <select id="id_sort_by" name="sort_by" onchange="this.form.submit();" required>
+        <select id="id_sort_by" name="sort_by" onchange="this.form.submit();">
             <option value="popularity.desc"{% if sort_selected == 'popularity.desc' %}selected{% endif %}>Popularity</option>
             <option value="release_date.desc"{% if sort_selected == 'release_date.desc' %}selected{% endif %}>Release Date Descending</option>
             <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Release Date Ascending</option>
         </select>
+    <p>
+    <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
+    <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
+        Current Page:
+        {{page_num}}
     </p>
+
 </form>
 
     <!-- Section used for displaying search results -->
@@ -114,7 +120,6 @@
         </section>
         {% else %}
             <section class="playing-movies">
-                <span class="subtitle">Search Results:</span><br><br>
                 {% for movie in results %}
                     <!--<table class="search-result">
                         <tr>

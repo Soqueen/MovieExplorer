@@ -180,6 +180,7 @@ def search(request):
 def sort(request):
     sort_option = 'popularity.desc'
     genre_option = ''
+    page = 1
     context = {}
     tmdb.API_KEY = settings.TMDB_API_KEY
 
@@ -193,8 +194,18 @@ def sort(request):
             sort_option = request.POST['sort_by']
             genre_option = request.POST['genre']
 
+            if request.POST.__contains__('prev_page'):
+                page = request.POST.get('prev_page', '2')
+                pageNumber = int(page)
+                page = str(pageNumber - 1)
+            elif request.POST.__contains__('next_page'):
+                page = request.POST.get('next_page', '0')
+                pageNumber = int(page)
+                page = str(pageNumber + 1)
+            else:
+                page = 1
 
-        context['results'] = discover.movie(page=1, sort_by=sort_option, with_genres=genre_option)['results']
+        context['results'] = discover.movie(page=page, sort_by=sort_option, with_genres=genre_option)['results']
 
         if len(context['results']) == 0:
             context['status'] = 'noresult'
@@ -202,6 +213,7 @@ def sort(request):
         context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
         context['sort_selected'] = sort_option
         context['genre_selected'] = genre_option
+        context['page_num'] = page
         return render(request, 'home.html', context)
 
     except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:

@@ -433,7 +433,7 @@ class ChromeTest(unittest.TestCase):
         # Pauses the screen so we have time to confirm we have the right page
         time.sleep(WAIT_TIME)
 
-        assert "Error. Please enter a non blank keyword." in self.driver.page_source
+        assert "Oops...\nPlease enter a movie name in the search bar!" in self.driver.page_source
 
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_4')
@@ -498,7 +498,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Ooops ... \n No movie found!" in self.driver.page_source
+        assert "Ooops ... \nNo movie found!" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)

@@ -105,6 +105,13 @@
                 OOPS...<br>
                 We could not retrieve movies from the database, please try again later...
             </div>
+        {% elif status == 'noresult' %}
+        <section class="errors">
+            <div id="movies-error">
+                OOPS...<br>
+                No movies found
+            </div>
+        </section>
         {% else %}
             <section class="playing-movies">
                 <span class="subtitle">Search Results:</span><br><br>

@@ -105,6 +105,7 @@
                         <img src="{{image_path}}{{movie.poster_path}}"}}>
                         <span class="movie-title">{{movie.title}}</span>
                         <form method="POST" action="/description/">
+                            {% csrf_token %}
                             <input type="hidden" value={{movie.id}}>
                             <input type="submit" value="View Description">
                         </form>

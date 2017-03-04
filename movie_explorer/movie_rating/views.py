@@ -230,18 +230,13 @@ def sort(request):
         return render(request, 'home.html', context)
 
 
+def description(request):
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return render(request, 'search.html')
+                
+    else:
+        return render(request, 'search.html')

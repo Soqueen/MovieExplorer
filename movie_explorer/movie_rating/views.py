@@ -180,7 +180,7 @@ def search(request):
 def sort(request):
     sort_option = 'popularity.desc'
     genre_option = ''
-    page = 1
+    page = '1'
     context = {}
     tmdb.API_KEY = settings.TMDB_API_KEY
 
@@ -203,9 +203,17 @@ def sort(request):
                 pageNumber = int(page)
                 page = str(pageNumber + 1)
             else:
-                page = 1
+                page = '1'
 
-        context['results'] = discover.movie(page=page, sort_by=sort_option, with_genres=genre_option)['results']
+        movie_query = discover.movie(page=page, sort_by=sort_option, with_genres=genre_option, with_release_type='2|3|4|5|6')
+        # For testing purposes, you can use commented query below to get result which will only return 2 pages
+        # movie_query = discover.movie(page=page, sort_by=sort_option, with_genres=genre_option, vote_count_gte='6234')
+
+        context['results'] = movie_query['results']
+
+        context['last_page'] = 'false'
+        if int(page) == movie_query['total_pages']:
+            context['last_page'] = 'true'
 
         if len(context['results']) == 0:
             context['status'] = 'noresult'

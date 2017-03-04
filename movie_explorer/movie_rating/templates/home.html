@@ -96,8 +96,12 @@
             <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Release Date Ascending</option>
         </select>
     <p>
-    <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
-    <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
+    {% if page_num != '1' %}
+        <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
+    {% endif %}
+    {% if last_page == 'false' %}
+        <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
+    {% endif %}
         Current Page:
         {{page_num}}
     </p>

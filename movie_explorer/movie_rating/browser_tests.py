@@ -139,6 +139,168 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st2')
 
+    def test_st4_1(self):
+        """
+        Display movies for search "Batman Begins"
+        There should only be one movie displayed
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("Batman Begins")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        try:
+            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
+            search_button.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search button')
+
+        #Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st4_1')
+
+    def test_st4_2(self):
+        """
+        Display movies for search "Batman"
+        There should be multiple movies displayed
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("Batman")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        try:
+            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
+            search_button.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search button')
+
+        #Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st4_2')
+
+    def test_st4_3(self):
+        """
+        Error to check when I blank search is made
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        # Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        assert "Oops...\nPlease enter a movie name in the search bar!" in self.driver.page_source
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st4_4')
+
+    def test_st4_7(self):
+        """
+        Check if that non-English characters return movies  # (树)
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("树")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        try:
+            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
+            search_button.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search button')
+
+        # Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st4_7')
+
+    def test_st4_8(self):
+        """
+        Check that the result for the keyword "ekkea" returns string "No results found"
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            search_area.clear()
+            search_area.sendKeys("ekkea")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        try:
+            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
+            search_button.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search button')
+
+        # Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "Ooops ... \nNo movie found!" in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st4_8')
+
     def test_st5_1(self):
         """
         Test to Sort the movies by release date acceding order.
@@ -334,167 +496,6 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st5_6')
 
-    def test_st4_1(self):
-        """
-        Display movies for search "Batman Begins"
-        There should only be one movie displayed
-        :return: None
-        """
-        self.driver.get(self.base_url)
-        # Pauses the screen so we have time to confirm it arrived at the right page
-        time.sleep(WAIT_TIME)
-
-        try:
-            search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("Batman Begins")
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search')
-
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
-
-        #Pauses the screen so we have time to confirm we have the right page
-        time.sleep(WAIT_TIME)
-
-        # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
-
-        # Another pause so we can see what's going on
-        time.sleep(WAIT_TIME)
-
-        # Take a screen shot of the results
-        self.take_screen_shot('test_st4_1')
-
-    def test_st4_2(self):
-        """
-        Display movies for search "Batman"
-        There should be multiple movies displayed
-        :return: None
-        """
-        self.driver.get(self.base_url)
-        # Pauses the screen so we have time to confirm it arrived at the right page
-        time.sleep(WAIT_TIME)
-
-        try:
-            search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("Batman")
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search')
-
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
-
-        #Pauses the screen so we have time to confirm we have the right page
-        time.sleep(WAIT_TIME)
-
-        # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
-
-        # Another pause so we can see what's going on
-        time.sleep(WAIT_TIME)
-
-        # Take a screen shot of the results
-        self.take_screen_shot('test_st4_2')
-
-    def test_st4_3(self):
-        """
-        Error to check when I blank search is made
-        :return: None
-        """
-        self.driver.get(self.base_url)
-        # Pauses the screen so we have time to confirm it arrived at the right page
-        time.sleep(WAIT_TIME)
-
-        try:
-            search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("")
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search')
-
-        # Pauses the screen so we have time to confirm we have the right page
-        time.sleep(WAIT_TIME)
-
-        assert "Oops...\nPlease enter a movie name in the search bar!" in self.driver.page_source
-
-        # Take a screen shot of the results
-        self.take_screen_shot('test_st4_4')
-
-    def test_st4_7(self):
-        """
-        Check if that non-English characters return movies  # (树)
-        :return: None
-        """
-        self.driver.get(self.base_url)
-        # Pauses the screen so we have time to confirm it arrived at the right page
-        time.sleep(WAIT_TIME)
-
-        try:
-            search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("树")
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search')
-
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
-
-        # Pauses the screen so we have time to confirm we have the right page
-        time.sleep(WAIT_TIME)
-
-        # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
-
-        # Another pause so we can see what's going on
-        time.sleep(WAIT_TIME)
-
-        # Take a screen shot of the results
-        self.take_screen_shot('test_st4_7')
-
-    def test_st4_8(self):
-        """
-        Check that the result for the keyword "ekkea" returns string "No results found"
-        :return: None
-        """
-        self.driver.get(self.base_url)
-        # Pauses the screen so we have time to confirm it arrived at the right page
-        time.sleep(WAIT_TIME)
-
-        try:
-            search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("ekkea")
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search')
-
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
-
-        # Pauses the screen so we have time to confirm we have the right page
-        time.sleep(WAIT_TIME)
-
-        # Make sure the results page returned something
-        assert "Ooops ... \nNo movie found!" in self.driver.page_source
-
-        # Another pause so we can see what's going on
-        time.sleep(WAIT_TIME)
-
-        # Take a screen shot of the results
-        self.take_screen_shot('test_st4_8')
 
     def test_st6_1(self):
         """

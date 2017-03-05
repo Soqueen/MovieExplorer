@@ -39,7 +39,7 @@ class ChromeTest(unittest.TestCase):
         # 1. Change to 'LOCAL_URL' instead of 'URL' if you test your local running server.
         # 2. Make sure to run local server before running the TestCases.
         # 3. Finally, Make sure DO NOT push your change here into Git
-        self.base_url = URL
+        self.base_url = LOCAL_URL
 
     # An individual test case. Must start with 'test_' (as per unittest module)
     def test_home_page(self):
@@ -151,25 +151,22 @@ class ChromeTest(unittest.TestCase):
 
         try:
             search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("Batman Begins")
+            # search_area.clear()
+            search_area.send_keys("Batman Begins")
         except NoSuchElementException:
             raise Exception('Cannot find Element search')
 
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
+        #Press search button
+        search_area.submit()
 
         #Pauses the screen so we have time to confirm we have the right page
         time.sleep(WAIT_TIME)
-
-        # Make sure the results page returned something
+        #
+        # # Make sure the results page returned something
         assert "No results found." not in self.driver.page_source
-
-        # Another pause so we can see what's going on
-        time.sleep(WAIT_TIME)
+        #
+        # # Another pause so we can see what's going on
+        # time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_1')
@@ -186,16 +183,13 @@ class ChromeTest(unittest.TestCase):
 
         try:
             search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("Batman")
+            # search_area.clear()
+            search_area.send_keys("Batman")
         except NoSuchElementException:
             raise Exception('Cannot find Element search')
 
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
+        # Press search button
+        search_area.submit()
 
         #Pauses the screen so we have time to confirm we have the right page
         time.sleep(WAIT_TIME)
@@ -220,10 +214,13 @@ class ChromeTest(unittest.TestCase):
 
         try:
             search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("")
+            # search_area.clear()
+            search_area.send_keys("")
         except NoSuchElementException:
             raise Exception('Cannot find Element search')
+
+        # Press search button
+        search_area.submit()
 
         # Pauses the screen so we have time to confirm we have the right page
         time.sleep(WAIT_TIME)
@@ -244,16 +241,13 @@ class ChromeTest(unittest.TestCase):
 
         try:
             search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("树")
+            # search_area.clear()
+            search_area.send_keys("树")
         except NoSuchElementException:
             raise Exception('Cannot find Element search')
 
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
+        # Press search button
+        search_area.submit()
 
         # Pauses the screen so we have time to confirm we have the right page
         time.sleep(WAIT_TIME)
@@ -278,16 +272,13 @@ class ChromeTest(unittest.TestCase):
 
         try:
             search_area = self.driver.find_element_by_name('search')
-            search_area.clear()
-            search_area.sendKeys("ekkea")
+            # search_area.clear()
+            search_area.send_keys("ekkea")
         except NoSuchElementException:
             raise Exception('Cannot find Element search')
 
-        try:
-            search_button = self.driver.find_element_by_css_selector("input[type=\"submit\"]")
-            search_button.click()
-        except NoSuchElementException:
-            raise Exception('Cannot find Element search button')
+        # Press search button
+        search_area.submit()
 
         # Pauses the screen so we have time to confirm we have the right page
         time.sleep(WAIT_TIME)

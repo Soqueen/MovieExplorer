@@ -84,6 +84,11 @@
                         <span>
                             {{movie.title}}
                         </span>
+                        <form method="POST" action="/description/">
+                            {% csrf_token %}
+                            <input type="hidden" value={{movie.id}} name="id_movie"}>
+                            <input type="submit" value="View Description">
+                        </form>
                     </div>
                 {% endfor %}
                 </div>

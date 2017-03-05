@@ -18,7 +18,6 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
-
 # Create your views here.
 class MovieView(TemplateView):
     tmdb.API_KEY = settings.TMDB_API_KEY
@@ -40,11 +39,6 @@ class MovieView(TemplateView):
             print ("THE API IS WRONG")
             context["status"] = 'failure'
             return context
-
-
-def home(request):
-    return render(request, 'home.html')
-
 
 def register(request):
     """ Handle registration form """
@@ -135,3 +129,145 @@ class UserModelEmailBackend(ModelBackend):
         except get_user_model().DoesNotExist:
             # No user was found, return None - triggers default login failed
             return None
+
+
+def search(request):
+    """ Handle registration form """
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+
+        search_query = request.POST['search']
+
+        if len(search_query) == 0:
+            context = {}
+            context['status'] = 'empty'
+            return render(request, 'search.html', context)
+
+        else:
+            tmdb.API_KEY = settings.TMDB_API_KEY
+            try:
+                search = tmdb.Search()
+                config = tmdb.Configuration().info()
+                POSTER_SIZE = 2
+
+                context = {}
+
+                context['search'] = search_query
+
+                context['status'] = 'success'
+                context['results'] = search.movie(query=search_query)['results']
+                #context['results'] = movies.top_rated(page = 1)['results'][:10]
+                context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+                
+                if len(context['results']) == 0:
+                    context['status'] = 'noresult'
+
+                return render(request, 'search.html', context)
+
+            except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
+                context = {}
+                print ("THE API IS WRONG")
+                context["status"] = 'failure'
+                return render(request, 'search.html', context)
+                
+    else:
+        return render(request, 'search.html')
+
+# ----This is goes to the home page----
+# This is function does both sort and filter together
+def sort(request):
+    sort_option = 'popularity.desc'
+    genre_option = ''
+    page = '1'
+    context = {}
+    tmdb.API_KEY = settings.TMDB_API_KEY
+
+    try:
+        discover = tmdb.Discover()
+        config = tmdb.Configuration().info()
+        POSTER_SIZE = 2
+
+        if request.method == 'POST':
+            context['status'] = 'success'
+            sort_option = request.POST['sort_by']
+            genre_option = request.POST['genre']
+
+            if request.POST.__contains__('prev_page'):
+                page = request.POST.get('prev_page', '2')
+                pageNumber = int(page)
+                page = str(pageNumber - 1)
+            elif request.POST.__contains__('next_page'):
+                page = request.POST.get('next_page', '0')
+                pageNumber = int(page)
+                page = str(pageNumber + 1)
+            else:
+                page = '1'
+
+        movie_query = discover.movie(page=page, sort_by=sort_option, with_genres=genre_option, with_release_type='2|3|4|5|6')
+        # For testing purposes, you can use commented query below to get result which will only return 2 pages
+        # movie_query = discover.movie(page=page, sort_by=sort_option, with_genres=genre_option, vote_count_gte='6234')
+
+        context['results'] = movie_query['results']
+
+        context['last_page'] = 'false'
+        if int(page) == movie_query['total_pages']:
+            context['last_page'] = 'true'
+
+        if len(context['results']) == 0:
+            context['status'] = 'noresult'
+
+        context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+        context['sort_selected'] = sort_option
+        context['genre_selected'] = genre_option
+        context['page_num'] = page
+        return render(request, 'home.html', context)
+
+    except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+        print("THE API IS WRONG")
+        context["status"] = 'failure'
+        return render(request, 'home.html', context)
+
+
+def description(request):
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+
+        description = request.POST['id_movie']
+        #print(search_query)
+
+        tmdb.API_KEY = settings.TMDB_API_KEY
+        try:
+            movies = tmdb.Movies(int(description))
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 2
+
+            context = {}
+
+            context['status'] = 'success'
+            # context['myid'] = int(description)
+            context['results'] =  movies.info()
+            # context['results'] = movies.top_rated(page = 1)['results'][:10]
+           # context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            context['title'] = context['results']['original_title']
+            # context['genre'] = []
+            # for x in context['results']['genres']:
+            #     context['genre'].append(x['name'])
+            # context['']
+
+            # if len(context['results']) == 0:
+            #     context['status'] = 'noresult'
+
+            return render(request, 'description.html', context)
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+            context = {}
+            print ("THE API IS WRONG")
+            context["status"] = 'failure'
+            return render(request, 'description.html', context)
+                
+    else:
+        return render(request, 'description.html')

@@ -25,9 +25,16 @@
                 <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
-            {% endif %}
+                <div class="header-input-div">
+                    <a href="{% url 'logout' %}">
+                        <input type="button" value="log out">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div >
+            {% else %}
             <div class="header-input-div">
-                <a href="{% url 'movies' %}">
+                <a href="{% url 'home' %}">
                     <input type="button" value="home">
                 </a>
             </div>
@@ -43,6 +50,7 @@
                     <input type="button" value="sign up">
                 </a>
             </div>
+            {% endif %}
         </div>
     </header>
     <section class="header-empty">

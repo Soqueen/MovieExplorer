@@ -6,7 +6,7 @@
 
   <title>The Movie Explorer </title>
   <meta name="description" content="The Movie Explorer">
-  <meta name="author" content="Aimee Ascencio tihi">
+  <meta name="author" content="ecse428 movie Explorer team">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
     <script src="{% static "js/movies.js" %}"></script>
@@ -17,7 +17,7 @@
         <div class="header-container">
             <img src="{% static "img/profile_white.png" %}">
             {% if user.is_authenticated %}
-                <!-- div class="user-profile">
+                <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
                 <div class="header-input-div">
@@ -26,7 +26,7 @@
                     </a>
                     <div class="input-dialog">
                     </div>
-                </div -->
+                </div >
             {% else %}
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
@@ -35,12 +35,12 @@
                     <div class="input-dialog">
                     </div>
                 </div>
-            {% endif %}
             <div class="header-input-div">
                 <a href="{% url 'register' %}">
                     <input type="button" value="sign up">
                 </a>
             </div>
+            {% endif %}
         </div>
     </header>
     <section class="header-empty">
@@ -49,18 +49,23 @@
         Welcome to Movie Explorer!
     </section>
 
-    <!-- Section used for displaying search bar -->
     <section class="search-section">
-        <!-- input type="text" class="search-bar" placeholder="Search any movie..." -->
+        <form method="POST" action='/search/'>
+            {% csrf_token %}
+            <input type="text" class="search-bar" name="search" placeholder="Search any movie! (Ex: James Bond...)">
+            <input type="submit" value="Search">
+        </form>
     </section>
 
     <!-- Section used for displaying upcoming movies -->
     {% block content %}
         {% if status == 'failure' %}
+        <section class="errors">
             <div id="movies-error">
                 OOPS...<br>
                 We could not retrieve movies from the database, please try again later...
             </div>
+        </section>
         {% else %}
             <section class="playing-movies">
                 <div class="prev" onclick="prev();">

@@ -1,0 +1,119 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Movie Explorer </title>
+  <meta name="description" content="The Movie Explorer">
+  <meta name="author" content="Vivak Patel">
+    {% load static %}
+    <!--<link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
+    <script src="{% static "js/movies.js" %}"></script>-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
+</head>
+
+<body>
+<div id="background-div"></div>
+    <header>
+        <div class="header-container">
+            <img src="{% static "img/profile_white.png" %}">
+            {% if user.is_authenticated %}
+                <div class="user-profile">
+                    Welcome, <span class="user-name">{{ user.username }}</span>
+                </div>
+                <div class="header-input-div">
+                    <a href="{% url 'logout' %}">
+                        <input type="button" value="log out">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div >
+            {% else %}
+                <div class="header-input-div">
+                    <a href="{% url 'login' %}">
+                        <input type="button" value="log in">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div>
+            <div class="header-input-div">
+                <a href="{% url 'register' %}">
+                    <input type="button" value="sign up">
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+    <section class="header-empty">
+    </section>
+    <section class="page-title">
+        Welcome to Movie Explorer!
+    </section>
+
+
+    <!--<section class="search-section">-->
+        <!--<form method="POST" action='/search/'>-->
+            <!--{% csrf_token %}-->
+            <!--<input type="text" class="search-bar" name="search">-->
+            <!--<input type="submit" value="Search">-->
+        <!--</form>-->
+    <!--</section>-->
+
+    <!-- Section used for displaying search results -->
+    {% block content %}
+        {% if status == 'failure' %}
+         <section class="errors">
+            <div id="movies-error">
+                OOPS...<br>
+                Vivak said there is an error.
+            </div>
+        </section>
+
+        <!--{% elif status == 'noresult' %}-->
+        <!--<section class="errors">-->
+            <!--<div id="movies-error">-->
+                <!--OOPS...<br>-->
+                <!--No movie found!-->
+            <!--</div>-->
+        <!--</section>-->
+
+        <!--{% elif status == 'empty' %}-->
+         <!--<section class="errors">-->
+            <!--<div id="movies-error">-->
+                <!--OOPS...<br>-->
+                <!--Please enter a movie name in the search bar!-->
+            <!--</div>-->
+        <!--</section>-->
+
+        {% else %}
+            <section class="displaying-movie-description">
+                <!--<span class="subtitle">Search Results for: {{search}}</span><br><br>-->
+                <p>{{title}}</p>
+                <!--{% for movie in results %}-->
+                    <!--&lt;!&ndash;<table class="search-result">-->
+                        <!--<tr>-->
+                            <!--<td class="img-container">-->
+                                <!--<img src="{{image_path}}{{movie.poster_path}}"}}>-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<span class="movie-title">{{movie.title}}</span><br><br>-->
+                                <!--<span class="movie-description">{{movie.overview}}</span>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    <!--</table>&ndash;&gt;-->
+                    <!--<div>-->
+                        <!--<img src="{{image_path}}{{movie.poster_path}}"}}>-->
+                        <!--<span class="movie-title">{{movie.title}}</span>-->
+                        <!--<form method="POST" action="/description/">-->
+                            <!--{% csrf_token %}-->
+                            <!--<input type="hidden" value={{movie.id}} name="id_movie">-->
+                            <!--<input type="submit" value="View Description">-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--{% endfor %}-->
+            </section>
+        {% endif %}
+    {% endblock %}
+
+</body>

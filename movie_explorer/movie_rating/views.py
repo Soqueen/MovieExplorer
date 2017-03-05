@@ -236,7 +236,38 @@ def description(request):
             errors=list(),
         )
 
-        return render(request, 'search.html')
+        description = request.POST['id_movie']
+        #print(search_query)
+
+        tmdb.API_KEY = settings.TMDB_API_KEY
+        try:
+            movies = tmdb.Movies(int(description))
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 2
+
+            context = {}
+
+            context['status'] = 'success'
+            # context['myid'] = int(description)
+            context['results'] =  movies.info()
+            # context['results'] = movies.top_rated(page = 1)['results'][:10]
+           # context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            context['title'] = context['results']['original_title']
+            # context['genre'] = []
+            # for x in context['results']['genres']:
+            #     context['genre'].append(x['name'])
+            # context['']
+
+            # if len(context['results']) == 0:
+            #     context['status'] = 'noresult'
+
+            return render(request, 'description.html', context)
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+            context = {}
+            print ("THE API IS WRONG")
+            context["status"] = 'failure'
+            return render(request, 'description.html', context)
                 
     else:
-        return render(request, 'search.html')
+        return render(request, 'description.html')

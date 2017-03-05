@@ -237,9 +237,9 @@ def description(request):
         )
 
         description = request.POST['id_movie']
-        #print(search_query)
 
         tmdb.API_KEY = settings.TMDB_API_KEY
+
         try:
             movies = tmdb.Movies(int(description))
             config = tmdb.Configuration().info()
@@ -248,18 +248,12 @@ def description(request):
             context = {}
 
             context['status'] = 'success'
-            # context['myid'] = int(description)
             context['results'] =  movies.info()
-            # context['results'] = movies.top_rated(page = 1)['results'][:10]
-           # context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-            context['title'] = context['results']['original_title']
-            # context['genre'] = []
-            # for x in context['results']['genres']:
-            #     context['genre'].append(x['name'])
-            # context['']
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            # context['title'] = context['results']['original_title']
 
-            # if len(context['results']) == 0:
-            #     context['status'] = 'noresult'
+            if len(context['results']) == 0:
+                context['status'] = 'noresult'
 
             return render(request, 'description.html', context)
 

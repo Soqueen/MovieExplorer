@@ -292,398 +292,398 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_8')
 
-    # def test_st5_1(self):
-    #     """
-    #     Test to Sort the movies by release date acceding order.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Sort select option
-    #     try:
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Release Date Ascending':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st5_1')
-    #
-    # def test_st5_2(self):
-    #     """
-    #     Test to Sort the movies by release date descending order.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Sort select option
-    #     try:
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Release Date Descending':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st5_2')
-    #
-    # def test_st5_3(self):
-    #     """
-    #     Test to Sort the movies by Popularity order.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Sort select option
-    #     try:
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Popularity':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st5_3')
-    #
-    # def test_st5_4(self):
-    #     """
-    #     Test to Sort the movies by release date ascending order after filtering by genre.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Filter select option
-    #     try:
-    #         filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Comedy':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #     # Sort select option
-    #     try:
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Release Date Ascending':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st5_4')
-    #
-    # def test_st5_5(self):
-    #     """
-    #     Test to Sort the movies by release date descending order after filtering by genre.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Filter select option
-    #     try:
-    #         filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Comedy':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #     # Sort select option
-    #     try:
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Release Date Descending':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st5_5')
-    #
-    # def test_st5_6(self):
-    #     """
-    #     Test to Sort the movies by Popularity order after filtering by genre.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm that we arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Filter select option
-    #     try:
-    #         filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Comedy':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #     # Sort select option
-    #     try:
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Popularity':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st5_6')
-    #
-    #
-    # def test_st6_1(self):
-    #     """
-    #     Filtering genre on page 1
-    #     Page number testing needs to be added to the test
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Sort select option
-    #     try:
-    #         # TODO the name of genre class may change
-    #         sort_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Action':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st6_1')
-    #
-    # def test_st6_2(self):
-    #     """
-    #     Filtering genre on page 2
-    #     Page number testing needs to be added to the test
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Sort select option
-    #     try:
-    #         # TODO the name of genre class may change
-    #         sort_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Action':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st6_2')
-    #
-    # def test_st6_3(self):
-    #     """
-    #     Filtering genre on last page
-    #     Page number testing needs to be added to the test
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Sort select option
-    #     try:
-    #         # TODO the name of genre class may change
-    #         sort_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Action':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st6_3')
-    #
-    # def test_st6_4(self):
-    #     """
-    #     This testcase is exactly the same as st 5_4
-    #     Test to Sort the movies by release date ascending order after filtering by genre.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Filter select option
-    #     try:
-    #         # TODO the find may change
-    #         filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Comedy':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #     # Sort select option
-    #     try:
-    #         # TODO the find may change
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Release Date Ascending':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st6_4')
-    #
-    # def test_st6_5(self):
-    #     """
-    #     This testcase is exactly the same as st 5_5
-    #     Test to Sort the movies by release date descending order after filtering by genre.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm it arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Filter select option
-    #     try:
-    #         # TODO the find may change
-    #         filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Comedy':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #     # Sort select option
-    #     try:
-    #         # TODO the find may change
-    #         sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
-    #         for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-    #             if option.text == 'Release Date Descending':
-    #                 option.click()
-    #                 break
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #     # Make sure the results page returned something
-    #     assert "No results found." not in self.driver.page_source
-    #
-    #     # Another pause so we can see what's going on
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Take a screen shot of the results
-    #     self.take_screen_shot('test_st6_5')
-    #
-    # def test_st6_6(self):
-    #     """
-    #     Test to Sort the movies by Popularity order after filtering by genre.
-    #     :return: None
-    #     """
-    #     self.driver.get(self.base_url)
-    #     # Pauses the screen so we have time to confirm that we arrived at the right page
-    #     time.sleep(WAIT_TIME)
-    #
-    #     # Filter select option
-    #     try:
-    #         # TODO the find may change
-    #         filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
-    #         for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
-    #             if option.text == 'Mock1':
-    #                 option.click()
-    #                 break
-    #         # TODO implement blank page verification method here
-    #     except NoSuchElementException:
-    #         raise Exception('Cannot find Element name')
-    #
-    #         # Make sure the results page returned something
-    #         assert "No results found." not in self.driver.page_source
-    #
-    #         # Another pause so we can see what's going on
-    #         time.sleep(WAIT_TIME)
-    #
-    #         # Take a screen shot of the results
-    #         self.take_screen_shot('test_st6_6')
+    def test_st5_1(self):
+        """
+        Test to Sort the movies by release date acceding order.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Release Date Ascending':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st5_1')
+
+    def test_st5_2(self):
+        """
+        Test to Sort the movies by release date descending order.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Release Date Descending':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st5_2')
+
+    def test_st5_3(self):
+        """
+        Test to Sort the movies by Popularity order.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Popularity':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st5_3')
+
+    def test_st5_4(self):
+        """
+        Test to Sort the movies by release date ascending order after filtering by genre.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Filter select option
+        try:
+            filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Comedy':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+        # Sort select option
+        try:
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Release Date Ascending':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st5_4')
+
+    def test_st5_5(self):
+        """
+        Test to Sort the movies by release date descending order after filtering by genre.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Filter select option
+        try:
+            filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Comedy':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+        # Sort select option
+        try:
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Release Date Descending':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st5_5')
+
+    def test_st5_6(self):
+        """
+        Test to Sort the movies by Popularity order after filtering by genre.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm that we arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Filter select option
+        try:
+            filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Comedy':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+        # Sort select option
+        try:
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Popularity':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st5_6')
+
+
+    def test_st6_1(self):
+        """
+        Filtering genre on page 1
+        Page number testing needs to be added to the test
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            # TODO the name of genre class may change
+            sort_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Action':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st6_1')
+
+    def test_st6_2(self):
+        """
+        Filtering genre on page 2
+        Page number testing needs to be added to the test
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            # TODO the name of genre class may change
+            sort_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Action':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st6_2')
+
+    def test_st6_3(self):
+        """
+        Filtering genre on last page
+        Page number testing needs to be added to the test
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            # TODO the name of genre class may change
+            sort_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Action':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st6_3')
+
+    def test_st6_4(self):
+        """
+        This testcase is exactly the same as st 5_4
+        Test to Sort the movies by release date ascending order after filtering by genre.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Filter select option
+        try:
+            # TODO the find may change
+            filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Comedy':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+        # Sort select option
+        try:
+            # TODO the find may change
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Release Date Ascending':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st6_4')
+
+    def test_st6_5(self):
+        """
+        This testcase is exactly the same as st 5_5
+        Test to Sort the movies by release date descending order after filtering by genre.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Filter select option
+        try:
+            # TODO the find may change
+            filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Comedy':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+        # Sort select option
+        try:
+            # TODO the find may change
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Release Date Descending':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results
+        self.take_screen_shot('test_st6_5')
+
+    def test_st6_6(self):
+        """
+        Test to Sort the movies by Popularity order after filtering by genre.
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm that we arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Filter select option
+        try:
+            # TODO the find may change
+            filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Mock1':
+                    option.click()
+                    break
+            # TODO implement blank page verification method here
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+            # Make sure the results page returned something
+            assert "No results found." not in self.driver.page_source
+
+            # Another pause so we can see what's going on
+            time.sleep(WAIT_TIME)
+
+            # Take a screen shot of the results
+            self.take_screen_shot('test_st6_6')
 
     def test_st7_1and2(self):
         """

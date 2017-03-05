@@ -25,10 +25,9 @@ URL = 'http://movieexplorer.ddns.net/'
 WAIT_TIME = 3  # wait time for browser to stay open for 3 seconds
 
 # TAG ID
-# TODO the tag may change
-FILTER_BOX_TAG = 'genreOption'
+FILTER_BOX_TAG = 'genre'
 FILTER_OPTION_TAG = 'option'
-SORT_BOX_TAG = 'sortOption'
+SORT_BOX_TAG = 'sort_by'
 SORT_OPTION_TAG = 'option'
 
 
@@ -151,7 +150,6 @@ class ChromeTest(unittest.TestCase):
 
         # Sort select option
         try:
-            # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
                 if option.text == 'Release Date Ascending':
@@ -180,7 +178,6 @@ class ChromeTest(unittest.TestCase):
 
         # Sort select option
         try:
-            # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
                 if option.text == 'Release Date Descending':
@@ -209,7 +206,6 @@ class ChromeTest(unittest.TestCase):
 
         # Sort select option
         try:
-            # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
                 if option.text == 'Popularity':
@@ -238,7 +234,6 @@ class ChromeTest(unittest.TestCase):
 
         # Filter select option
         try:
-            # TODO the find may change
             filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
             for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
                 if option.text == 'Comedy':
@@ -248,7 +243,6 @@ class ChromeTest(unittest.TestCase):
             raise Exception('Cannot find Element name')
         # Sort select option
         try:
-            # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
                 if option.text == 'Release Date Ascending':
@@ -277,7 +271,6 @@ class ChromeTest(unittest.TestCase):
 
         # Filter select option
         try:
-            # TODO the find may change
             filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
             for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
                 if option.text == 'Comedy':
@@ -287,7 +280,6 @@ class ChromeTest(unittest.TestCase):
             raise Exception('Cannot find Element name')
         # Sort select option
         try:
-            # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
                 if option.text == 'Release Date Descending':
@@ -316,7 +308,6 @@ class ChromeTest(unittest.TestCase):
 
         # Filter select option
         try:
-            # TODO the find may change
             filter_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
             for option in filter_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
                 if option.text == 'Comedy':
@@ -326,7 +317,6 @@ class ChromeTest(unittest.TestCase):
             raise Exception('Cannot find Element name')
         # Sort select option
         try:
-            # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
                 if option.text == 'Popularity':

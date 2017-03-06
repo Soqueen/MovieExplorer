@@ -79,17 +79,15 @@
                 <div id="movies-container">
                     <input type="hidden" id="translate-value" value="0">
                 {% for movie in results %}
-                    <div class="movie-poster">
-                        <img src="{{image_path}}{{movie.poster_path}}"}}><br><br>
-                        <span>
-                            {{movie.title}}
-                        </span>
-                        <form method="POST" action="/description/">
+                    <form method="POST" action="/description/">
+                        <div>
+                            <img src="{{image_path}}{{movie.poster_path}}"}}>
+                            <span class="movie-title">{{movie.title}}</span>
                             {% csrf_token %}
                             <input type="hidden" value={{movie.id}} name="id_movie"}>
                             <input type="submit" value="View Description">
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 {% endfor %}
                 </div>
             </section>

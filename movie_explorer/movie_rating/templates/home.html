@@ -57,45 +57,40 @@
             {% csrf_token %}
             <input type="text" class="search-bar" name="search">
             <input type="submit" value="Search">
+            <label for="id_genre">Genre:</label>
+            <select id="id_genre" form="optionsForm" name="genre" onchange="document.getElementById('optionsForm').submit();">
+                <option value=""{% if genre_selected == '' %}selected{% endif %}>All</option>
+                <option value="28"{% if genre_selected == '28' %}selected{% endif %}>Action</option>
+                <option value="12"{% if genre_selected == '12' %}selected{% endif %}>Adventure</option>
+                <option value="16"{% if genre_selected == '16' %}selected{% endif %}>Animation</option>
+                <option value="35"{% if genre_selected == '35' %}selected{% endif %}>Comedy</option>
+                <option value="80"{% if genre_selected == '80' %}selected{% endif %}>Crime</option>
+                <option value="99"{% if genre_selected == '90' %}selected{% endif %}>Documentary</option>
+                <option value="18"{% if genre_selected == '18' %}selected{% endif %}>Drama</option>
+                <option value="10751"{% if genre_selected == '10751' %}selected{% endif %}>Family</option>
+                <option value="14"{% if genre_selected == '14' %}selected{% endif %}>Fantasy</option>
+                <option value="36"{% if genre_selected == '36' %}selected{% endif %}>History</option>
+                <option value="27"{% if genre_selected == '27' %}selected{% endif %}>Horror</option>
+                <option value="10402"{% if genre_selected == '10402' %}selected{% endif %}>Music</option>
+                <option value="9648"{% if genre_selected == '9648' %}selected{% endif %}>Mystery</option>
+                <option value="10749"{% if genre_selected == '10749' %}selected{% endif %}>Romance</option>
+                <option value="878"{% if genre_selected == '878' %}selected{% endif %}>Sci-Fi</option>
+                <option value="10770"{% if genre_selected == '10770' %}selected{% endif %}>TV Movie</option>
+                <option value="53"{% if genre_selected == '53' %}selected{% endif %}>Thriller</option>
+                <option value="10752"{% if genre_selected == '10752' %}selected{% endif %}>War</option>
+                <option value="37"{% if genre_selected == '37' %}selected{% endif %}>Western</option>
+            </select>
+            <label for="id_sort_by">Sort by:</label>
+            <select id="id_sort_by" form="optionsForm" name="sort_by" onchange="this.form.submit();">
+                <option value="popularity.desc"{% if sort_selected == 'popularity.desc' %}selected{% endif %}>Popularity</option>
+                <option value="release_date.desc"{% if sort_selected == 'release_date.desc' %}selected{% endif %}>Release Date Descending</option>
+                <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Release Date Ascending</option>
+            </select>
         </form>
     </section>
 <!-- Filter Genre-->
-<form role="form" action="" method="post">
+<form role="form" id="optionsForm" action="" method="post">
     {% csrf_token %}
-    <p>
-        <label for="id_genre">Genre:</label>
-        <select id="id_genre" name="genre" onchange="this.form.submit();">
-            <option value=""{% if genre_selected == '' %}selected{% endif %}>All</option>
-			<option value="28"{% if genre_selected == '28' %}selected{% endif %}>Action</option>
-			<option value="12"{% if genre_selected == '12' %}selected{% endif %}>Adventure</option>
-			<option value="16"{% if genre_selected == '16' %}selected{% endif %}>Animation</option>
-			<option value="35"{% if genre_selected == '35' %}selected{% endif %}>Comedy</option>
-			<option value="80"{% if genre_selected == '80' %}selected{% endif %}>Crime</option>
-			<option value="99"{% if genre_selected == '90' %}selected{% endif %}>Documentary</option>
-			<option value="18"{% if genre_selected == '18' %}selected{% endif %}>Drama</option>
-			<option value="10751"{% if genre_selected == '10751' %}selected{% endif %}>Family</option>
-			<option value="14"{% if genre_selected == '14' %}selected{% endif %}>Fantasy</option>
-			<option value="36"{% if genre_selected == '36' %}selected{% endif %}>History</option>
-			<option value="27"{% if genre_selected == '27' %}selected{% endif %}>Horror</option>
-			<option value="10402"{% if genre_selected == '10402' %}selected{% endif %}>Music</option>
-			<option value="9648"{% if genre_selected == '9648' %}selected{% endif %}>Mystery</option>
-			<option value="10749"{% if genre_selected == '10749' %}selected{% endif %}>Romance</option>
-			<option value="878"{% if genre_selected == '878' %}selected{% endif %}>Sci-Fi</option>
-			<option value="10770"{% if genre_selected == '10770' %}selected{% endif %}>TV Movie</option>
-			<option value="53"{% if genre_selected == '53' %}selected{% endif %}>Thriller</option>
-			<option value="10752"{% if genre_selected == '10752' %}selected{% endif %}>War</option>
-			<option value="37"{% if genre_selected == '37' %}selected{% endif %}>Western</option>
-        </select>
-    </p>
-<!-- Sort -->
-    <p>
-        <label for="id_sort_by">Sort by:</label>
-        <select id="id_sort_by" name="sort_by" onchange="this.form.submit();">
-            <option value="popularity.desc"{% if sort_selected == 'popularity.desc' %}selected{% endif %}>Popularity</option>
-            <option value="release_date.desc"{% if sort_selected == 'release_date.desc' %}selected{% endif %}>Release Date Descending</option>
-            <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Release Date Ascending</option>
-        </select>
-    <p>
     {% if page_num != '1' %}
         <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
     {% endif %}
@@ -104,7 +99,6 @@
     {% endif %}
         Current Page:
         {{page_num}}
-    </p>
 
 </form>
 

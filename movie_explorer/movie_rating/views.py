@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from .models import MovieRatings
+from django.shortcuts import get_object_or_404
 import requests
 
 # For UserModelEmailBackend
@@ -251,6 +252,26 @@ def description(request):
             context['results'] =  movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
             # context['title'] = context['results']['original_title']
+
+            if request.user.is_authenticated:
+                # Update or create star rating
+                context['current_rating'] = 1
+                if request.method == 'POST':
+                    rating = request.POST.get('star', 0)
+                    context['current_rating'] = rating
+
+                try:
+                    m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
+                    m.rating = int(rating)
+                    m.save()
+                    # Update star rating
+                except MovieRatings.DoesNotExist:
+                    # Create star rating
+                    MovieRatings.objects.create(user=request.user, movie_id=movies.id, rating=rating)
+                # else:
+                    # context['status'] = 'databaseError'
+
+
 
             if len(context['results']) == 0:
                 context['status'] = 'noresult'

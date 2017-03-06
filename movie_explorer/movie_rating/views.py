@@ -243,7 +243,7 @@ def description(request):
         try:
             movies = tmdb.Movies(int(description))
             config = tmdb.Configuration().info()
-            POSTER_SIZE = 2
+            POSTER_SIZE = 3
 
             context = {}
 

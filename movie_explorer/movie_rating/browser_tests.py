@@ -163,7 +163,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
         #
         # # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
+        assert "Search Results for: Batman Begins" in self.driver.page_source
         #
         # # Another pause so we can see what's going on
         # time.sleep(WAIT_TIME)
@@ -195,7 +195,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
+        assert "Search Results for: Batman" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
@@ -253,7 +253,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
+        assert "Search Results for: 树" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)

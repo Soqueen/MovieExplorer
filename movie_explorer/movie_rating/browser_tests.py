@@ -317,11 +317,39 @@ class ChromeTest(unittest.TestCase):
 
         # Make sure the results page returned something
         assert "Search Results for: Batman" in self.driver.page_source
+        assert "Current Page: 1" in self.driver.page_source # make sure the correct page is shown
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
 
+        # Go to next page
+        try:
+            next_page = self.driver.find_element_by_name('next_page')
+            next_page.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element next page')
 
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        assert "Current Page: 2" in self.driver.page_source # make sure the correct page is shown
+
+        # Go to next page
+        try:
+            next_page = self.driver.find_element_by_name('prev_page')
+            next_page.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element next page')
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        assert "Current Page: 1" in self.driver.page_source  # make sure the correct page is shown
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        self.take_screen_shot('test_st4_9')
 
     def test_st5_1(self):
         """

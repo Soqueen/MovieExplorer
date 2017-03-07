@@ -765,10 +765,16 @@ class ChromeTest(unittest.TestCase):
 
         # Verify login button is there and log in
         try:
-            log_in = self.driver.find_element_by_name('log in')
+            log_in =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
             log_in.click()
         except NoSuchElementException:
-            raise Exception('Cannot find Element Log in')
+            raise  Exception('Cannot find Element Log in')
+
+        # try:
+        #     log_in = self.driver.find_element_by_name('log in')
+        #     log_in.click()
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log in')
 
         # Using login steps based off of ST2
         # self.driver.get(os.path.join(self.base_url, 'login'))
@@ -800,18 +806,30 @@ class ChromeTest(unittest.TestCase):
 
         # Verify logout button is there and logout
         try:
-            log_out = self.driver.find_element_by_name('log out')
+            log_out =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
             log_out.click()
         except NoSuchElementException:
-            raise Exception('Cannot find Element Log out')
+            raise  Exception('Cannot find Element Log out')
+
+        # try:
+        #     log_out = self.driver.find_element_by_name('log out')
+        #     log_out.click()
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log out')
 
         time.sleep(WAIT_TIME)
 
         # Verify log in button has reappeared
         try:
-            log_in = self.driver.find_element_by_name('log in')
+            log_in =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
+            # log_in.click()
         except NoSuchElementException:
-            raise Exception('Cannot find Element Log in')
+            raise  Exception('Cannot find Element Log in')
+
+        # try:
+        #     log_in = self.driver.find_element_by_name('log in')
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log in')
 
         # Take a screen shot of the results
         self.take_screen_shot('test_st7_1and2')

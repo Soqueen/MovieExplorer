@@ -164,8 +164,14 @@ class ChromeTest(unittest.TestCase):
         #
         # # Make sure the results page returned something
         assert "Search Results for: Batman Begins" in self.driver.page_source
-        assert self.driver.find_element_by_name('next_page') not in self.driver.page_source
-        assert self.driver.find_element_by_name('prev_page') not in self.driver.page_source
+        try:
+            found = self.driver.find_element_by_name('next_page')
+        except NoSuchElementException:
+            assert True
+        try:
+            found = assert self.driver.find_element_by_name('prev_page')
+        except NoSuchElementException:
+            assert True
 
         #
         # # Another pause so we can see what's going on

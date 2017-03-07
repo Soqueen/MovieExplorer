@@ -12,6 +12,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from .models import MovieRatings
 from django.shortcuts import get_object_or_404
+from django.http import Http404
 import requests
 
 # For UserModelEmailBackend
@@ -229,21 +230,20 @@ def sort(request):
 
 
 def description(request):
+    context = {}
     if request.method == 'POST':
         response = dict(
             errors=list(),
         )
 
-        description = request.POST['id_movie']
+        movieID = request.POST['id_movie']
 
         tmdb.API_KEY = settings.TMDB_API_KEY
 
         try:
-            movies = tmdb.Movies(int(description))
+            movies = tmdb.Movies(int(movieID))
             config = tmdb.Configuration().info()
             POSTER_SIZE = 3
-
-            context = {}
 
             context['status'] = 'success'
             context['results'] =  movies.info()
@@ -251,27 +251,14 @@ def description(request):
             # context['title'] = context['results']['original_title']
 
             if request.user.is_authenticated:
-                # Update or create star rating
-                context['current_rating'] = 1
-                if request.method == 'POST':
-                    rating = request.POST.get('star', 0)
-                    context['current_rating'] = rating
 
+                # ----show stars----
                 try:
                     m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
-                    m.rating = int(rating)
-                    m.save()
-                    # Update star rating
-                except MovieRatings.DoesNotExist:
-                    # Create star rating
-                    MovieRatings.objects.create(user=request.user, movie_id=movies.id, rating=rating)
-                # else:
-                    # context['status'] = 'databaseError'
-
-
-
-            if len(context['results']) == 0:
-                context['status'] = 'noresult'
+                    rating = m.rating
+                except:
+                    rating = 0
+                context['current_rating'] = str(rating)
 
             return render(request, 'description.html', context)
 
@@ -282,4 +269,47 @@ def description(request):
             return render(request, 'description.html', context)
                 
     else:
-        return render(request, 'description.html')
+        raise Http404("No Movie Selected")
+
+
+def rate(request):
+    context = {}
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+        tmdb.API_KEY = settings.TMDB_API_KEY
+        movieID = request.POST['id_movie']
+
+        try:
+            movies = tmdb.Movies(int(movieID))
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 3
+
+            context['status'] = 'success'
+            context['results'] = movies.info()
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+
+            rating = request.POST.get('star', 0)
+            if request.user.is_authenticated:
+                try:
+                    m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
+                    # ----Update star rating----
+                    m.rating = int(rating)
+                    m.save()
+                except MovieRatings.DoesNotExist:
+                    # ----Create star rating----
+                    MovieRatings.objects.create(user=request.user, movie_id=movies.id, rating=rating)
+                except:
+                    context['status'] = 'databaseError'
+                context['current_rating'] = str(rating)
+
+            return render(request, 'description.html', context)
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+            print("THE API IS WRONG")
+            context["status"] = 'failure'
+            return render(request, 'description.html', context)
+
+    else:
+        raise Http404("No Movie Selected")

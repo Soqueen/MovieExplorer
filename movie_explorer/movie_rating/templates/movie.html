@@ -22,7 +22,7 @@
                 </div>
                 <div class="header-input-div">
                     <a href="{% url 'logout' %}">
-                        <input type="button" value="log out">
+                        <input type="button" name="logout" value="log out">
                     </a>
                     <div class="input-dialog">
                     </div>
@@ -30,14 +30,14 @@
             {% else %}
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
-                        <input type="button" value="log in">
+                        <input type="button" name="login" value="log in">
                     </a>
                     <div class="input-dialog">
                     </div>
                 </div>
             <div class="header-input-div">
                 <a href="{% url 'register' %}">
-                    <input type="button" value="sign up">
+                    <input type="button" name="signup" value="sign up">
                 </a>
             </div>
             {% endif %}
@@ -79,17 +79,15 @@
                 <div id="movies-container">
                     <input type="hidden" id="translate-value" value="0">
                 {% for movie in results %}
-                    <div class="movie-poster">
-                        <img src="{{image_path}}{{movie.poster_path}}"}}><br><br>
-                        <span>
-                            {{movie.title}}
-                        </span>
-                        <form method="POST" action="/description/">
+                    <form method="POST" action="/description/">
+                        <div>
+                            <img src="{{image_path}}{{movie.poster_path}}"}}>
+                            <span class="movie-title">{{movie.title}}</span>
                             {% csrf_token %}
                             <input type="hidden" value={{movie.id}} name="id_movie"}>
                             <input type="submit" value="View Description">
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 {% endfor %}
                 </div>
             </section>

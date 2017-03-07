@@ -27,7 +27,7 @@
                 </div>
                 <div class="header-input-div">
                     <a href="{% url 'logout' %}">
-                        <input type="button" value="log out">
+                        <input type="button" name="logout" value="log out">
                     </a>
                     <div class="input-dialog">
                     </div>
@@ -35,19 +35,19 @@
             {% else %}
             <div class="header-input-div">
                 <a href="{% url 'home' %}">
-                    <input type="button" value="home">
+                    <input type="button" name="home" value="home">
                 </a>
             </div>
             <div class="header-input-div">
                 <a href="{% url 'login' %}">
-                    <input type="button" value="log in">
+                    <input type="button" name="login" value="log in">
                 </a>
                 <div class="input-dialog">
                 </div>
             </div>
             <div class="header-input-div">
                 <a href="{% url 'register' %}">
-                    <input type="button" value="sign up">
+                    <input type="button" name="signup" value="sign up">
                 </a>
             </div>
             {% endif %}

@@ -778,14 +778,14 @@ class ChromeTest(unittest.TestCase):
         # Input username
         try:
             search_box = self.driver.find_element_by_name('username')
-            search_box.send_keys('sokheng')
+            search_box.send_keys('heng')
         except NoSuchElementException:
             raise Exception('Cannot find Element name')
 
         # Input Password
         try:
             search_box = self.driver.find_element_by_name('password')
-            search_box.send_keys('sokheng')
+            search_box.send_keys('heng')
         except NoSuchElementException:
             raise Exception('Cannot find Element name')
 

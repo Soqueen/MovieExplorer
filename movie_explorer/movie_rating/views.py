@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from .models import MovieRatings
+from django.shortcuts import get_object_or_404
 import requests
 
 # For UserModelEmailBackend
@@ -132,6 +133,7 @@ class UserModelEmailBackend(ModelBackend):
 
 
 def search(request):
+    context = {'page_type' : 'search_page'}
     """ Handle registration form """
     if request.method == 'POST':
         response = dict(
@@ -141,9 +143,8 @@ def search(request):
         search_query = request.POST['search']
 
         if len(search_query) == 0:
-            context = {}
             context['status'] = 'empty'
-            return render(request, 'search.html', context)
+            return render(request, 'home.html', context)
 
         else:
             tmdb.API_KEY = settings.TMDB_API_KEY
@@ -151,8 +152,6 @@ def search(request):
                 search = tmdb.Search()
                 config = tmdb.Configuration().info()
                 POSTER_SIZE = 2
-
-                context = {}
 
                 context['search'] = search_query
 
@@ -164,16 +163,15 @@ def search(request):
                 if len(context['results']) == 0:
                     context['status'] = 'noresult'
 
-                return render(request, 'search.html', context)
+                return render(request, 'home.html', context)
 
             except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
-                context = {}
                 print ("THE API IS WRONG")
                 context["status"] = 'failure'
-                return render(request, 'search.html', context)
+                return render(request, 'home.html', context)
                 
     else:
-        return render(request, 'search.html')
+        return render(request, 'home.html')
 
 # ----This is goes to the home page----
 # This is function does both sort and filter together
@@ -181,7 +179,7 @@ def sort(request):
     sort_option = 'popularity.desc'
     genre_option = ''
     page = '1'
-    context = {}
+    context = {'page_type' : 'sort_and_filter'}
     tmdb.API_KEY = settings.TMDB_API_KEY
 
     try:
@@ -251,6 +249,26 @@ def description(request):
             context['results'] =  movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
             # context['title'] = context['results']['original_title']
+
+            if request.user.is_authenticated:
+                # Update or create star rating
+                context['current_rating'] = 1
+                if request.method == 'POST':
+                    rating = request.POST.get('star', 0)
+                    context['current_rating'] = rating
+
+                try:
+                    m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
+                    m.rating = int(rating)
+                    m.save()
+                    # Update star rating
+                except MovieRatings.DoesNotExist:
+                    # Create star rating
+                    MovieRatings.objects.create(user=request.user, movie_id=movies.id, rating=rating)
+                # else:
+                    # context['status'] = 'databaseError'
+
+
 
             if len(context['results']) == 0:
                 context['status'] = 'noresult'

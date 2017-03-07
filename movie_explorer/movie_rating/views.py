@@ -133,6 +133,7 @@ class UserModelEmailBackend(ModelBackend):
 
 
 def search(request):
+    context = {'page_type' : 'search_page'}
     """ Handle registration form """
     if request.method == 'POST':
         response = dict(
@@ -142,9 +143,8 @@ def search(request):
         search_query = request.POST['search']
 
         if len(search_query) == 0:
-            context = {}
             context['status'] = 'empty'
-            return render(request, 'search.html', context)
+            return render(request, 'home.html', context)
 
         else:
             tmdb.API_KEY = settings.TMDB_API_KEY
@@ -152,8 +152,6 @@ def search(request):
                 search = tmdb.Search()
                 config = tmdb.Configuration().info()
                 POSTER_SIZE = 2
-
-                context = {}
 
                 context['search'] = search_query
 
@@ -165,16 +163,15 @@ def search(request):
                 if len(context['results']) == 0:
                     context['status'] = 'noresult'
 
-                return render(request, 'search.html', context)
+                return render(request, 'home.html', context)
 
             except (requests.exceptions.HTTPError, tmdb.APIKeyError )as e:
-                context = {}
                 print ("THE API IS WRONG")
                 context["status"] = 'failure'
-                return render(request, 'search.html', context)
+                return render(request, 'home.html', context)
                 
     else:
-        return render(request, 'search.html')
+        return render(request, 'home.html')
 
 # ----This is goes to the home page----
 # This is function does both sort and filter together
@@ -182,7 +179,7 @@ def sort(request):
     sort_option = 'popularity.desc'
     genre_option = ''
     page = '1'
-    context = {}
+    context = {'page_type' : 'sort_and_filter'}
     tmdb.API_KEY = settings.TMDB_API_KEY
 
     try:

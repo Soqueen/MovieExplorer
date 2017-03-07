@@ -57,6 +57,11 @@
             {% csrf_token %}
             <input type="text" class="search-bar" name="search">
             <input type="submit" value="Search">
+        </form>
+
+
+        {% if page_type != 'search_page' %}
+            <br>
             <label for="id_genre">Genre:</label>
             <select id="id_genre" form="optionsForm" name="genre" onchange="document.getElementById('optionsForm').submit();">
                 <option value=""{% if genre_selected == '' %}selected{% endif %}>All</option>
@@ -86,23 +91,25 @@
                 <option value="release_date.desc"{% if sort_selected == 'release_date.desc' %}selected{% endif %}>Release Date Descending</option>
                 <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Release Date Ascending</option>
             </select>
-        </form>
-    </section>
-<!-- Filter Genre-->
-<form role="form" id="optionsForm" action="" method="post">
-    {% csrf_token %}
-    {% if page_num != '1' %}
-        <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
-    {% endif %}
-    {% if last_page == 'false' %}
-        <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
-    {% endif %}
-        Current Page:
-        {{page_num}}
+        </section>
+            <!-- Next and Previous Page-->
+            <form role="form" id="optionsForm" action="" method="post">
+                {% csrf_token %}
+                {% if page_num != '1' %}
+                    <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
+                {% endif %}
+                {% if last_page == 'false' %}
+                    <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
+                {% endif %}
+                    Current Page:
+                    {{page_num}}
+            </form>
 
-</form>
+        {% else %}
+            </section>
+        {% endif %}
 
-    <!-- Section used for displaying search results -->
+    <!-- Section used for displaying results-->
     {% block content %}
         {% if status == 'failure' %}
             <div id="movies-error">
@@ -116,8 +123,18 @@
                 No movies found
             </div>
         </section>
+        {% elif status == 'empty' %}
+         <section class="errors">
+            <div id="movies-error">
+                OOPS...<br>
+                Please enter a movie name in the search bar!
+            </div>
+        </section>
         {% else %}
             <section class="playing-movies">
+                {% if page_type == 'search_page' %}
+                    <span class="subtitle">Search Results for: {{search}}</span><br><br>
+                {% endif %}
                 {% for movie in results %}
                     <div>
                         <form method="POST" action="/description/" onclick="submit();">

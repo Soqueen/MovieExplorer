@@ -169,7 +169,7 @@ class ChromeTest(unittest.TestCase):
         except NoSuchElementException:
             assert True
         try:
-            found = assert self.driver.find_element_by_name('prev_page')
+            found = self.driver.find_element_by_name('prev_page')
         except NoSuchElementException:
             assert True
 

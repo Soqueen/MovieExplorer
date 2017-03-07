@@ -164,6 +164,9 @@ class ChromeTest(unittest.TestCase):
         #
         # # Make sure the results page returned something
         assert "Search Results for: Batman Begins" in self.driver.page_source
+        assert self.driver.find_element_by_name('next_page') not in self.driver.page_source
+        assert self.driver.find_element_by_name('prev_page') not in self.driver.page_source
+
         #
         # # Another pause so we can see what's going on
         # time.sleep(WAIT_TIME)
@@ -291,6 +294,65 @@ class ChromeTest(unittest.TestCase):
 
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_8')
+
+    def test_st4_9(self):
+        """
+        Check if the next page and previous page displays movies
+        :return: None
+        """
+
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            # search_area.clear()
+            search_area.send_keys("Batman")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        # Press search button
+        search_area.submit()
+
+        #Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "Search Results for: Batman" in self.driver.page_source
+        assert "Current Page: 1" in self.driver.page_source # make sure the correct page is shown
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Go to next page
+        try:
+            next_page = self.driver.find_element_by_name('next_page')
+            next_page.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element next page')
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        assert "Current Page: 2" in self.driver.page_source # make sure the correct page is shown
+
+        # Go to next page
+        try:
+            next_page = self.driver.find_element_by_name('prev_page')
+            next_page.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element next page')
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        assert "Current Page: 1" in self.driver.page_source  # make sure the correct page is shown
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        self.take_screen_shot('test_st4_9')
 
     def test_st5_1(self):
         """

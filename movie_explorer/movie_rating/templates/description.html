@@ -80,6 +80,18 @@
                  <div>
                         <img src="{{image_path}}{{results.poster_path}}"}}>
                  </div>
+                <p style="color:white;">Tagline: {{results.tagline}}</p> <!--This is the tagline!-->
+                <p style="color:white;">Overview: {{results.overview}}</p>
+                <p style="color:white;">Release Date: {{results.release_date}}</p>
+                <p style="color:white;">{{results.genre}}</p>
+                <p style="color:white;">Runtime: {{results.runtime}} mins</p>
+
+                {% for name in genre %}
+                    <div>
+                        <p style="color:white;">Genres: {{name}}</p>
+                    </div>
+                {% endfor %}
+
                 {% if user.is_authenticated %}
                     <div class="star">
                       <form method="POST" action="/description/">

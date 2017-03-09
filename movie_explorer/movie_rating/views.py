@@ -272,6 +272,10 @@ def description(request):
             context['status'] = 'success'
             context['results'] =  movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+
+            context['genre'] = []
+            for x in context['results']['genres']:
+                context['genre'].append(x['name'])
             # context['title'] = context['results']['original_title']
 
             if request.user.is_authenticated:

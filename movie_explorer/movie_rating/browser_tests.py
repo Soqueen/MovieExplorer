@@ -163,7 +163,16 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
         #
         # # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
+        assert "Search Results for: Batman Begins" in self.driver.page_source
+        try:
+            found = self.driver.find_element_by_name('next_page')
+        except NoSuchElementException:
+            assert True
+        try:
+            found = self.driver.find_element_by_name('prev_page')
+        except NoSuchElementException:
+            assert True
+
         #
         # # Another pause so we can see what's going on
         # time.sleep(WAIT_TIME)
@@ -195,7 +204,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
+        assert "Search Results for: Batman" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
@@ -225,7 +234,7 @@ class ChromeTest(unittest.TestCase):
         # Pauses the screen so we have time to confirm we have the right page
         time.sleep(WAIT_TIME)
 
-        assert "Oops...\nPlease enter a movie name in the search bar!" in self.driver.page_source
+        assert "Please enter a movie name in the search bar!" in self.driver.page_source
 
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_4')
@@ -253,7 +262,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "No results found." not in self.driver.page_source
+        assert "Search Results for: 树" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
@@ -284,13 +293,72 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Ooops ... \nNo movie found!" in self.driver.page_source
+        assert "No movies found" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results
         self.take_screen_shot('test_st4_8')
+
+    def test_st4_9(self):
+        """
+        Check if the next page and previous page displays movies
+        :return: None
+        """
+
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            # search_area.clear()
+            search_area.send_keys("Batman")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        # Press search button
+        search_area.submit()
+
+        #Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        # Make sure the results page returned something
+        assert "Search Results for: Batman" in self.driver.page_source
+        assert "Current Page: 1" in self.driver.page_source # make sure the correct page is shown
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        # Go to next page
+        try:
+            next_page = self.driver.find_element_by_name('next_page')
+            next_page.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element next page')
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        assert "Current Page: 2" in self.driver.page_source # make sure the correct page is shown
+
+        # Go to next page
+        try:
+            next_page = self.driver.find_element_by_name('prev_page')
+            next_page.click()
+        except NoSuchElementException:
+            raise Exception('Cannot find Element next page')
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        assert "Current Page: 1" in self.driver.page_source  # make sure the correct page is shown
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        self.take_screen_shot('test_st4_9')
 
     def test_st5_1(self):
         """
@@ -697,10 +765,16 @@ class ChromeTest(unittest.TestCase):
 
         # Verify login button is there and log in
         try:
-            log_in = self.driver.find_element_by_name('log in')
+            log_in =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
             log_in.click()
         except NoSuchElementException:
-            raise Exception('Cannot find Element Log in')
+            raise  Exception('Cannot find Element Log in')
+
+        # try:
+        #     log_in = self.driver.find_element_by_name('log in')
+        #     log_in.click()
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log in')
 
         # Using login steps based off of ST2
         # self.driver.get(os.path.join(self.base_url, 'login'))
@@ -710,14 +784,14 @@ class ChromeTest(unittest.TestCase):
         # Input username
         try:
             search_box = self.driver.find_element_by_name('username')
-            search_box.send_keys('sokheng')
+            search_box.send_keys('heng')
         except NoSuchElementException:
             raise Exception('Cannot find Element name')
 
         # Input Password
         try:
             search_box = self.driver.find_element_by_name('password')
-            search_box.send_keys('sokheng')
+            search_box.send_keys('heng')
         except NoSuchElementException:
             raise Exception('Cannot find Element name')
 
@@ -732,18 +806,30 @@ class ChromeTest(unittest.TestCase):
 
         # Verify logout button is there and logout
         try:
-            log_out = self.driver.find_element_by_name('log out')
+            log_out =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
             log_out.click()
         except NoSuchElementException:
-            raise Exception('Cannot find Element Log out')
+            raise  Exception('Cannot find Element Log out')
+
+        # try:
+        #     log_out = self.driver.find_element_by_name('log out')
+        #     log_out.click()
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log out')
 
         time.sleep(WAIT_TIME)
 
         # Verify log in button has reappeared
         try:
-            log_in = self.driver.find_element_by_name('log in')
+            log_in =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
+            # log_in.click()
         except NoSuchElementException:
-            raise Exception('Cannot find Element Log in')
+            raise  Exception('Cannot find Element Log in')
+
+        # try:
+        #     log_in = self.driver.find_element_by_name('log in')
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log in')
 
         # Take a screen shot of the results
         self.take_screen_shot('test_st7_1and2')

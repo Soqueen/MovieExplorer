@@ -134,7 +134,10 @@ class UserModelEmailBackend(ModelBackend):
 
 
 def search(request):
+    
+    # Set the page to search
     context = {'page_type' : 'search_page'}
+   
     """ Handle registration form """
     if request.method == 'POST':
         response = dict(
@@ -143,12 +146,27 @@ def search(request):
 
         search_query = request.POST['search']
 
+        # Select the page to be requested from the API
+        if request.POST.__contains__('prev_page'):
+            page = request.POST.get('prev_page', '2')
+            pageNumber = int(page)
+            page = str(pageNumber - 1)
+        elif request.POST.__contains__('next_page'):
+            page = request.POST.get('next_page', '0')
+            pageNumber = int(page)
+            page = str(pageNumber + 1)
+        else:
+            page = '1'
+
+        # Check if query is empty
         if len(search_query) == 0:
             context['status'] = 'empty'
             return render(request, 'home.html', context)
 
         else:
             tmdb.API_KEY = settings.TMDB_API_KEY
+            
+            # Query the API
             try:
                 search = tmdb.Search()
                 config = tmdb.Configuration().info()
@@ -157,10 +175,16 @@ def search(request):
                 context['search'] = search_query
 
                 context['status'] = 'success'
-                context['results'] = search.movie(query=search_query)['results']
-                #context['results'] = movies.top_rated(page = 1)['results'][:10]
+                movie_query = search.movie(page=page, query=search_query)
+                context['results'] = movie_query['results']
+
                 context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-                
+                context['page_num'] = page
+
+                context['last_page'] = 'false'
+                if int(page) == movie_query['total_pages']:
+                    context['last_page'] = 'true'
+
                 if len(context['results']) == 0:
                     context['status'] = 'noresult'
 
@@ -248,6 +272,10 @@ def description(request):
             context['status'] = 'success'
             context['results'] =  movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+
+            context['genre'] = []
+            for x in context['results']['genres']:
+                context['genre'].append(x['name'])
             # context['title'] = context['results']['original_title']
 
             if request.user.is_authenticated:

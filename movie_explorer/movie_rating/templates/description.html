@@ -77,9 +77,9 @@
         {% else %}
             <section class="displaying-movie-description">
                 <p style="color:white;">{{results.title}}</p>
-                 <!--<div>-->
-                        <!--<img src="{{image_path}}{{info.poster_path}}"}}>-->
-                 <!--</div>-->
+                 <div>
+                        <img src="{{image_path}}{{results.poster_path}}"}}>
+                 </div>
                 {% if user.is_authenticated %}
                     <div class="star">
                       <form method="POST" action="/description/">

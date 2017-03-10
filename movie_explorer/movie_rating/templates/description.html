@@ -10,6 +10,8 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}"> <!--NEED TO CREATE
                                                                                        A CSS FOR THIS HTML DOC-->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+     <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
 </head>
 
 <body>
@@ -65,34 +67,37 @@
                 OOPS...<br>
                 We are experiencing problems with our database. Sorry for the inconvenience.
             </div>
-        </section>
-        {% elif status == 'noresult' %}
-        <section class="errors">
-            <div id="movies-error">
-                OOPS...<br>
-                No movie found!
-            </div>
-        </section>
-
         {% else %}
             <section class="displaying-movie-description">
                 <p style="color:white;">{{results.title}}</p>
-                 <!--<div>-->
-                        <!--<img src="{{image_path}}{{info.poster_path}}"}}>-->
-                 <!--</div>-->
+                 <div>
+                        <img src="{{image_path}}{{results.poster_path}}"}}>
+                 </div>
+                <p style="color:white;">Tagline: {{results.tagline}}</p> <!--This is the tagline!-->
+                <p style="color:white;">Overview: {{results.overview}}</p>
+                <p style="color:white;">Release Date: {{results.release_date}}</p>
+                <p style="color:white;">{{results.genre}}</p>
+                <p style="color:white;">Runtime: {{results.runtime}} mins</p>
+
+                {% for name in genre %}
+                    <div>
+                        <p style="color:white;">Genres: {{name}}</p>
+                    </div>
+                {% endfor %}
+
                 {% if user.is_authenticated %}
                     <div class="star">
-                      <form method="POST" action="/description/">
+                      <form method="POST" action="/rated/">
                           {% csrf_token %}
-                        <input class="star star-5" id="star-5" type="radio" name="star" value="1" onchange="this.form.submit();" {% if current_rating == "1" %}checked{% endif %}/>
+                        <input class="star star-5" id="star-5" type="radio" name="star" value="5" onchange="this.form.submit();" {% if current_rating == '5' %} checked{% endif %}/>
                         <label class="star star-5" for="star-5"></label>
-                        <input class="star star-4" id="star-4" type="radio" name="star" value="2" onchange="this.form.submit();" {% if current_rating == "2" %}checked{% endif %}/>
+                        <input class="star star-4" id="star-4" type="radio" name="star" value="4" onchange="this.form.submit();" {% if current_rating == '4' %} checked{% endif %}/>
                         <label class="star star-4" for="star-4"></label>
-                        <input class="star star-3" id="star-3" type="radio" name="star" value="3" onchange="this.form.submit();"{% if current_rating == "3" %}checked{% endif %}/>
+                        <input class="star star-3" id="star-3" type="radio" name="star" value="3" onchange="this.form.submit();"{% if current_rating == '3' %} checked{% endif %}/>
                         <label class="star star-3" for="star-3"></label>
-                        <input class="star star-2" id="star-2" type="radio" name="star" value="4" onchange="this.form.submit();"{% if current_rating == "4" %}checked{% endif %}/>
+                        <input class="star star-2" id="star-2" type="radio" name="star" value="2" onchange="this.form.submit();"{% if current_rating == '2' %} checked{% endif %}/>
                         <label class="star star-2" for="star-2"></label>
-                        <input class="star star-1" id="star-1" type="radio" name="star" value="5" onchange="this.form.submit();"{% if current_rating == "5" %}checked{% endif %}/>
+                        <input class="star star-1" id="star-1" type="radio" name="star" value="1" onchange="this.form.submit();"{% if current_rating == '1' %} checked{% endif %}/>
                         <label class="star star-1" for="star-1"></label>
                           <input type="hidden" value={{results.id}} name="id_movie"}>
                           <!--<input type="checkbox" name="movieID" value=-->

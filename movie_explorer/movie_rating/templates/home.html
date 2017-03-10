@@ -134,6 +134,21 @@
             <section class="playing-movies">
                 {% if page_type == 'search_page' %}
                     <span class="subtitle">Search Results for: {{search}}</span><br><br>
+                     <!-- Next and Previous Page-->
+                    <form role="form" id="optionsForm" action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value={{search}} name="search"}>
+                        {% if page_num != '1' %}
+                            <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
+                        {% endif %}
+                        {% if last_page == 'false' %}
+                            <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
+                        {% endif %}
+                            Current Page:
+                            {{page_num}}
+                    </form>
+                
+
                 {% endif %}
                 {% for movie in results %}
                     <div>

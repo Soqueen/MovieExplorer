@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^home/', views.sort, name='home'),
     url(r'^description/', views.description, name='description'),
     url(r'^rated/', views.rate, name='rated'),
+    url(r'^myratings/', views.description, name='myratings'),
 ]

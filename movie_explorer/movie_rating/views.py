@@ -341,3 +341,46 @@ def rate(request):
 
     else:
         raise Http404("No Movie Selected")
+
+def viewRatings(request):
+    context = {}
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+
+        # tmdb.API_KEY = settings.TMDB_API_KEY
+        # movieID = request.POST['id_movie']
+        #
+        # try:
+        #     movies = tmdb.Movies(int(movieID))
+        #     config = tmdb.Configuration().info()
+        #     POSTER_SIZE = 3
+        #
+        #     context['status'] = 'success'
+        #     context['results'] = movies.info()
+        #     context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+        #
+        #     rating = request.POST.get('star', 0)
+        #     if request.user.is_authenticated:
+        #         try:
+        #             m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
+        #             # ----Update star rating----
+        #             m.rating = int(rating)
+        #             m.save()
+        #         except MovieRatings.DoesNotExist:
+        #             # ----Create star rating----
+        #             MovieRatings.objects.create(user=request.user, movie_id=movies.id, rating=rating)
+        #         except:
+        #             context['status'] = 'databaseError'
+        #         context['current_rating'] = str(rating)
+        #
+        #     return render(request, 'description.html', context)
+        #
+        # except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+        #     print("THE API IS WRONG")
+        #     context["status"] = 'failure'
+        #     return render(request, 'description.html', context)
+
+    else:
+        raise Http404("No Movie Selected")

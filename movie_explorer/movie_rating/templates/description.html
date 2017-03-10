@@ -30,6 +30,19 @@
                     <div class="input-dialog">
                     </div>
                 </div >
+                <form method="POST" action="/description/">
+                    <div>
+                        {% csrf_token %}
+                        <input type="button" value="My Movie Ratings">
+                    </div>
+                </form>
+                <!--<div class="header-input-div">-->
+                    <!--<a href="{% url 'myratings' %}">-->
+                        <!--<input type="button" value="my ratings">-->
+                    <!--</a>-->
+                    <!--<div class="input-dialog">-->
+                    <!--</div>-->
+                <!--</div >-->
             {% else %}
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
@@ -58,7 +71,7 @@
          <section class="errors">
             <div id="movies-error">
                 OOPS...<br>
-                Failed to retrieve data try again!
+                Failed to retrieve data. Try again!
             </div>
         </section>
         {% elif status == 'databaseError' %}

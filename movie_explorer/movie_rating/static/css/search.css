@@ -146,3 +146,37 @@ section.playing-movies > div > img {
     width: 185px;
     height: 278px;
 }
+
+form#optionsForm {
+    diplay: block;
+    width: 100%;
+    color: rgba(255,255,255,1);
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+}
+
+form#optionsForm button {
+    padding: 7px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: rgba(100,100,100,1);
+    border-radius: 7px;
+    background-color: rgba(255,255,255,0);
+    color: rgba(255,255,255,1);
+    font-size: 15px;
+    font-style: italic;
+    cursor: pointer;
+}
+
+section.page-section {
+    width: 100%;
+    color: rgba(255,255,255,1);
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+}
+
+section.page-section span#search-result {
+    font-size: 30px;
+    font-style: italic;
+}

@@ -8,8 +8,6 @@
   <meta name="description" content="The Movie Explorer">
   <meta name="author" content="Felix Dube">
     {% load static %}
-    <!--<link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
-    <script src="{% static "js/movies.js" %}"></script>-->
     <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
 </head>
 
@@ -96,12 +94,12 @@
             <form role="form" id="optionsForm" action="" method="post">
                 {% csrf_token %}
                 {% if page_num != '1' %}
-                    <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
+                    <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous Page</button>
                 {% endif %}
+                Current Page: {{page_num}}
                 {% if last_page == 'false' %}
                     <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
                 {% endif %}
-                    Current Page: {{page_num}}
             </form>
 
         {% else %}
@@ -130,9 +128,9 @@
             </div>
         </section>
         {% else %}
-            <section class="playing-movies">
+            <section class="page-section">
                 {% if page_type == 'search_page' %}
-                    <span class="subtitle">Search Results for: {{search}}</span><br><br>
+                    <span class="subtitle">Search Results for: <span id="search-result">{{search}}</span><br><br>
                      <!-- Next and Previous Page-->
                     <form role="form" id="optionsForm" action="" method="post">
                         {% csrf_token %}
@@ -140,14 +138,14 @@
                         {% if page_num != '1' %}
                             <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
                         {% endif %}
+                            Current Page: {{page_num}}
                         {% if last_page == 'false' %}
                             <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
                         {% endif %}
-                            Current Page: {{page_num}}
                     </form>
-                
-
                 {% endif %}
+            </section>
+            <section class="playing-movies">
                 {% for movie in results %}
                     <div>
                         <form method="POST" action="/description/" onclick="submit();">

@@ -349,38 +349,15 @@ def viewRatings(request):
             errors=list(),
         )
 
-        # tmdb.API_KEY = settings.TMDB_API_KEY
-        # movieID = request.POST['id_movie']
-        #
-        # try:
-        #     movies = tmdb.Movies(int(movieID))
-        #     config = tmdb.Configuration().info()
-        #     POSTER_SIZE = 3
-        #
-        #     context['status'] = 'success'
-        #     context['results'] = movies.info()
-        #     context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-        #
-        #     rating = request.POST.get('star', 0)
-        #     if request.user.is_authenticated:
-        #         try:
-        #             m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
-        #             # ----Update star rating----
-        #             m.rating = int(rating)
-        #             m.save()
-        #         except MovieRatings.DoesNotExist:
-        #             # ----Create star rating----
-        #             MovieRatings.objects.create(user=request.user, movie_id=movies.id, rating=rating)
-        #         except:
-        #             context['status'] = 'databaseError'
-        #         context['current_rating'] = str(rating)
-        #
-        #     return render(request, 'description.html', context)
-        #
-        # except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
-        #     print("THE API IS WRONG")
-        #     context["status"] = 'failure'
-        #     return render(request, 'description.html', context)
+        if request.user.is_authenticated:
+            # context['status'] = 'failure'
+            myratings = MovieRatings.objects.values('movie_id','rating')
+            try:
+                context['status'] = 'success'
+                context['results'] = myratings
+            except MovieRatings.DoesNotExist:
+                context['status'] = 'failure'
+        return render(request, 'myratings.html', context)
 
     else:
         raise Http404("No Movie Selected")

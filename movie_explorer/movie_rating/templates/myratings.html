@@ -5,7 +5,7 @@
   <meta charset="utf-8">
 
   <title>The Movie Explorer </title>
-  <meta name="description" content="The Movie Explorer">
+  <meta name="myratings" content="The Movie Explorer">
   <meta name="author" content="ecse428 movie Explorer team">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
@@ -67,28 +67,9 @@
         </section>
         {% else %}
             <section class="playing-movies">
-                <div class="prev" onclick="prev();">
-                    <
-                </div>
-                <div class="next" onclick="next();">
-                    >
-                </div>
-                <span class="subtitle">TOP 10 MOVIES </span><br><br>
-
-                <div id="movies-container">
-                    <input type="hidden" id="translate-value" value="0">
-                {% for movie in results %}
-                    <form method="POST" action="/description/">
-                        <div>
-                            <img src="{{image_path}}{{movie.poster_path}}"}}>
-                            <span class="movie-title">{{movie.title}}</span>
-                            {% csrf_token %}
-                            <input type="hidden" value={{movie.id}} name="id_movie"}>
-                            <input type="submit" value="View Description">
-                        </div>
-                    </form>
-                {% endfor %}
-                </div>
+                <!--{% for object in results %}-->
+                    <p>{{results}}</p>
+                <!--{% endfor %}-->
             </section>
         {% endif %}
     {% endblock %}

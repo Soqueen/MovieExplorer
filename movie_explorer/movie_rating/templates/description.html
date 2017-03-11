@@ -30,19 +30,6 @@
                     <div class="input-dialog">
                     </div>
                 </div >
-                <form method="POST" action="/myratings/" onclick="submit();">
-                    <div>
-                        {% csrf_token %}
-                        <input type="button" value="My Movie Ratings">
-                    </div>
-                </form>
-                <!--<div class="header-input-div">-->
-                    <!--<a href="{% url 'myratings' %}">-->
-                        <!--<input type="button" value="my ratings">-->
-                    <!--</a>-->
-                    <!--<div class="input-dialog">-->
-                    <!--</div>-->
-                <!--</div >-->
             {% else %}
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
@@ -89,6 +76,12 @@
                         </td>
                         <td>
                             {% if user.is_authenticated %}
+                            <form method="POST" action="/myratings/" onclick="submit();">
+                                <div>
+                                {% csrf_token %}
+                                <input type="button" value="My Movie Ratings">
+                                </div>
+                            </form>
                                 <div class="star">
                                   <form method="POST" action="/rated/">
                                       {% csrf_token %}

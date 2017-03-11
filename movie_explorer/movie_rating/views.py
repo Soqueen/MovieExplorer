@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
+from django.views.generic import ListView
 from .models import MovieRatings
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -344,6 +345,7 @@ def rate(request):
 
 def viewRatings(request):
     context = {}
+    test=[]
     if request.method == 'POST':
         response = dict(
             errors=list(),
@@ -351,10 +353,18 @@ def viewRatings(request):
 
         if request.user.is_authenticated:
             # context['status'] = 'failure'
-            myratings = MovieRatings.objects.values('movie_id','rating')
+            # myratings = MovieRatings.objects.values('movie_id', 'rating')
+
+            myratings = MovieRatings.objects.filter( user = request.user )
+
+            for entry in myratings:
+                test.insert(0, (entry.movie_id, entry.rating))
+
             try:
+
                 context['status'] = 'success'
-                context['results'] = myratings
+                context['results'] = test
+
             except MovieRatings.DoesNotExist:
                 context['status'] = 'failure'
         return render(request, 'myratings.html', context)

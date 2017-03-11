@@ -9,6 +9,7 @@
   <meta name="author" content="Felix Dube">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
+    <script src="{% static "js/search.js" %}"></script>
 </head>
 
 <body>
@@ -130,7 +131,7 @@
         {% else %}
             <section class="page-section">
                 {% if page_type == 'search_page' %}
-                    <span class="subtitle">Search Results for: <span id="search-result">{{search}}</span><br><br>
+                    Search Results for: <span id="search-result">{{search}}</span><br><br>
                      <!-- Next and Previous Page-->
                     <form role="form" id="optionsForm" action="" method="post">
                         {% csrf_token %}
@@ -147,7 +148,7 @@
             </section>
             <section class="playing-movies">
                 {% for movie in results %}
-                    <div>
+                    <div class="hidden-movie">
                         <form method="POST" action="/description/" onclick="submit();">
                             <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';">
                             <span class="movie-title">{{movie.title}}</span>

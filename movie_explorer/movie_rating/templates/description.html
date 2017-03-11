@@ -85,7 +85,7 @@
                 <table id="movie-view">
                     <tr>
                         <td>
-                            <img src="{{image_path}}{{results.poster_path}}"}}>
+                            <img src="{{image_path}}{{results.poster_path}}"}} onerror="this.src='{% static "img/no_image_available_big.png" %}';">
                         </td>
                         <td>
                             {% if user.is_authenticated %}

@@ -86,6 +86,32 @@ section.search-section {
     text-align: center;
 }
 
+section.search-section label {
+    color: rgba(255,255,255,1);
+    font-size: 20px;
+}
+
+section.search-section select {
+    padding: 7px;
+    background-color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,1);
+    line-height: 30px;
+    font-size: 20px;
+}
+
+section.search-section select > option {
+    background-color: rgba(33,33,33,1);
+    color: rgba(255,255,255,1);
+    font-size: 20px;
+    line-height: 25px;
+    cursor: pointer;
+}
+
+div.label-container {
+    display: inline-block;
+    width: 250px;
+}
+
 section.search-section > form > input.search-bar {
     display: inline-block;
     width: 50%;
@@ -98,6 +124,7 @@ section.search-section > form > input.search-bar {
 
 section.search-section > form > input {
     padding: 7px;
+    margin-left: 10px;
     border: 3px solid rgba(17,17,17,1);
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(240,240,240,1);

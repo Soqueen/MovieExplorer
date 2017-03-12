@@ -923,9 +923,8 @@ class ChromeTest(unittest.TestCase):
         self.take_screen_shot('test_st9_1') 
 
 
-
-    def test_st9_2(self):
-        """ Test to open movie description from homepage by clicking the movie image. :return: None """
+    def test_st9_7(self):
+        """ Test to make sure there's no stars when you are not logged in; return: None """
 
         
         self.driver.get(self.base_url)
@@ -944,20 +943,11 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         assert "description" in self.driver.page_source
-
-        time.sleep(WAIT_TIME)
-
-        try:
-            star = self.driver.find_element_by_id('star-5')
-        
-        except NoSuchElementException:
-            raise Exception('Cannot find Element star')
-
-        star.submit();
+        assert "star-5" not in self.driver.page_source
 
         # Take a screen shot of the results. Make sure to put your image test name.
 
-        self.take_screen_shot('test_st9_2')
+        self.take_screen_shot('test_st9_7')
 
 
     def take_screen_shot(self, test_name):

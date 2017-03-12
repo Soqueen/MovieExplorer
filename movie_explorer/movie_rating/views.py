@@ -352,22 +352,22 @@ def viewRatings(request):
         )
         tmdb.API_KEY = settings.TMDB_API_KEY
 
+        data_entries = MovieRatings.objects.filter(user=request.user)
+
+        for entry in data_entries:
+            movie = tmdb.Movies(int(entry.movie_id))
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 1
+            myratings.insert(0, (movie.info(), entry.rating, config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]))
+
         if request.user.is_authenticated:
+            if not myratings:
+                context['status'] = 'failure'
 
-            data_entries = MovieRatings.objects.filter( user = request.user )
-
-            for entry in data_entries:
-                movie = tmdb.Movies(int(entry.movie_id))
-                config = tmdb.Configuration().info()
-                POSTER_SIZE = 1
-                myratings.insert(0, (movie.info(), entry.rating, config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]))
-            try:
-
+            else:
                 context['status'] = 'success'
                 context['results'] = myratings
 
-            except MovieRatings.DoesNotExist:
-                context['status'] = 'failure'
         return render(request, 'myratings.html', context)
 
     else:

@@ -43,6 +43,7 @@ class ChromeTest(unittest.TestCase):
 
     # An individual test case. Must start with 'test_' (as per unittest module)
     def test_home_page(self):
+        print("Test home\t")
         self.driver.get(self.base_url)
         # A test to ensure the page has keyword 'The Movie Explorer' in the page title
         self.assertEqual('The Movie Explorer', self.driver.title)
@@ -1222,7 +1223,7 @@ class ChromeTest(unittest.TestCase):
 
         self.take_screen_shot('test_st10_1')
     
-    def test_st10_2():
+    def test_st10_2(self):
         """
         Test login from main page
         Not tested on each page because top banner is independent of page

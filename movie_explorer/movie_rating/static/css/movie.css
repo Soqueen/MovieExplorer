@@ -87,7 +87,7 @@ section.search-section {
     text-align: center;
 }
 
-section.search-section > input.search-bar {
+section.search-section > form > input.search-bar {
     display: inline-block;
     width: 50%;
     padding: 7px;
@@ -95,6 +95,16 @@ section.search-section > input.search-bar {
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,100,255,1);
     font-size: 125%;
+}
+
+section.search-section > form > input {
+    padding: 7px;
+    border: 3px solid rgba(17,17,17,1);
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(240,240,240,1);
+    background-color: rgba(33,33,33,1);
+    color: rgba(100,150,240,1);
+    font-size: 100%;
 }
 
 section.playing-movies {
@@ -205,3 +215,4 @@ div.user-profile {
 span.user-name {
     font-weight: bold;
 }
+

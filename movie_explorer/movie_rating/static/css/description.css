@@ -1,0 +1,26 @@
+table#movie-view {
+    width: 95%;
+    margin: auto;
+}
+
+table#movie-view td {
+    padding: 75px;
+    color: rgba(255,255,255,1);
+    font-size: 20px;
+    text-align: center;
+    vertical-align: top;
+}
+
+table#movie-view td > span.tagline {
+    font-size: 50px;
+    font-style: italic;
+}
+
+table#movie-view td > span.overview {
+    font-size: 30px;
+}
+
+section.displaying-movie-description {
+    background-color: rgba(33,33,33,0.5);
+    box-shadow: 0px 0px 10px 0px rgba(255,255,255,1);
+}

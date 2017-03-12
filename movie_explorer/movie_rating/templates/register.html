@@ -10,9 +10,9 @@
 {%if errors%}
     <div>
             {% for error in errors %}
-            <td><font color="red">
+            <td style="color: red">
                 {{ error }}
-            </font></td>
+            </td>
             {% endfor %}
     </div>
 {% elif success%}
@@ -23,23 +23,6 @@
         <form method="POST" action='/register/'>
             {% csrf_token %}
             <table>
-                <!--Disable the fields for the first sprint. It should enable back after.-->
-                <!--<tr>-->
-                    <!--<td>-->
-                        <!--First name:-->
-                    <!--</td>-->
-                    <!--<td>-->
-                        <!--<input type="text" name="first_name" placeholder="ex: John...">-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td>-->
-                        <!--Last name:-->
-                    <!--</td>-->
-                    <!--<td>-->
-                        <!--<input type="text" name="last_name" placeholder="ex: Smith...">-->
-                    <!--</td>-->
-                <!--</tr>-->
                 <tr>
                     <td>
                         Email:

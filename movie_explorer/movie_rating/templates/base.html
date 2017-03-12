@@ -25,24 +25,32 @@
                 <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
-            {% endif %}
+                <div class="header-input-div">
+                    <a href="{% url 'logout' %}">
+                        <input type="button" name="logout" value="log out">
+                    </a>
+                    <div class="input-dialog">
+                    </div>
+                </div >
+            {% else %}
             <div class="header-input-div">
-                <a href="{% url 'movies' %}">
-                    <input type="button" value="home">
+                <a href="{% url 'home' %}">
+                    <input type="button" name="home" value="home">
                 </a>
             </div>
             <div class="header-input-div">
                 <a href="{% url 'login' %}">
-                    <input type="button" value="log in">
+                    <input type="button" name="login" value="log in">
                 </a>
                 <div class="input-dialog">
                 </div>
             </div>
             <div class="header-input-div">
                 <a href="{% url 'register' %}">
-                    <input type="button" value="sign up">
+                    <input type="button" name="signup" value="sign up">
                 </a>
             </div>
+            {% endif %}
         </div>
     </header>
     <section class="header-empty">

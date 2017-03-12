@@ -845,7 +845,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         try:
-            movie_image = self.driver.find_element_by_tag_name(Logan)
+            movie_image = self.driver.find_element_by_name("id_movie")
         
         except NoSuchElementException:
             raise Exception('Cannot find Element movie_image')

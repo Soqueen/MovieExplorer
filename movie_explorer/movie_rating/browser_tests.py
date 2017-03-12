@@ -163,7 +163,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
         #
         # # Make sure the results page returned something
-        assert "Search Results for: Batman Begins" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">Batman Begins</span>" in self.driver.page_source
         try:
             found = self.driver.find_element_by_name('next_page')
         except NoSuchElementException:
@@ -204,7 +204,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Search Results for: Batman" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">Batman</span>" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
@@ -262,7 +262,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Search Results for: 树" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">树</span>" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
@@ -325,7 +325,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Search Results for: Batman" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">Batman</span>" in self.driver.page_source
         assert "Current Page: 1" in self.driver.page_source # make sure the correct page is shown
 
         # Another pause so we can see what's going on

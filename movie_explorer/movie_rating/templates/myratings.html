@@ -5,12 +5,11 @@
   <meta charset="utf-8">
 
   <title>The Movie Explorer </title>
-  <meta name="description" content="The Movie Explorer">
+  <meta name="myratings" content="The Movie Explorer">
   <meta name="author" content="ecse428 movie Explorer team">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/movie.css" %}">
-    <script src="{% static "js/movies.js" %}"></script>
-</head>
+    <script src="{% static "js/movies.js" %}"></script></head>
 
 <body>
     <header>
@@ -46,16 +45,16 @@
     <section class="header-empty">
     </section>
     <section class="page-title">
-        Welcome to Movie Explorer!
+        My Ratings
     </section>
 
-    <section class="search-section">
-        <form method="POST" action='/search/'>
-            {% csrf_token %}
-            <input type="text" class="search-bar" name="search" placeholder="Search any movie! (Ex: James Bond...)">
-            <input type="submit" value="Search">
-        </form>
-    </section>
+    <!--<section class="search-section">-->
+        <!--<form method="POST" action='/search/'>-->
+            <!--{% csrf_token %}-->
+            <!--<input type="text" class="search-bar" name="search" placeholder="Search any movie! (Ex: James Bond...)">-->
+            <!--<input type="submit" value="Search">-->
+        <!--</form>-->
+    <!--</section>-->
 
     <!-- Section used for displaying upcoming movies -->
     {% block content %}
@@ -68,36 +67,8 @@
         </section>
         {% else %}
             <section class="playing-movies">
-                {% if user.is_authenticated %}
-                            <form method="POST" action="/myratings/" onclick="submit();">
-                                <div>
-                                {% csrf_token %}
-                                <input type="button" value="My Movie Ratings">
-                                </div>
-                            </form>
-                 {% endif %}
-                <div class="prev" onclick="prev();">
-                    <
-                </div>
-                <div class="next" onclick="next();">
-                    >
-                </div>
-                <span class="subtitle">TOP 10 MOVIES </span><br><br>
-
-                <div id="movies-container">
-                    <input type="hidden" id="translate-value" value="0">
-                {% for movie in results %}
-                    <form method="POST" action="/description/">
-                        <div>
-                            <img src="{{image_path}}{{movie.poster_path}}"}}>
-                            <span class="movie-title">{{movie.title}}</span>
-                            {% csrf_token %}
-                            <input type="hidden" value={{movie.id}} name="id_movie"}>
-                            <input type="submit" value="View Description">
-                        </div>
-                    </form>
-                {% endfor %}
-                </div>
+                    <p>{{results}}</p>
+                    <p>{{testing}}</p>
             </section>
         {% endif %}
     {% endblock %}

@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
+from django.views.generic import ListView
 from .models import MovieRatings
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -338,6 +339,34 @@ def rate(request):
             print("THE API IS WRONG")
             context["status"] = 'failure'
             return render(request, 'description.html', context)
+
+    else:
+        raise Http404("No Movie Selected")
+
+def viewRatings(request):
+    context = {}
+    myratings = []
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+        tmdb.API_KEY = settings.TMDB_API_KEY
+
+        if request.user.is_authenticated:
+
+            data_entries = MovieRatings.objects.filter( user = request.user )
+
+            for entry in data_entries:
+                movie_title = tmdb.Movies(int(entry.movie_id)).info().get('title')
+                myratings.insert(0, (movie_title, entry.rating))
+            try:
+
+                context['status'] = 'success'
+                context['results'] = myratings
+
+            except MovieRatings.DoesNotExist:
+                context['status'] = 'failure'
+        return render(request, 'myratings.html', context)
 
     else:
         raise Http404("No Movie Selected")

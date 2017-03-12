@@ -8,10 +8,10 @@
   <meta name="description" content="The Movie Explorer">
   <meta name="author" content="Vivak Patel">
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}"> <!--NEED TO CREATE
-                                                                                       A CSS FOR THIS HTML DOC-->
+    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/description.css" %}">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-     <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
 </head>
 
 <body>
@@ -49,7 +49,7 @@
     <section class="header-empty">
     </section>
     <section class="page-title">
-        Welcome to Movie Explorer!
+        {{results.title}}&nbsp;({{results.release_date}}, {{results.runtime}} mins)
     </section>
 
     <!-- Section used for displaying 'More Description' results -->
@@ -58,7 +58,7 @@
          <section class="errors">
             <div id="movies-error">
                 OOPS...<br>
-                Failed to retrieve data try again!
+                Failed to retrieve data. Try again!
             </div>
         </section>
         {% elif status == 'databaseError' %}
@@ -69,42 +69,46 @@
             </div>
         {% else %}
             <section class="displaying-movie-description">
-                <p style="color:white;">{{results.title}}</p>
-                 <div>
-                        <img src="{{image_path}}{{results.poster_path}}"}}>
-                 </div>
-                <p style="color:white;">Tagline: {{results.tagline}}</p> <!--This is the tagline!-->
-                <p style="color:white;">Overview: {{results.overview}}</p>
-                <p style="color:white;">Release Date: {{results.release_date}}</p>
-                <p style="color:white;">{{results.genre}}</p>
-                <p style="color:white;">Runtime: {{results.runtime}} mins</p>
+                <table id="movie-view">
+                    <tr>
+                        <td>
+                            <img src="{{image_path}}{{results.poster_path}}"}} onerror="this.src='{% static "img/no_image_available_big.png" %}';">
+                        </td>
+                        <td>
+                            {% if user.is_authenticated %}
+                            <form method="POST" action="/myratings/" onclick="submit();">
+                                <div>
+                                {% csrf_token %}
+                                <input type="button" value="My Movie Ratings">
+                                </div>
+                            </form>
+                                <div class="star">
+                                  <form method="POST" action="/rated/">
+                                      {% csrf_token %}
+                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" onchange="this.form.submit();" {% if current_rating == '5' %} checked{% endif %}/>
+                                    <label class="star star-5" for="star-5"></label>
+                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" onchange="this.form.submit();" {% if current_rating == '4' %} checked{% endif %}/>
+                                    <label class="star star-4" for="star-4"></label>
+                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" onchange="this.form.submit();"{% if current_rating == '3' %} checked{% endif %}/>
+                                    <label class="star star-3" for="star-3"></label>
+                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" onchange="this.form.submit();"{% if current_rating == '2' %} checked{% endif %}/>
+                                    <label class="star star-2" for="star-2"></label>
+                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" onchange="this.form.submit();"{% if current_rating == '1' %} checked{% endif %}/>
+                                    <label class="star star-1" for="star-1"></label>
+                                      <input type="hidden" value={{results.id}} name="id_movie"}>
+                                  </form>
+                                </div><br><br>
+                                <!--<p style="color:white;">Your current rating: {{ current_rating }}</p>-->
+                            {% endif %}
+                            <span class="tagline">{{results.tagline}}</span><br><br><br>
+                            <span class="overview">
+                                {{results.overview}}
+                            </span><br><br>
+                            <p style="color:white;">{{results.genre}}Genres: {% for name in genre %} {{ name }} {% endfor %}</p>
 
-                {% for name in genre %}
-                    <div>
-                        <p style="color:white;">Genres: {{name}}</p>
-                    </div>
-                {% endfor %}
-
-                {% if user.is_authenticated %}
-                    <div class="star">
-                      <form method="POST" action="/rated/">
-                          {% csrf_token %}
-                        <input class="star star-5" id="star-5" type="radio" name="star" value="5" onchange="this.form.submit();" {% if current_rating == '5' %} checked{% endif %}/>
-                        <label class="star star-5" for="star-5"></label>
-                        <input class="star star-4" id="star-4" type="radio" name="star" value="4" onchange="this.form.submit();" {% if current_rating == '4' %} checked{% endif %}/>
-                        <label class="star star-4" for="star-4"></label>
-                        <input class="star star-3" id="star-3" type="radio" name="star" value="3" onchange="this.form.submit();"{% if current_rating == '3' %} checked{% endif %}/>
-                        <label class="star star-3" for="star-3"></label>
-                        <input class="star star-2" id="star-2" type="radio" name="star" value="2" onchange="this.form.submit();"{% if current_rating == '2' %} checked{% endif %}/>
-                        <label class="star star-2" for="star-2"></label>
-                        <input class="star star-1" id="star-1" type="radio" name="star" value="1" onchange="this.form.submit();"{% if current_rating == '1' %} checked{% endif %}/>
-                        <label class="star star-1" for="star-1"></label>
-                          <input type="hidden" value={{results.id}} name="id_movie"}>
-                          <!--<input type="checkbox" name="movieID" value=-->
-                      </form>
-                    </div>
-                    <p style="color:white;">Your current rating: {{ current_rating }}</p>
-                {% endif %}
+                        </td>
+                    </tr>
+                </table>
             </section>
         {% endif %}
     {% endblock %}

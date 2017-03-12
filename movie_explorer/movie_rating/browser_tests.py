@@ -1110,8 +1110,8 @@ class ChromeTest(unittest.TestCase):
         self.take_screen_shot('test_st9_3')
 
     def test_st10_1(self):
-    	print ("starting tc10_1...")
-    	print ()
+    	# print ("starting tc10_1...")
+    	# print ()
         """
         Test login and display rated movies history
         Not tested on each page because top banner is independent of page
@@ -1139,8 +1139,8 @@ class ChromeTest(unittest.TestCase):
         # Pauses the screen so we have time to confirm it arrived at the right page
         time.sleep(WAIT_TIME)
 
-        print ("trying to login...")
-        print ()
+        # print ("trying to login...")
+        # print ()
         # Input username
         try:
             search_box = self.driver.find_element_by_name('username')
@@ -1163,40 +1163,40 @@ class ChromeTest(unittest.TestCase):
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
-        print ("finding My Rating button...") 
-        print () 
+        # print ("finding My Rating button...")
+        # print ()
         try:
             my_movies =  self.driver.find_element_by_css_selector("input[value=\"My Movie Ratings\"]")
             my_movies.click()
         except NoSuchElementException:
             raise  Exception('Cannot find Element My Movies Button')
-        print ("finding the movie Logan...")
-        print ()
+        # print ("finding the movie Logan...")
+        # print ()
         time.sleep(WAIT_TIME)
         self.assertTrue(self.driver.find_element_by_css_selector('[class="Logan"]'))
         time.sleep(WAIT_TIME)
-        print ("finding the the star...")
-        print ()
+        # print ("finding the the star...")
+        # print ()
         time.sleep(WAIT_TIME)
         self.assertTrue(self.driver.find_element_by_css_selector('[src="2_stars.png"]'))
         time.sleep(WAIT_TIME)
 
-    	print ("movie and stars verified!")
-        print ()
+        # print ("movie and stars verified!")
+        # print ()
 
-        elf.take_screen_shot('test_st10_1')
+        self.take_screen_shot('test_st10_1')
 
     def test_st10_2(self):
 
-    	print ("starting tc10_2")
-    	print ()
+    	# print ("starting tc10_2")
+    	# print ()
         """
         Test display empty rating history page
         Not tested on each page because top banner is independent of page
         :return: None
         """
-        print ("registering a non-rating account...")
-        print ()
+        # print ("registering a non-rating account...")
+        # print ()
         self.driver.get(os.path.join(self.base_url, 'register'))
         # Pauses the screen so we have time to confirm it arrived at the right page
         time.sleep(WAIT_TIME)
@@ -1240,8 +1240,8 @@ class ChromeTest(unittest.TestCase):
         # Pauses the screen so we have time to confirm that we arrived at the right page
         time.sleep(WAIT_TIME)
 
-        print ("trying to login...")
-        print ()
+        # print ("trying to login...")
+        # print ()
         # Verify login button is there and log in
         try:
             log_in =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
@@ -1283,16 +1283,16 @@ class ChromeTest(unittest.TestCase):
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
         
-        print ("finding My Rating button...") 
-        print ()
+        # print ("finding My Rating button...")
+        # print ()
         try:
             my_movies =  self.driver.find_element_by_css_selector("input[value=\"My Movie Ratings\"]")
             my_movies.click()
         except NoSuchElementException:
             raise  Exception('Cannot find Element My Movies Button')
 
-        print ("no movie rated confirmed!") 
-        print ()
+        # print ("no movie rated confirmed!")
+        # print ()
 
         self.take_screen_shot('test_st10_2')
 

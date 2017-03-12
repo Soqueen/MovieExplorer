@@ -345,25 +345,24 @@ def rate(request):
 
 def viewRatings(request):
     context = {}
-    test=[]
+    myratings = []
     if request.method == 'POST':
         response = dict(
             errors=list(),
         )
+        tmdb.API_KEY = settings.TMDB_API_KEY
 
         if request.user.is_authenticated:
-            # context['status'] = 'failure'
-            # myratings = MovieRatings.objects.values('movie_id', 'rating')
 
-            myratings = MovieRatings.objects.filter( user = request.user )
+            data_entries = MovieRatings.objects.filter( user = request.user )
 
-            for entry in myratings:
-                test.insert(0, (entry.movie_id, entry.rating))
-
+            for entry in data_entries:
+                movie_title = tmdb.Movies(int(entry.movie_id)).info().get('title')
+                myratings.insert(0, (movie_title, entry.rating))
             try:
 
                 context['status'] = 'success'
-                context['results'] = test
+                context['results'] = myratings
 
             except MovieRatings.DoesNotExist:
                 context['status'] = 'failure'

@@ -68,6 +68,14 @@
         </section>
         {% else %}
             <section class="playing-movies">
+                {% if user.is_authenticated %}
+                            <form method="POST" action="/myratings/" onclick="submit();">
+                                <div>
+                                {% csrf_token %}
+                                <input type="button" value="My Movie Ratings">
+                                </div>
+                            </form>
+                 {% endif %}
                 <div class="prev" onclick="prev();">
                     <
                 </div>

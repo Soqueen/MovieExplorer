@@ -134,6 +134,14 @@
         </section>
         {% else %}
             <section class="page-section">
+                {% if user.is_authenticated %}
+                            <form method="POST" action="/myratings/" onclick="submit();">
+                                <div>
+                                {% csrf_token %}
+                                <input type="button" value="My Movie Ratings">
+                                </div>
+                            </form>
+                 {% endif %}
                 {% if page_type == 'search_page' %}
                     Search Results for: <span id="search-result">{{search}}</span><br><br>
                      <!-- Next and Previous Page-->

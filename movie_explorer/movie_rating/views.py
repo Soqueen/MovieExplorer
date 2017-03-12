@@ -357,8 +357,10 @@ def viewRatings(request):
             data_entries = MovieRatings.objects.filter( user = request.user )
 
             for entry in data_entries:
-                movie_title = tmdb.Movies(int(entry.movie_id)).info().get('title')
-                myratings.insert(0, (movie_title, entry.rating))
+                movie = tmdb.Movies(int(entry.movie_id))
+                config = tmdb.Configuration().info()
+                POSTER_SIZE = 1
+                myratings.insert(0, (movie.info(), entry.rating, config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]))
             try:
 
                 context['status'] = 'success'

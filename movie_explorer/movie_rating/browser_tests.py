@@ -854,11 +854,136 @@ class ChromeTest(unittest.TestCase):
 
         time.sleep(WAIT_TIME)
 
-        assert "description" in self.driver.page_source
+        self.assertTrue(self.driver.find_element_by_css_selector('[class="displaying-movie-description"]'))
 
         # Take a screen shot of the results. Make sure to put your image test name.
 
         self.take_screen_shot('test_st8_1') 
+
+    def test_st8_2(self):
+        #Test to open movie description from homepage by clicking the movie image.
+        #:return: None
+
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            search_area = self.driver.find_element_by_name('search')
+            # search_area.clear()
+            search_area.send_keys("Batman Begins")
+        except NoSuchElementException:
+            raise Exception('Cannot find Element search')
+
+        #Press search button
+        search_area.submit()
+
+        #Pauses the screen so we have time to confirm we have the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            movie_image = self.driver.find_element_by_name("id_movie")
+        
+        except NoSuchElementException:
+            raise Exception('Cannot find Element movie_image')
+
+        movie_image.submit()
+
+        time.sleep(WAIT_TIME)
+
+        self.assertTrue(self.driver.find_element_by_css_selector('[class="displaying-movie-description"]'))
+
+        # Take a screen shot of the results. Make sure to put your image test name.
+
+        self.take_screen_shot('test_st8_2') 
+
+
+    def test_st8_3(self):
+        """
+        Test to open movie description after filter
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            # TODO the name of genre class may change
+            sort_select = self.driver.find_element_by_name(FILTER_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(FILTER_OPTION_TAG):
+                if option.text == 'Action':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        try:
+            movie_image = self.driver.find_element_by_name("id_movie")
+        
+        except NoSuchElementException:
+            raise Exception('Cannot find Element movie_image')
+
+        movie_image.submit()
+
+        time.sleep(WAIT_TIME)
+
+        self.assertTrue(self.driver.find_element_by_css_selector('[class="displaying-movie-description"]'))
+
+        # Take a screen shot of the results. Make sure to put your image test name.
+
+        self.take_screen_shot('test_st8_3')
+
+
+    def test_st8_4(self):
+        #Test to open movie description from homepage after filtering
+        #:return: None
+
+        
+        """
+        Filtering genre on page 1
+        Page number testing needs to be added to the test
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Sort select option
+        try:
+            sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
+            for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
+                if option.text == 'Oldest Release':
+                    option.click()
+                    break
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        try:
+            movie_image = self.driver.find_element_by_name("id_movie")
+        
+        except NoSuchElementException:
+            raise Exception('Cannot find Element movie_image')
+
+        movie_image.submit()
+
+        time.sleep(WAIT_TIME)
+
+        self.assertTrue(self.driver.find_element_by_css_selector('[class="displaying-movie-description"]'))
+
+        # Take a screen shot of the results. Make sure to put your image test name.
+
+        self.take_screen_shot('test_st8_4')
 
 
     def test_st9_1(self):
@@ -919,6 +1044,8 @@ class ChromeTest(unittest.TestCase):
         star.click()
 
         time.sleep(WAIT_TIME)
+
+        self.assertTrue(self.driver.find_element_by_css_selector('[id="star-5"][checked]'))
 
         # Take a screen shot of the results. Make sure to put your image test name.
 
@@ -983,6 +1110,8 @@ class ChromeTest(unittest.TestCase):
         star.click()
 
         time.sleep(WAIT_TIME)
+
+        self.assertTrue(self.driver.find_element_by_css_selector('[id="star-2"][checked]'))
 
         # Take a screen shot of the results. Make sure to put your image test name.
 

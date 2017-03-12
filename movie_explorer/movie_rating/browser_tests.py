@@ -1052,7 +1052,7 @@ class ChromeTest(unittest.TestCase):
         self.take_screen_shot('test_st9_1') 
 
 
-    def test_st9_4(self):
+    def test_st9_2(self):
         """ Test to open movie description from homepage by clicking the movie image. :return: None """
 
         self.driver.get(os.path.join(self.base_url, 'login'))
@@ -1118,7 +1118,7 @@ class ChromeTest(unittest.TestCase):
         self.take_screen_shot('test_st9_4') 
 
 
-    def test_st9_7(self):
+    def test_st9_3(self):
         """ Test to make sure there's no stars when you are not logged in; return: None """
 
         

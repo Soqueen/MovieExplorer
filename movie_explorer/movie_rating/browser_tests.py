@@ -615,7 +615,7 @@ class ChromeTest(unittest.TestCase):
         nextpage = self.driver.find_element_by_css_selector('[name="next_page"]')
         nextpage.click()
         time.sleep(WAIT_TIME)
-        self.assertTrue(self.driver.find_element_by_css_selector('[name="Previous_page"]'))
+        self.assertTrue(self.driver.find_element_by_css_selector('[name="prev_page"]'))
         time.sleep(WAIT_TIME)
         # Take a screen shot of the results
         self.take_screen_shot('test_st6_2')

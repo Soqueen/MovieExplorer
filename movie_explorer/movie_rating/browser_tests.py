@@ -911,16 +911,82 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         try:
-            star = self.driver.find_element_by_id('star-2')
+            star = self.driver.find_element_by_css_selector('[for="star-5"]');
         
         except NoSuchElementException:
             raise Exception('Cannot find Element star')
 
-        star.submit();
+        star.click()
+
+        time.sleep(WAIT_TIME)
 
         # Take a screen shot of the results. Make sure to put your image test name.
 
         self.take_screen_shot('test_st9_1') 
+
+
+    def test_st9_4(self):
+        """ Test to open movie description from homepage by clicking the movie image. :return: None """
+
+        self.driver.get(os.path.join(self.base_url, 'login'))
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Input username
+        try:
+            search_box = self.driver.find_element_by_name('username')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Input Password
+        try:
+            search_box = self.driver.find_element_by_name('password')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Submit the search box form
+        search_box.submit()
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+
+        self.driver.get(self.base_url)
+
+        # Pauses the screen so we have time to confirm that we arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        try:
+            movie_image = self.driver.find_element_by_name("id_movie")
+        
+        except NoSuchElementException:
+            raise Exception('Cannot find Element movie_image')
+
+        movie_image.submit()
+
+        time.sleep(WAIT_TIME)
+
+        assert "description" in self.driver.page_source
+
+        time.sleep(WAIT_TIME)
+
+        try:
+            star = self.driver.find_element_by_css_selector('[for="star-2"]');
+        
+        except NoSuchElementException:
+            raise Exception('Cannot find Element star')
+
+        star.click()
+
+        time.sleep(WAIT_TIME)
+
+        # Take a screen shot of the results. Make sure to put your image test name.
+
+        self.take_screen_shot('test_st9_4') 
 
 
     def test_st9_7(self):

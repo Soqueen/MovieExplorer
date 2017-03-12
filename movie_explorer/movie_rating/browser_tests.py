@@ -163,7 +163,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
         #
         # # Make sure the results page returned something
-        assert "Search Results for: Batman Begins" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">Batman Begins</span>" in self.driver.page_source
         try:
             found = self.driver.find_element_by_name('next_page')
         except NoSuchElementException:
@@ -204,7 +204,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Search Results for: Batman" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">Batman</span>" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
@@ -262,7 +262,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Search Results for: 树" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">树</span>" in self.driver.page_source
 
         # Another pause so we can see what's going on
         time.sleep(WAIT_TIME)
@@ -325,7 +325,7 @@ class ChromeTest(unittest.TestCase):
         time.sleep(WAIT_TIME)
 
         # Make sure the results page returned something
-        assert "Search Results for: Batman" in self.driver.page_source
+        assert "Search Results for: <span id=\"search-result\">Batman</span>" in self.driver.page_source
         assert "Current Page: 1" in self.driver.page_source # make sure the correct page is shown
 
         # Another pause so we can see what's going on
@@ -668,7 +668,7 @@ class ChromeTest(unittest.TestCase):
             # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-                if option.text == 'Release Date Ascending':
+                if option.text == 'Oldest Release':
                     option.click()
                     break
         except NoSuchElementException:
@@ -708,7 +708,7 @@ class ChromeTest(unittest.TestCase):
             # TODO the find may change
             sort_select = self.driver.find_element_by_name(SORT_BOX_TAG)
             for option in sort_select.find_elements_by_tag_name(SORT_OPTION_TAG):
-                if option.text == 'Release Date Descending':
+                if option.text == 'Most Recent':
                     option.click()
                     break
         except NoSuchElementException:
@@ -723,11 +723,11 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st6_5')
 
-    def test_st6_6(self):
-        """
+    """def test_st6_6(self):
+        -----
         Test to Sort the movies by Popularity order after filtering by genre.
         :return: None
-        """
+        -----
         self.driver.get(self.base_url)
         # Pauses the screen so we have time to confirm that we arrived at the right page
         time.sleep(WAIT_TIME)
@@ -752,6 +752,7 @@ class ChromeTest(unittest.TestCase):
 
             # Take a screen shot of the results
             self.take_screen_shot('test_st6_6')
+        """
 
     def test_st7_1and2(self):
         """
@@ -1161,6 +1162,125 @@ class ChromeTest(unittest.TestCase):
         # Take a screen shot of the results
         self.take_screen_shot('test_st9_3')
 
+    def test_st10_1(self):
+        """
+        Test login from main page
+        Not tested on each page because top banner is independent of page
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm that we arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Verify login button is there and log in
+        try:
+            log_in =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
+            log_in.click()
+        except NoSuchElementException:
+            raise  Exception('Cannot find Element Log in')
+
+        # try:
+        #     log_in = self.driver.find_element_by_name('log in')
+        #     log_in.click()
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log in')
+
+        # Using login steps based off of ST2
+        # self.driver.get(os.path.join(self.base_url, 'login'))
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Input username
+        try:
+            search_box = self.driver.find_element_by_name('username')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Input Password
+        try:
+            search_box = self.driver.find_element_by_name('password')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Submit the search box form
+        search_box.submit()
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+         
+        try:
+            my_movies =  self.driver.find_element_by_css_selector("input[value=\"My Movie Ratings\"]")
+            my_movies.click()
+        except NoSuchElementException:
+            raise  Exception('Cannot find Element My Movies Button')
+
+
+        self.take_screen_shot('test_st10_1')
+    
+    def test_st10_2():
+        """
+        Test login from main page
+        Not tested on each page because top banner is independent of page
+        :return: None
+        """
+        self.driver.get(self.base_url)
+        # Pauses the screen so we have time to confirm that we arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Verify login button is there and log in
+        try:
+            log_in =  self.driver.find_element_by_css_selector("input[type=\"button\"]")
+            log_in.click()
+        except NoSuchElementException:
+            raise  Exception('Cannot find Element Log in')
+
+        # try:
+        #     log_in = self.driver.find_element_by_name('log in')
+        #     log_in.click()
+        # except NoSuchElementException:
+        #     raise Exception('Cannot find Element Log in')
+
+        # Using login steps based off of ST2
+        # self.driver.get(os.path.join(self.base_url, 'login'))
+        # Pauses the screen so we have time to confirm it arrived at the right page
+        time.sleep(WAIT_TIME)
+
+        # Input username
+        try:
+            search_box = self.driver.find_element_by_name('username')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Input Password
+        try:
+            search_box = self.driver.find_element_by_name('password')
+            search_box.send_keys('heng')
+        except NoSuchElementException:
+            raise Exception('Cannot find Element name')
+
+        # Make sure the results page returned something
+        assert "No results found." not in self.driver.page_source
+
+        # Submit the search box form
+        search_box.submit()
+
+        # Another pause so we can see what's going on
+        time.sleep(WAIT_TIME)
+         
+        try:
+            my_movies =  self.driver.find_element_by_css_selector("input[value=\"My Movie Ratings\"]")
+            my_movies.click()
+        except NoSuchElementException:
+            raise  Exception('Cannot find Element My Movies Button')
+
+
+        self.take_screen_shot('test_st10_2')
 
     def take_screen_shot(self, test_name):
         """

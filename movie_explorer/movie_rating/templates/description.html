@@ -6,7 +6,7 @@
 
   <title>The Movie Explorer </title>
   <meta name="description" content="The Movie Explorer">
-  <meta name="author" content="Vivak Patel">
+  <meta name="author" content="Vivak Patel, Joanna Halpern, Arthur Geneau">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/description.css" %}">
@@ -23,6 +23,12 @@
                 <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
+                <form method="POST" id="myratings-form" action="/myratings/" onclick="submit();">
+                    <div>
+                        {% csrf_token %}
+                        <input type="button" name="my-ratings" value="My Movie Ratings">
+                    </div>
+                </form>
                 <div class="header-input-div">
                     <a href="{% url 'logout' %}">
                         <input type="button" value="log out">
@@ -76,12 +82,6 @@
                         </td>
                         <td>
                             {% if user.is_authenticated %}
-                            <form method="POST" action="/myratings/" onclick="submit();">
-                                <div>
-                                {% csrf_token %}
-                                <input type="button" value="My Movie Ratings">
-                                </div>
-                            </form>
                                 <div class="star">
                                   <form method="POST" action="/rated/">
                                       {% csrf_token %}
@@ -98,7 +98,6 @@
                                       <input type="hidden" value={{results.id}} name="id_movie"}>
                                   </form>
                                 </div><br><br>
-                                <!--<p style="color:white;">Your current rating: {{ current_rating }}</p>-->
                             {% endif %}
                             <span class="tagline">{{results.tagline}}</span><br><br><br>
                             <span class="overview">

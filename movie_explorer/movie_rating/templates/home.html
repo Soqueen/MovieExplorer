@@ -6,7 +6,7 @@
 
   <title>The Movie Explorer </title>
   <meta name="description" content="The Movie Explorer">
-  <meta name="author" content="Felix Dube">
+  <meta name="author" content="Felix Dube, Arthur Geneau">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
     <script src="{% static "js/search.js" %}"></script>
@@ -21,12 +21,16 @@
                 <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
+                <form method="POST" id="myratings-form" action="/myratings/" onclick="submit();">
+                    <div>
+                        {% csrf_token %}
+                        <input type="button" name="my-ratings" value="My Movie Ratings">
+                    </div>
+                </form>
                 <div class="header-input-div">
                     <a href="{% url 'logout' %}">
                         <input type="button" value="log out">
                     </a>
-                    <div class="input-dialog">
-                    </div>
                 </div >
             {% else %}
                 <div class="header-input-div">
@@ -134,14 +138,6 @@
         </section>
         {% else %}
             <section class="page-section">
-                {% if user.is_authenticated %}
-                            <form method="POST" action="/myratings/" onclick="submit();">
-                                <div>
-                                {% csrf_token %}
-                                <input type="button" value="My Movie Ratings">
-                                </div>
-                            </form>
-                 {% endif %}
                 {% if page_type == 'search_page' %}
                     Search Results for: <span id="search-result">{{search}}</span><br><br>
                      <!-- Next and Previous Page-->

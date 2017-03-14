@@ -90,6 +90,12 @@
                             <img src="{{image_path}}{{results.poster_path}}"}} onerror="this.src='{% static "img/no_image_available_big.png" %}';">
                         </td>
                         <td>
+                            <span class="tagline">{{results.tagline}}</span><br><br><br>
+                            <span class="overview">
+                                {{results.overview}}
+                            </span><br><br>
+                            <p style="color:white;">{{results.genre}}Genres: {% for name in genre %} {{ name }} {% endfor %}</p>
+
                             {% if user.is_authenticated %}
                                 <div class="star">
                                   <form method="POST" action="/rated/">
@@ -108,12 +114,7 @@
                                   </form>
                                 </div><br><br>
                             {% endif %}
-                            <span class="tagline">{{results.tagline}}</span><br><br><br>
-                            <span class="overview">
-                                {{results.overview}}
-                            </span><br><br>
-                            <p style="color:white;">{{results.genre}}Genres: {% for name in genre %} {{ name }} {% endfor %}</p>
-
+                            
                         </td>
                     </tr>
                 </table>

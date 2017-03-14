@@ -23,6 +23,11 @@
                 <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
+                <div class="header-input-div">
+                <a href="{% url 'home' %}">
+                    <input type="button" name="home" value="home">
+                </a>
+                </div>
                 <form method="POST" id="myratings-form" action="/myratings/" onclick="submit();">
                     <div>
                         {% csrf_token %}
@@ -37,6 +42,11 @@
                     </div>
                 </div >
             {% else %}
+                <div class="header-input-div">
+                <a href="{% url 'home' %}">
+                    <input type="button" name="home" value="home">
+                </a>
+                </div>
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
                         <input type="button" value="log in">
@@ -59,7 +69,6 @@
     </section>
 
     <!-- Section used for displaying 'More Description' results -->
-    {% block content %}
         {% if status == 'failure' %}
          <section class="errors">
             <div id="movies-error">
@@ -110,6 +119,4 @@
                 </table>
             </section>
         {% endif %}
-    {% endblock %}
-
 </body>

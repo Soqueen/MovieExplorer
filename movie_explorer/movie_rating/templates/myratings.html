@@ -21,6 +21,11 @@
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
                 <div class="header-input-div">
+                <a href="{% url 'home' %}">
+                    <input type="button" name="home" value="home">
+                </a>
+                </div>
+                <div class="header-input-div">
                     <a href="{% url 'logout' %}">
                         <input type="button" name="logout" value="log out">
                     </a>
@@ -28,6 +33,11 @@
                     </div>
                 </div >
             {% else %}
+                <div class="header-input-div">
+                <a href="{% url 'home' %}">
+                    <input type="button" name="home" value="home">
+                </a>
+                </div>
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
                         <input type="button" name="login" value="log in">

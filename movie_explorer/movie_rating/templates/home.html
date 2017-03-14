@@ -21,6 +21,14 @@
                 <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
+                {% if page_type == 'search_page' %}
+                <div class="header-input-div">
+                <a href="{% url 'home' %}">
+                    <input type="button" name="home" value="home">
+                </a>
+                </div>
+                {% endif %}
+
                 <form method="POST" id="myratings-form" action="/myratings/" onclick="submit();">
                     <div>
                         {% csrf_token %}
@@ -33,6 +41,13 @@
                     </a>
                 </div >
             {% else %}
+              {% if page_type == 'search_page' %}
+                <div class="header-input-div">
+                <a href="{% url 'home' %}">
+                    <input type="button" name="home" value="home">
+                </a>
+                </div>
+              {% endif %}
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
                         <input type="button" value="log in">

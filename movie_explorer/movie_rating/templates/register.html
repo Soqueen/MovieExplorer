@@ -10,9 +10,9 @@
 {%if errors%}
     <div>
             {% for error in errors %}
-            <td style="color: red">
+            <td><font color="red">
                 {{ error }}
-            </td>
+            </font></td>
             {% endfor %}
     </div>
 {% elif success%}

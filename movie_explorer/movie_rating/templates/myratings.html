@@ -75,7 +75,10 @@
                         <table>
                             <tr>
                                 <td>
-                                    <img style="width: 50px;" src="{{ result.2 }}{{ result.0.poster_path }}">
+                                    <form id="return_description_img" method="POST" action="/description/" onclick="submit();">
+                                        {% csrf_token %}
+                                        <input type="hidden" value={{result.0.id}} name="id_movie"><img style="width: 50px;" src="{{ result.2 }}{{ result.0.poster_path }}">
+                                    </form>
                                 </td>
                                 <td style="width: 236px">
                                     <div class="rating-title">

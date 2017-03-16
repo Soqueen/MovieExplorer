@@ -15,6 +15,7 @@ from .models import MovieRatings
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 import requests
+from django.db.models import Avg
 
 # For UserModelEmailBackend
 from django.contrib.auth.hashers import check_password
@@ -273,6 +274,7 @@ def description(request):
             context['status'] = 'success'
             context['results'] =  movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            context['rating'] = MovieRatings.objects.all().filter(movie_id = int(movieID)).aggregate(Avg('rating'))
             context['videos'] = movies.videos()
             # context['video_link'] = "https://www.youtube.com/watch?v=" + context['videos']['results'][0]['key']
             context['video_link'] = ""

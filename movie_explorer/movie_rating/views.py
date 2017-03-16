@@ -278,7 +278,7 @@ def description(request):
             context['video_link'] = ""
             for x in context['videos']['results']:
                 if x['type']=="Trailer":
-                    context['video_link'] = x['key']
+                    context['video_link'] = "https://www.youtube.com/watch?v=" + x['key']
                     break
             if context['video_link'] == "":
                 context['video_link'] = "No Trailer Found"

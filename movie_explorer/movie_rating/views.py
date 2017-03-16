@@ -25,7 +25,6 @@ from django.contrib.auth.backends import ModelBackend
 # Create your views here.
 class MovieView(TemplateView):
     tmdb.API_KEY = settings.TMDB_API_KEY
-    template_name = 'movie.html'  # SET TEMPLATE NAME
 
     def get_context_data(self, **kwargs):
         try:
@@ -138,7 +137,7 @@ class UserModelEmailBackend(ModelBackend):
 def search(request):
     
     # Set the page to search
-    context = {'page_type' : 'search_page'}
+    context = {'page_type': 'search_page'}
    
     """ Handle registration form """
     if request.method == 'POST':
@@ -356,7 +355,7 @@ def rate(request):
         raise Http404("No Movie Selected")
 
 def viewRatings(request):
-    context = {}
+    context = {'page_type': 'myrating_page'}
     myratings = []
     if request.method == 'POST':
         response = dict(

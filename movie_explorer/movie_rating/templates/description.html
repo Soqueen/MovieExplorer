@@ -1,69 +1,10 @@
-<!doctype html>
+{% extends 'base.html' %}
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{% block title %}Registration{% endblock %}
 
-  <title>The Movie Explorer </title>
-  <meta name="description" content="The Movie Explorer">
-  <meta name="author" content="Vivak Patel, Joanna Halpern, Arthur Geneau">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/description.css" %}">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
-</head>
-
-<body>
-<div id="background-div"></div>
-    <header>
-        <div class="header-container">
-            <img src="{% static "img/profile_white.png" %}">
-            {% if user.is_authenticated %}
-                <div class="user-profile">
-                    Welcome, <span class="user-name">{{ user.username }}</span>
-                </div>
-                <div class="header-input-div">
-                <a href="{% url 'home' %}">
-                    <input type="button" name="home" value="home">
-                </a>
-                </div>
-                <form method="POST" id="myratings-form" action="/myratings/" onclick="submit();">
-                    <div>
-                        {% csrf_token %}
-                        <input type="button" name="my-ratings" value="My Movie Ratings">
-                    </div>
-                </form>
-                <div class="header-input-div">
-                    <a href="{% url 'logout' %}">
-                        <input type="button" value="log out">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div >
-            {% else %}
-                <div class="header-input-div">
-                <a href="{% url 'home' %}">
-                    <input type="button" name="home" value="home">
-                </a>
-                </div>
-                <div class="header-input-div">
-                    <a href="{% url 'login' %}">
-                        <input type="button" value="log in">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div>
-            <div class="header-input-div">
-                <a href="{% url 'register' %}">
-                    <input type="button" value="sign up">
-                </a>
-            </div>
-            {% endif %}
-        </div>
-    </header>
-    <section class="header-empty">
-    </section>
+{% block content %}
+<!--You need this load static tag to make it work-->
+{% load static %}
     <section class="page-title">
         {{results.title}}&nbsp;({{results.release_date}}, {{results.runtime}} mins)
         Rating: {{rating.rating__avg}}
@@ -127,4 +68,4 @@
                 </table>
             </section>
         {% endif %}
-</body>
+{% endblock %}

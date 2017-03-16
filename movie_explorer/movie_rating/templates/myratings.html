@@ -1,66 +1,15 @@
-<!doctype html>
+{% extends 'base.html' %}
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{% block title %}Registration{% endblock %}
 
-  <title>The Movie Explorer </title>
-  <meta name="myratings" content="The Movie Explorer">
-  <meta name="author" content="ecse428 movie Explorer team">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
-</head>
-
-<body>
-    <div id="background-div"></div>
-    <header>
-        <div class="header-container">
-            <img src="{% static "img/profile_white.png" %}">
-            {% if user.is_authenticated %}
-                <div class="user-profile">
-                    Welcome, <span class="user-name">{{ user.username }}</span>
-                </div>
-                <div class="header-input-div">
-                <a href="{% url 'home' %}">
-                    <input type="button" name="home" value="home">
-                </a>
-                </div>
-                <div class="header-input-div">
-                    <a href="{% url 'logout' %}">
-                        <input type="button" name="logout" value="log out">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div >
-            {% else %}
-                <div class="header-input-div">
-                <a href="{% url 'home' %}">
-                    <input type="button" name="home" value="home">
-                </a>
-                </div>
-                <div class="header-input-div">
-                    <a href="{% url 'login' %}">
-                        <input type="button" name="login" value="log in">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div>
-            <div class="header-input-div">
-                <a href="{% url 'register' %}">
-                    <input type="button" name="signup" value="sign up">
-                </a>
-            </div>
-            {% endif %}
-        </div>
-    </header>
-    <section class="header-empty">
-    </section>
+{% block content %}
+<!--You need this load static tag to make it work-->
+{% load static %}
     <section class="page-title">
         My Ratings
     </section>
 
     <!-- Section used for displaying upcoming movies -->
-    {% block content %}
         {% if status == 'failure' %}
         <section class="errors">
             <div id="movies-error">
@@ -107,5 +56,3 @@
             </section>
         {% endif %}
     {% endblock %}
-
-</body>

@@ -344,6 +344,7 @@ def rate(request):
                     context['status'] = 'databaseError'
                 context['current_rating'] = str(rating)
 
+            context['rating'] = MovieRatings.objects.all().filter(movie_id = int(movieID)).aggregate(Avg('rating'))
             return render(request, 'description.html', context)
 
         except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:

@@ -81,8 +81,7 @@
                                     <div class="rating-title">
                                         <form id="return_description" method="POST" action="/description/" onclick="submit();">
                                             {% csrf_token %}
-                                            <input type="hidden" value={{result.0.id}} name="id_movie">
-                                            {{ result.0.title }}
+                                            <input type="hidden" value={{result.0.id}} name="id_movie">{{ result.0.title }}
                                         </form>
                                     </div>
                                     {% if result.1 == 5 %}

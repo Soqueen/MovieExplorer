@@ -273,7 +273,16 @@ def description(request):
             context['status'] = 'success'
             context['results'] =  movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-
+            context['videos'] = movies.videos()
+            # context['video_link'] = "https://www.youtube.com/watch?v=" + context['videos']['results'][0]['key']
+            context['video_link'] = ""
+            for x in context['videos']['results']:
+                if x['type']=="Trailer":
+                    context['video_link'] = x['key']
+                    break
+            if context['video_link'] == "":
+                context['video_link'] = "No Trailer Found"
+            # context['video_link'] = context['videos']['results']
             context['genre'] = []
             for x in context['results']['genres']:
                 context['genre'].append(x['name'])

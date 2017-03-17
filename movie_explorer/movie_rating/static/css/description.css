@@ -4,11 +4,17 @@ table#movie-view {
 }
 
 table#movie-view td {
-    padding: 75px;
+    padding: 55px;
     color: rgba(255,255,255,1);
     font-size: 20px;
     text-align: center;
     vertical-align: top;
+}
+
+table#movie-view td > img {
+    width:370px;
+    height:650px;
+    display: inline-block;
 }
 
 table#movie-view td > span.tagline {
@@ -25,22 +31,34 @@ section.displaying-movie-description {
     box-shadow: 0px 0px 10px 0px rgba(255,255,255,1);
 }
 
-table#movie-view td > div.trailer > a > input{
+table#movie-view td > div > table#containerS3 td > a > input{
+    width:6em;
+    height:6em;
+}
+
+table#movie-view td > div > table#containerS3 td > img{
     width:4em;
     height:4em;
 }
 
-table#movie-view td > div.trailer > img{
-    width:4em;
-    height:4em;
+table#movie-view td > div > table#containerS3{
+    width: 470px;
+    display: inline-block;
 }
 
-table#movie-view td > div.trailer > p#label_play_trailer{
+table#movie-view td > div> table#containerS3 td> p#label_play_trailer{
+    font-size: 22px;
     font-style: italic;
     color: rgba(140, 127, 114,1);
-
 }
-table#movie-view td > div.average_rate > img{
-    width:3em;
-    height:3em;
+
+table#movie-view td > div> table#containerS3 td> p > span#average_rate{
+    font-size: 25px;
+    font-weight: bold;
+    color: rgba(140, 127, 114,1);
+}
+
+table#movie-view td > div> table#containerS3 td> p > span#max_star{
+    font-size: 18px;
+    color: rgba(140, 127, 114,1);
 }

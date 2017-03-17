@@ -31,23 +31,30 @@
                             <img src="{{image_path}}{{results.poster_path}}"}} onerror="this.src='{% static "img/no_image_available_big.png" %}';">
                         </td>
                         <td>
-                            <!--<div class="average_rate">-->
-                                <!--<img src="{% static "img/average_star.png" %}">-->
-                                <!--<label>{{rating.rating__avg}}</label>-->
-                            <!--</div>-->
-                            <div class="trailer">
-                                {% if video_link == 'No Trailer Found'%}
-                                    <img src="{% static "img/no_trailer_button.png" %}">
-                                    <p id="label_play_trailer">No Trailer Found</p>
-                                {% else %}
-                                    <a href={{video_link}}>
-                                        <input type="image" name="Trailer_button"  src="{% static "img/play_trailer_button.png" %}">
-                                    </a>
-                                    <p id="label_play_trailer">Play Trailer</p>
-                                {% endif %}
+                            <div>
+                                <table id="containerS3">
+                                    <tr>
+                                        <td>
+                                            <img src="{% static "img/average_star.png" %}">
+                                            <p>
+                                                <span id="average_rate">{{rating.rating__avg}}/</span>
+                                                <span id="max_star">5.0</span>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            {% if video_link == 'No Trailer Found'%}
+                                                <img src="{% static "img/no_trailer_button.png" %}">
+                                                <p id="label_play_trailer">No Trailer Found</p>
+                                            {% else %}
+                                                <a href={{video_link}}>
+                                                    <input type="image" name="Trailer_button" src="{% static "img/play_trailer_button.png" %}">
+                                                </a>
+                                                <p id="label_play_trailer">Play Trailer</p>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <br>
-                            <!--<div class="trailer_content">{{video_link}}</div>-->
                             <span class="tagline">{{results.tagline}}</span><br><br><br>
                             <span class="overview">
                                 {{results.overview}}
@@ -67,8 +74,7 @@
                                     <input class="star star-2" id="star-2" type="radio" name="star" value="2" onchange="this.form.submit();"{% if current_rating == '2' %} checked{% endif %}/>
                                     <label class="star star-2" for="star-2"></label>
                                     <input class="star star-1" id="star-1" type="radio" name="star" value="1" onchange="this.form.submit();"{% if current_rating == '1' %} checked{% endif %}/>
-                                    <label class="star star-1" for="star-1"></label>
-                                      <input type="hidden" value={{results.id}} name="id_movie"}>
+                                    <label class="star star-1" for="star-1"></label><input type="hidden" value={{results.id}} name="id_movie"}>
                                   </form>
                                 </div><br><br>
                             {% endif %}

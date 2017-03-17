@@ -361,6 +361,14 @@ def rate(request):
                 context['current_rating'] = str(rating)
 
             context['rating'] = MovieRatings.objects.all().filter(movie_id = int(movieID)).aggregate(Avg('rating'))
+
+            # Querie similar movies
+            similar_movies = movies.similar_movies(page=1)  # only show one page :(
+            if similar_movies['total_results'] == 0:
+                context['similar'] = None
+            else:
+                context['similar'] = similar_movies['results']
+
             return render(request, 'description.html', context)
 
         except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:

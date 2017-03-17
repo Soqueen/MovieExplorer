@@ -133,7 +133,6 @@ class UserModelEmailBackend(ModelBackend):
             # No user was found, return None - triggers default login failed
             return None
 
-
 def search(request):
     
     # Set the page to search
@@ -383,3 +382,69 @@ def viewRatings(request):
 
     else:
         raise Http404("No Movie Selected")
+
+def changePass(request):
+    """ Handle registration form """
+    if request.method == 'POST':
+        response = dict(
+            errors=list(),
+        )
+        oldPass = request.POST['oldPass']
+        newPass = request.POST['newPass']
+        confirmPass = request.POST['confirmPass']
+
+        #   Check if the fields are not empty
+        if not oldPass:
+            response['errors'].append(' Please fill in your old password.')
+        if not newPass:
+            response['errors'].append(' Please fill in your new password.')
+        if not confirmPass:
+            response['errors'].append(' Please confirm your password.')
+
+        # Check if old password is correct
+        if request.user.is_authenticated:
+            usersOldPass = request.user
+        # Check if new passwords are matched
+        if newPass != confirmPass:
+            response['errors'].append(' New Password and Confirm Password do not match.')
+
+        # Check if  username is unique
+        try:
+            user = User.objects.get(username=username)
+            response['errors'].append(' Username is already in use.')
+        except User.DoesNotExist:
+            pass
+
+        # Check if Email is unique
+        try:
+            user = User.objects.get(email=email)
+            response['errors'].append(' Email is already in use.')
+        except User.DoesNotExist:
+            pass
+
+        # Check if the Email is valid format
+        try:
+            validate_email(email)
+        except ValidationError:
+            response['errors'].append(' Email is not in correct format')
+
+        if response['errors']:
+            return render(request, 'register.html', response)
+        else:
+            # Store the new user into the database
+
+            # User.objects.create_user(username,
+            #                          email=email,
+            #                          password=password,
+            #                          last_name=last_name,
+            #                          first_name=first_name)
+
+            # Once you enable firstname and lastname fields, please remove bellowed object.
+            User.objects.create_user(username,
+                                     email=email,
+                                     password=password)
+            response['success'] = 'You are successfully registered to Movie Explorer!'
+            return render(request, 'register.html', response)
+
+    else:
+        return render(request, 'register.html')

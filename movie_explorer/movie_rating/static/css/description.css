@@ -28,11 +28,19 @@ section.displaying-movie-description {
 table#movie-view td > div.trailer > a > input{
     width:4em;
     height:4em;
+}
 
+table#movie-view td > div.trailer > img{
+    width:4em;
+    height:4em;
 }
 
 table#movie-view td > div.trailer > p#label_play_trailer{
     font-style: italic;
     color: rgba(140, 127, 114,1);
 
+}
+table#movie-view td > div.average_rate > img{
+    width:3em;
+    height:3em;
 }

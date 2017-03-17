@@ -273,6 +273,7 @@ def description(request):
             context['status'] = 'success'
             context['results'] =  movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            #get average rating from the DB
             context['rating'] = MovieRatings.objects.all().filter(movie_id = int(movieID)).aggregate(Avg('rating'))
             context['videos'] = movies.videos()
             # context['video_link'] = "https://www.youtube.com/watch?v=" + context['videos']['results'][0]['key']
@@ -299,7 +300,15 @@ def description(request):
                     rating = 0
                 context['current_rating'] = str(rating)
 
+            #Querie similar movies
+            similar_movies = movies.similar_movies(page =1 ) #only show one page :(
+            if similar_movies['total_results'] == 0:
+                context['similar'] = None
+            else :
+                context['similar'] = similar_movies['results']
+
             return render(request, 'description.html', context)
+
 
         except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
             context = {}

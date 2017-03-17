@@ -78,6 +78,19 @@
                                   </form>
                                 </div><br><br>
                             {% endif %}
+                        <section class=" similar-movies">
+                            {% for movie in similar %}
+                                <div class="hidden-movie">
+                                    <form method="POST" action="/description/" onclick="submit();">
+                                        <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';">
+                                        <span class="movie-title">{{movie.title}}</span>
+                                        {% csrf_token %}
+                                        <input type="hidden" value={{movie.id}} name="id_movie"}>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </section>
+
                             
                         </td>
                     </tr>

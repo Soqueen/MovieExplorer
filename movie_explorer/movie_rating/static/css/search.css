@@ -87,8 +87,9 @@ section.search-section {
 }
 
 section.search-section label {
-    color: rgba(255,255,255,1);
-    font-size: 20px;
+    color: rgba(192,192,192,1);
+    font-size: 30px;
+    font-weight: bold;
 }
 
 section.search-section select {
@@ -109,7 +110,7 @@ section.search-section select > option {
 
 div.label-container {
     display: inline-block;
-    width: 250px;
+    width: 300px;
 }
 
 section.search-section > form > input.search-bar {
@@ -202,7 +203,7 @@ form#optionsForm button {
     box-shadow: rgba(100,100,100,1);
     border-radius: 7px;
     background-color: rgba(255,255,255,0);
-    color: rgba(255,255,255,1);
+    color: rgba(100,150,240,0.7);
     font-size: 15px;
     font-style: italic;
     cursor: pointer;

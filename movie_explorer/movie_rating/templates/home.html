@@ -21,7 +21,7 @@
         {% if page_type != 'search_page' %}
             <br><br>
             <div class="label-container">
-                <label for="id_genre">Genre:</label>
+                <label for="id_genre">Genre:</label>&nbsp;&nbsp;
                 <select id="id_genre" form="optionsForm" name="genre" onchange="document.getElementById('optionsForm').submit();">
                     <option value=""{% if genre_selected == '' %}selected{% endif %}>All</option>
                     <option value="28"{% if genre_selected == '28' %}selected{% endif %}>Action</option>
@@ -46,21 +46,24 @@
                 </select>
             </div>
             <div class="label-container">
-                <label for="id_sort_by">Sort by:</label>
+                <label for="id_sort_by">Sort by:</label>&nbsp;&nbsp;
                 <select id="id_sort_by" form="optionsForm" name="sort_by" onchange="this.form.submit();">
                     <option value="popularity.desc"{% if sort_selected == 'popularity.desc' %}selected{% endif %}>Most Popular</option>
                     <option value="release_date.desc"{% if sort_selected == 'release_date.desc' %}selected{% endif %}>Most Recent</option>
                     <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Oldest Release</option>
                 </select>
             </div>
+
         </section>
             <!-- Next and Previous Page-->
             <form role="form" id="optionsForm" action="" method="post">
                 {% csrf_token %}
                 {% if page_num != '1' %}
                     <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous Page</button>
+                    &nbsp;&nbsp;&nbsp;
                 {% endif %}
-                Current Page: {{page_num}}
+                Current Page:&nbsp;{{page_num}}
+                &nbsp;&nbsp;&nbsp;
                 {% if last_page == 'false' %}
                     <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
                 {% endif %}

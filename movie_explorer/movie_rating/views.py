@@ -384,67 +384,43 @@ def viewRatings(request):
         raise Http404("No Movie Selected")
 
 def changePass(request):
-    """ Handle registration form """
-    if request.method == 'POST':
-        response = dict(
-            errors=list(),
-        )
-        oldPass = request.POST['oldPass']
-        newPass = request.POST['newPass']
-        confirmPass = request.POST['confirmPass']
+    if request.user.is_authenticated:
+        """ Handle change password form """
+        if request.method == 'POST':
+            response = dict(
+                errors=list(),
+            )
+            oldPass = request.POST['oldPass']
+            newPass = request.POST['newPass']
+            confirmPass = request.POST['confirmPass']
 
-        #   Check if the fields are not empty
-        if not oldPass:
-            response['errors'].append(' Please fill in your old password.')
-        if not newPass:
-            response['errors'].append(' Please fill in your new password.')
-        if not confirmPass:
-            response['errors'].append(' Please confirm your password.')
+            #   Check if the fields are not empty
+            if not oldPass:
+                response['errors'].append(' Please fill in your old password.')
+            if not newPass:
+                response['errors'].append(' Please fill in your new password.')
+            if not confirmPass:
+                response['errors'].append(' Please confirm your password.')
 
-        # Check if old password is correct
-        if request.user.is_authenticated:
-            usersOldPass = request.user
-        # Check if new passwords are matched
-        if newPass != confirmPass:
-            response['errors'].append(' New Password and Confirm Password do not match.')
+            # Check if old password is correct
+            if not request.user.check_password(oldPass):
+                response['errors'].append(' Your password is incorrect. Try again.')
 
-        # Check if  username is unique
-        try:
-            user = User.objects.get(username=username)
-            response['errors'].append(' Username is already in use.')
-        except User.DoesNotExist:
-            pass
+            # Check if new passwords match
+            if newPass != confirmPass:
+                response['errors'].append(' New Password and Confirm Password do not match.')
 
-        # Check if Email is unique
-        try:
-            user = User.objects.get(email=email)
-            response['errors'].append(' Email is already in use.')
-        except User.DoesNotExist:
-            pass
+            if response['errors']:
+                return render(request, 'changePassword.html', response)
+            else:
+                # Set the new password
+                user = request.user
+                user.set_password(newPass)
+                user.save()
+                response['success'] = 'You password has been changed :)'
+                return render(request, 'changePassword.html', response)
 
-        # Check if the Email is valid format
-        try:
-            validate_email(email)
-        except ValidationError:
-            response['errors'].append(' Email is not in correct format')
-
-        if response['errors']:
-            return render(request, 'register.html', response)
         else:
-            # Store the new user into the database
-
-            # User.objects.create_user(username,
-            #                          email=email,
-            #                          password=password,
-            #                          last_name=last_name,
-            #                          first_name=first_name)
-
-            # Once you enable firstname and lastname fields, please remove bellowed object.
-            User.objects.create_user(username,
-                                     email=email,
-                                     password=password)
-            response['success'] = 'You are successfully registered to Movie Explorer!'
-            return render(request, 'register.html', response)
-
+            return render(request, 'changePassword.html')
     else:
-        return render(request, 'register.html')
+        return redirect('//')

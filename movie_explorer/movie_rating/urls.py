@@ -14,6 +14,5 @@ urlpatterns = [
     url(r'^description/', views.description, name='description'),
     url(r'^rated/', views.rate, name='rated'),
     url(r'^myratings/', views.viewRatings, name='myratings'),
-    url(r'^changepassword/', auth_views.password_change, {'template_name': 'changePasswordComplicated.html'}, name='password_change'),
-    url(r'^password-change-done/', auth_views.password_change_done, {'template_name': 'changePasswordDone.html'}, name='password_change_done'),
+    url(r'^changepassword/', views.changePass, name='changePassword'),
 ]

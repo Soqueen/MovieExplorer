@@ -35,7 +35,13 @@
                             {% if video_link == 'No Trailer Found'%}
                             <div class="trailer_miss"><p>No Trailer Found</p></div>
                             {% else %}
-                            <div class="trailer"><a href={{video_link}}><input type="button" name="Trailer_button" value="Trailer"></a></div><br>
+                            <div class="trailer">
+                                <a href={{video_link}}>
+                                    <input type="image" name="Trailer_button"  src="{% static "img/play_trailer_button.png" %}">
+                                </a>
+                                <p id="label_play_trailer">Play Trailer</p>
+                            </div>
+                            <br>
                             {% endif %}
                             <!--<div class="trailer_content">{{video_link}}</div>-->
                             <span class="tagline">{{results.tagline}}</span><br><br><br>

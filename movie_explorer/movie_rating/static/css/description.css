@@ -30,3 +30,9 @@ table#movie-view td > div.trailer > a > input{
     height:4em;
 
 }
+
+table#movie-view td > div.trailer > p#label_play_trailer{
+    font-style: italic;
+    color: rgba(140, 127, 114,1);
+
+}

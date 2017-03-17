@@ -328,6 +328,14 @@ def rate(request):
             context['status'] = 'success'
             context['results'] = movies.info()
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            context['videos'] = movies.videos()
+            context['video_link'] = ""
+            for x in context['videos']['results']:
+                if x['type']=="Trailer":
+                    context['video_link'] = "https://www.youtube.com/watch?v=" + x['key']
+                    break
+            if context['video_link'] == "":
+                context['video_link'] = "No Trailer Found"
 
             rating = request.POST.get('star', 0)
             if request.user.is_authenticated:

@@ -29,16 +29,21 @@ header > div.header-container {
     height: 100%;
 }
 
-header > div.header-container > img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 75px;
-}
-
 header > div.header-container > div.header-input-div {
     position: relative;
     display: inline-block;
+}
+
+header > div.header-container > a > input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 74px;
+    border: none;
+    border-radius: 40px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,1);
+    cursor: pointer;
+
 }
 
 header > div.header-container > div.header-input-div > a > input {
@@ -68,11 +73,12 @@ section.header-empty {
 }
 
 section.page-title {
+    font-family: Georgia;
     width: 100%;
     padding-top: 50px;
     padding-bottom: 25px;
     color: rgba(100,150,240,1);
-    font-size: 55px;
+    font-size: 50px;
     text-align: center;
 }
 
@@ -91,3 +97,4 @@ div.user-profile {
 span.user-name {
     font-weight: bold;
 }
+

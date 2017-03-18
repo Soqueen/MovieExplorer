@@ -25,6 +25,7 @@ from django.contrib.auth.backends import ModelBackend
 # Create your views here.
 class MovieView(TemplateView):
     tmdb.API_KEY = settings.TMDB_API_KEY
+    template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
         try:
@@ -42,6 +43,66 @@ class MovieView(TemplateView):
             print ("THE API IS WRONG")
             context["status"] = 'failure'
             return context
+
+class MovieDescriptionView(TemplateView):
+    tmdb.API_KEY = settings.TMDB_API_KEY
+    template_name = 'description.html'
+
+    def get_context_data (self, **kwargs):
+        movieID = self.kwargs['tmdb_movie_id']
+        context = {}
+        try:
+            current_user = self.request.user
+            movies = tmdb.Movies(int(movieID))
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 3
+
+            context['status'] = 'success'
+            context['results'] =  movies.info()
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            #Get average rating from the DB
+            context['rating'] = MovieRatings.objects.all().filter(movie_id = int(movieID)).aggregate(Avg('rating'))
+
+            context['videos'] = movies.videos()
+            # context['video_link'] = "https://www.youtube.com/watch?v=" + context['videos']['results'][0]['key']
+            context['video_link'] = ""
+            for x in context['videos']['results']:
+                if x['type']=="Trailer":
+                    context['video_link'] = "https://www.youtube.com/watch?v=" + x['key']
+                    break
+            if context['video_link'] == "":
+                context['video_link'] = "No Trailer Found"
+            # context['video_link'] = context['videos']['results']
+
+            context['genre'] = []
+            for x in context['results']['genres']:
+                context['genre'].append(x['name'])
+            # context['title'] = context['results']['original_title']
+
+            #Show stars
+            if current_user.is_authenticated:
+                try:
+                    m = MovieRatings.objects.get(user=current_user, movie_id=movies.id)
+                    rating = m.rating
+                except:
+                    rating = 0
+                context['current_rating'] = str(rating)
+
+            #Similar movies
+            similar_movies = movies.similar_movies(page =1 ) #only show one page :(
+            if similar_movies['total_results'] == 0:
+                context['similar'] = None
+            else :
+                context['similar'] = similar_movies['results']
+
+            return context
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+            context = {}
+            print ("THE API IS WRONG")
+            context["status"] = 'failure'
+            return context
+
 
 def register(request):
     """ Handle registration form """

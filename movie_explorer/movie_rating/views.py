@@ -394,7 +394,7 @@ def changePass(request):
             newPass = request.POST['newPass']
             confirmPass = request.POST['confirmPass']
 
-            #   Check if the fields are not empty
+            #   First check if the fields are not empty
             if not oldPass:
                 response['errors'].append(' Please fill in your old password.')
             if not newPass:
@@ -402,13 +402,21 @@ def changePass(request):
             if not confirmPass:
                 response['errors'].append(' Please confirm your password.')
 
-            # Check if old password is correct
+            # If any are empty, return errors immediately
+            if response['errors']:
+                return render(request, 'changePassword.html', response)
+
+            # Next, check if old password is correct
             if not request.user.check_password(oldPass):
                 response['errors'].append(' Your password is incorrect. Try again.')
 
             # Check if new passwords match
             if newPass != confirmPass:
                 response['errors'].append(' New Password and Confirm Password do not match.')
+
+            # Check if new password is different from old one
+            if oldPass == newPass:
+                response['errors'].append(' New Password is the same as Old Password')
 
             if response['errors']:
                 return render(request, 'changePassword.html', response)
@@ -418,6 +426,10 @@ def changePass(request):
                 user.set_password(newPass)
                 user.save()
                 response['success'] = 'You password has been changed :)'
+
+                # Log user back in (since this logged them out)
+                login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
+
                 return render(request, 'changePassword.html', response)
 
         else:

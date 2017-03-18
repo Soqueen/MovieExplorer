@@ -48,7 +48,11 @@
                                 <table id="containerS3">
                                     <tr>
                                         <td>
-                                            <img src="{% static "img/average_star.png" %}">
+                                            {% if rating.rating__avg < 3.0 %}
+                                                <img src="{% static "img/average_bad_star.png" %}">
+                                            {% else %}
+                                                <img src="{% static "img/average_good_star.png" %}">
+                                            {% endif %}
                                             <p>
                                                 <span id="average_rate">{{rating.rating__avg}}/</span>
                                                 <span id="max_star">5.0</span>

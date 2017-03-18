@@ -10,7 +10,15 @@
     <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/description.css" %}">
     <script src="{% static "js/search.js" %}"></script>
+    <script src="{% static "js/jquery-3.2.0.js" %}"></script>
+
+    {% block extra_head %}
+    {% endblock %}
+
 </head>
 <body>
     <div id="background-div"></div>

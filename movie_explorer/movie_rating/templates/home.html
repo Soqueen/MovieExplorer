@@ -114,11 +114,11 @@
             <section class="playing-movies">
                 {% for movie in results %}
                     <div class="hidden-movie">
-                        <form method="POST" action="/description/" onclick="submit();">
+                        <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
                             <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';">
                             <span class="movie-title">{{movie.title}}</span>
                             {% csrf_token %}
-                            <input type="hidden" value={{movie.id}} name="id_movie"}>
+                            <input type="hidden" value={{movie.id}} name="tmdb_movie_id"}>
                         </form>
                     </div>
                 {% endfor %}

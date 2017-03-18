@@ -1,0 +1,49 @@
+/**
+ * Created by aimee on 3/18/17.
+ */
+
+$(document).ready(function(){
+    $(".star").change(function(event) {
+
+        var star_val = $(event.target).val();
+        var movie = $("input[name=id_movie]").val();
+        console.log( movie);
+        console.log(star_val );
+
+        $.ajax({
+            method: 'POST',
+            data: {
+                csrfmiddlewaretoken: document.cookie.split('=')[1],
+                action: "rate_movie",
+                rating: star_val,
+                movie_id: movie,
+            }
+         });
+
+
+
+    });
+
+});
+
+
+
+// $(function(){
+//      $('#rating_stars').on('change', function(e){
+//          console.log('clicked stars');
+//          var star_val = $('#star').val();
+//          var movie = $('#id_movie').val();
+//          e.preventDefault();
+//          $.ajax({
+//              url: $(this).attr('action'),
+//              method: $(this).attr('method'),
+//              data: {
+//                     action: "rate_movie",
+//                     rating: star_val,
+//                     movie_id: movie,
+//              },
+//              success: function(data){ console.log("what"); }
+//          });
+//      });
+// });
+

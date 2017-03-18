@@ -18,32 +18,10 @@ $(document).ready(function(){
                 rating: star_val,
                 movie_id: movie,
             }
-         });
+        });
 
-
+        $('#average_rate').load(' #average_rate')
 
     });
 
 });
-
-
-
-// $(function(){
-//      $('#rating_stars').on('change', function(e){
-//          console.log('clicked stars');
-//          var star_val = $('#star').val();
-//          var movie = $('#id_movie').val();
-//          e.preventDefault();
-//          $.ajax({
-//              url: $(this).attr('action'),
-//              method: $(this).attr('method'),
-//              data: {
-//                     action: "rate_movie",
-//                     rating: star_val,
-//                     movie_id: movie,
-//              },
-//              success: function(data){ console.log("what"); }
-//          });
-//      });
-// });
-

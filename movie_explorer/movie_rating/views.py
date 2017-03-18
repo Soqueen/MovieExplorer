@@ -278,9 +278,11 @@ def description(request):
             context['videos'] = movies.videos()
             # context['video_link'] = "https://www.youtube.com/watch?v=" + context['videos']['results'][0]['key']
             context['video_link'] = ""
+            context['video_link_emb'] = ""
             for x in context['videos']['results']:
                 if x['type']=="Trailer":
                     context['video_link'] = "https://www.youtube.com/watch?v=" + x['key']
+                    context['video_link_emb'] = "https://www.youtube.com/embed/" + x['key']
                     break
             if context['video_link'] == "":
                 context['video_link'] = "No Trailer Found"

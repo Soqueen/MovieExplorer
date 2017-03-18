@@ -9,6 +9,7 @@
         {{results.title}}&nbsp;({{results.release_date}}, {{results.runtime}} mins)
     </section>
 
+
     <!-- Section used for displaying 'More Description' results -->
         {% if status == 'failure' %}
          <section class="errors">
@@ -25,6 +26,18 @@
             </div>
         {% else %}
             <section class="displaying-movie-description">
+                <button id="myBtn" onclick="submit();">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
                 <table id="movie-view">
                     <tr>
                         <td>
@@ -78,6 +91,9 @@
                                   </form>
                                 </div><br><br>
                             {% endif %}
+                            <div>
+                                <iframe width="420" height="345" src={{video_link_emb}}></iframe>
+                            </div>
                         <section class=" similar-movies">
                             {% for movie in similar %}
                                 <div class="hidden-movie">

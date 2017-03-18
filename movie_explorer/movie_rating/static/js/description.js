@@ -7,9 +7,6 @@ $(document).ready(function(){
 
         var star_val = $(event.target).val();
         var movie = $("input[name=id_movie]").val();
-        console.log( movie);
-        console.log(star_val );
-
         $.ajax({
             method: 'POST',
             data: {

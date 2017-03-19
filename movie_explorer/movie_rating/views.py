@@ -115,7 +115,7 @@ class MovieDescriptionView(TemplateView):
             movieID = int(request.POST['movie_id'])
             rating_given = int(request.POST['rating'])
             current_user = request.user
-            updated = False
+            update = False
 
             if current_user.is_authenticated:
                 try:
@@ -133,11 +133,11 @@ class MovieDescriptionView(TemplateView):
                 res['status'] = 'success'
                 res['current_rating'] = str(rating_given)
                 res['rating'] = MovieRatings.objects.all().filter(movie_id=int(movieID)).aggregate(Avg('rating'))
-                return render(request, 'description.html', res)
+                return render(request, 'description.html', res )
             else:
                 res['status'] = 'failure'
-                return render(request, 'description.html', res)
-        return render(request, 'description.html', {})
+                return render(request, 'description.html', res )
+        return render(request, 'description.html', {} )
 
 
 

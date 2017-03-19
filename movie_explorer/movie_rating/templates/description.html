@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+{% block extra_head %}
+    <script type='text/javascript' src="{% static 'js/description.js' %}"></script>
+{% endblock %}
+
 {% block title %}Registration{% endblock %}
 
 {% block content %}
@@ -8,6 +13,7 @@
     <section class="page-title">
         {{results.title}}&nbsp;({{results.release_date}}, {{results.runtime}} mins)
     </section>
+
 
     <!-- Section used for displaying 'More Description' results -->
         {% if status == 'failure' %}
@@ -25,6 +31,18 @@
             </div>
         {% else %}
             <section class="displaying-movie-description">
+                <button id="myBtn" onclick="submit();">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
                 <table id="movie-view">
                     <tr>
                         <td>
@@ -35,7 +53,11 @@
                                 <table id="containerS3">
                                     <tr>
                                         <td>
-                                            <img src="{% static "img/average_star.png" %}">
+                                            {% if rating.rating__avg < 3.0 %}
+                                                <img src="{% static "img/average_bad_star.png" %}">
+                                            {% else %}
+                                                <img src="{% static "img/average_good_star.png" %}">
+                                            {% endif %}
                                             <p>
                                                 <span id="average_rate">{{rating.rating__avg}}/</span>
                                                 <span id="max_star">5.0</span>
@@ -60,24 +82,40 @@
                                 {{results.overview}}
                             </span><br><br>
                             <p style="color:white;">{{results.genre}}Genres: {% for name in genre %} {{ name }} {% endfor %}</p>
-
                             {% if user.is_authenticated %}
-                                <div class="star">
-                                  <form method="POST" action="/rated/">
+                                <div class="stars">
+                                  <form method="POST" id="rating_stars">
                                       {% csrf_token %}
-                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" onchange="this.form.submit();" {% if current_rating == '5' %} checked{% endif %}/>
+{#                                  onchange="this.form.submit();"#}
+                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5"  {% if current_rating == '5' %} checked{% endif %}/>
                                     <label class="star star-5" for="star-5"></label>
-                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" onchange="this.form.submit();" {% if current_rating == '4' %} checked{% endif %}/>
+                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4"  {% if current_rating == '4' %} checked{% endif %}/>
                                     <label class="star star-4" for="star-4"></label>
-                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" onchange="this.form.submit();"{% if current_rating == '3' %} checked{% endif %}/>
+                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" {% if current_rating == '3' %} checked{% endif %}/>
                                     <label class="star star-3" for="star-3"></label>
-                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" onchange="this.form.submit();"{% if current_rating == '2' %} checked{% endif %}/>
+                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" {% if current_rating == '2' %} checked{% endif %}/>
                                     <label class="star star-2" for="star-2"></label>
-                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" onchange="this.form.submit();"{% if current_rating == '1' %} checked{% endif %}/>
+                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" {% if current_rating == '1' %} checked{% endif %}/>
                                     <label class="star star-1" for="star-1"></label><input type="hidden" value={{results.id}} name="id_movie"}>
                                   </form>
                                 </div><br><br>
                             {% endif %}
+                            <div>
+                                <iframe width="420" height="345" src={{video_link_emb}}></iframe>
+                            </div>
+                        <section class=" similar-movies">
+                            {% for movie in similar %}
+                                <div >
+                                    <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
+                                        <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';">
+                                        <span class="movie-title">{{movie.title}}</span>
+                                        {% csrf_token %}
+                                        <input type="hidden" value={{movie.id}} name="id_movie"}>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                        </section>
+
                             
                         </td>
                     </tr>

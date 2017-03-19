@@ -113,8 +113,9 @@
                 </table>
             </section>
 
-            {% if similar != None %}
+
             <section class="similar-movies">
+                {% if similar != None %}
                 <div class="prev" onclick="prev();">
                     <
                 </div>
@@ -136,8 +137,11 @@
                     </div>
                     {% endfor %}
                 </div>
+                {% else %}
+                <span class="similar-subtitle"> NO SIMILAR MOVIES FOUND</span>
+                {% endif %}
             </section>
-            {% endif %}
+
 
     {% endif %}
 {% endblock %}

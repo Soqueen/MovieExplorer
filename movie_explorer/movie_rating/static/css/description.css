@@ -1,3 +1,8 @@
+@keyframes nextMovies {
+    0% {transform: translateX(0px);}
+    100% {transform: translateX(100px);}
+}
+
 table#movie-view {
     width: 95%;
     margin: auto;
@@ -63,6 +68,10 @@ table#movie-view td > div> table#containerS3 td> p > span#max_star{
     color: rgba(140, 127, 114,1);
 }
 
+section.similar-movies > div.slider-container > form > img{
+    overflow:auto;
+    white-space:nowrap;
+}
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -99,4 +108,85 @@ table#movie-view td > div> table#containerS3 td> p > span#max_star{
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Display Similar Movie*/
+
+section.similar-movies {
+    position: relative;
+    width: 100%;
+    padding-top: 25px;
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-bottom: 25px;
+    box-shadow: 0px 0px 20px 0px rgba(255,255,255,1);
+    background-color: rgba(33,33,33,0.85);
+    color: rgba(233,233,233,1);
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+div#movie-post {
+    display: inline-block;
+    width: 200px;
+    margin-right: 40px;
+    text-align: center;
+    overflow: auto;
+    text-overflow: ellipsis;
+    background-color: rgba(14,14,14,1);
+}
+
+div#movie-post img {
+    width: 200px;
+    height: 300px;
+}
+
+div#movie-post > span {
+    font-weight: bold;
+}
+
+.similar-subtitle {
+    color: rgba(100,150,240,0.8);
+    font-size: 200%;
+    font-weight: bold;
+}
+
+div#similar-movies-container {
+    transition: .6s;
+}
+
+div.next {
+    position: absolute;
+    top:0;
+    right: 0;
+    width: 75px;
+    height: 100%;
+    padding-left: 15px;
+    background-color: rgba(33,33,33,1);
+    text-align: left;
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 409px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+div.prev {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 75px;
+    height: 100%;
+    padding-right: 15px;
+    background-color: rgba(33,33,33,1);
+    text-align: right;
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 409px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+div.prev:hover, div.next:hover {
+    box-shadow: 0px 0px 30px 0px rgba(240,240,240,1);
 }

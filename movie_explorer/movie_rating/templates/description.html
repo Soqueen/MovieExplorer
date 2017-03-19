@@ -28,16 +28,16 @@
             <section class="displaying-movie-description">
                 <button id="myBtn" onclick="submit();">Open Modal</button>
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>Some text in the Modal..</p>
+                  </div>
 
-</div>
+                </div>
                 <table id="movie-view">
                     <tr>
                         <td>
@@ -81,7 +81,7 @@
                                 <div class="stars">
                                   <form method="POST" id="rating_stars">
                                       {% csrf_token %}
-{#                                  onchange="this.form.submit();"#}
+                                    {# onchange="this.form.submit();"#}
                                     <input class="star star-5" id="star-5" type="radio" name="star" value="5"  {% if current_rating == '5' %} checked{% endif %}/>
                                     <label class="star star-5" for="star-5"></label>
                                     <input class="star star-4" id="star-4" type="radio" name="star" value="4"  {% if current_rating == '4' %} checked{% endif %}/>
@@ -98,23 +98,34 @@
                             <div>
                                 <iframe width="420" height="345" src={{video_link_emb}}></iframe>
                             </div>
-                        <section class=" similar-movies">
-                            {% for movie in similar %}
-                                <div >
-                                    <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
-                                        <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';">
-                                        <span class="movie-title">{{movie.title}}</span>
-                                        {% csrf_token %}
-                                        <input type="hidden" value={{movie.id}} name="id_movie"}>
-                                    </form>
-                                </div>
-                            {% endfor %}
-                        </section>
-
-                            
                         </td>
                     </tr>
                 </table>
             </section>
-        {% endif %}
+
+            <section class="similar-movies">
+                <div class="prev" onclick="prev();">
+                    <
+                </div>
+                <div class="next" onclick="next();">
+                    >
+                </div>
+                <span class="similar-subtitle"> SIMILAR MOVIES</span>
+                <br><br><br><br>
+                <div id="similar-movies-container">
+                    <input type="hidden" id="translate-value" value="0">
+                    {% for movie in similar %}
+                    <div id="movie-post">
+                        <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
+                            <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';"><br>
+                            <span >{{movie.title}}</span>
+                            {% csrf_token %}
+                            <input type="hidden" value={{movie.id}} name="id_movie"}>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+    {% endif %}
 {% endblock %}

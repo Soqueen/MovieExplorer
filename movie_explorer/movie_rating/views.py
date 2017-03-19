@@ -115,7 +115,7 @@ class MovieDescriptionView(TemplateView):
             movieID = int(request.POST['movie_id'])
             rating_given = int(request.POST['rating'])
             current_user = request.user
-            update = False
+            updated = False
 
             if current_user.is_authenticated:
                 try:

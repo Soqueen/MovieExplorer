@@ -47,16 +47,25 @@
                             <div>
                                 <table id="containerS3">
                                     <tr>
-                                        <td>
-                                            {% if rating.rating__avg < 3.0 %}
-                                                <img src="{% static "img/average_bad_star.png" %}">
+                                        <td id="average_rate">
+                                            {% if rating.rating__avg == None %}
+                                                <img src="{% static "img/empty_star.png" %}">
+                                                <p>
+                                                    <span >-/</span>
+                                                    <span id="max_star">5.0</span>
+                                                </p>
                                             {% else %}
-                                                <img src="{% static "img/average_good_star.png" %}">
+                                                {% if rating.rating__avg < 3.0 %}
+                                                    <img src="{% static "img/average_bad_star.png" %}">
+                                                {% else %}
+                                                     <img src="{% static "img/average_good_star.png" %}">
+                                                {% endif %}
+                                                <p>
+                                                    <span >{{rating.rating__avg}}/</span>
+                                                    <span id="max_star">5.0</span>
+                                                </p>
                                             {% endif %}
-                                            <p>
-                                                <span id="average_rate">{{rating.rating__avg}}/</span>
-                                                <span id="max_star">5.0</span>
-                                            </p>
+
                                         </td>
                                         <td>
                                             {% if video_link == 'No Trailer Found'%}

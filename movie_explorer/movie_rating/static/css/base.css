@@ -32,6 +32,7 @@ header > div.header-container {
 header > div.header-container > div.header-input-div {
     position: relative;
     display: inline-block;
+
 }
 
 header > div.header-container > a > input {
@@ -47,15 +48,31 @@ header > div.header-container > a > input {
 }
 
 header > div.header-container > div.header-input-div > a > input {
+    position: relative;
+    top: -33px;
     width: 75px;
-    padding: 7px;
-    margin-right: 30px;
+    padding: 10px;
+    margin-right: 5px;
     border: none;
     border-radius: 5px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,1);
     font-weight: bold;
     cursor: pointer;
 }
+
+header > div.header-container > div.header-input-div > a > input#no_login {
+    position: relative;
+    top: 0px;
+    width: 75px;
+    padding: 10px;
+    margin-right: 15px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,1);
+    font-weight: bold;
+    cursor: pointer;
+}
+
 
 header > div.header-container > div.header-input-div > div.input-dialog {
     position: absolute;
@@ -100,18 +117,17 @@ span.user-name {
 
 /* Dropdown Button */
 .dropbtn {
-    color: white;
+    color: rgba(159, 141, 141, 1);
     padding: 0px;
     font-size: 0px;
     border: none;
     cursor: pointer;
     width: 75px;
-    height: 75px;
 }
 
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
-    background-color: #434346;
+    background-color: rgba(240,50,50,0.7);
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -125,7 +141,9 @@ span.user-name {
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: rgba(105,105,105,1);
+    border: none;
+    border-radius: 5px;
     min-width: 150px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -135,15 +153,15 @@ span.user-name {
 /* Links inside the dropdown */
 .dropdown-content a {
     color: black;
-    padding: 4px 16px;
     text-decoration: none;
     display: block;
     right: 0;
-    text-align: left;
+    text-align: center;
+    font-weight: bold;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {background-color: rgba(169,169,169,1)}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}

@@ -7,79 +7,6 @@ html, body {
     height: 100%;
 }
 
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-}
-
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 75px;
-    box-shadow: 0px 0px 20px 0px rgba(240, 50, 50, 1);
-    background-color: rgba(240, 50, 50, 0.8);
-    text-align: right;
-    line-height: 75px;
-}
-
-header > div.header-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-header > div.header-container > img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 75px;
-}
-
-header > div.header-container > div.header-input-div {
-    position: relative;
-    display: inline-block;
-}
-
-header > div.header-container > div.header-input-div > a > input {
-    width: 75px;
-    padding: 7px;
-    margin-right: 30px;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,1);
-    font-weight: bold;
-    cursor: pointer;
-}
-
-header > div.header-container > div.header-input-div > div.input-dialog {
-    position: absolute;
-    top: 52px;
-    right: 30px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,1);
-    background-color: rgba(230,230,230,1);
-    z-index: 1000;
-}
-
-section.header-empty {
-    width: 100%;
-    height: 75px;
-}
-
-section.page-title {
-    width: 100%;
-    padding-top: 50px;
-    padding-bottom: 25px;
-    font-size: 55px;
-    color: rgba(100,150,240,1);
-    text-align: center;
-}
-
 section.search-section {
     width: 100%;
     padding-bottom: 75px;
@@ -222,16 +149,6 @@ section.page-section span#search-result {
     font-style: italic;
 }
 
-div.user-profile {
-    position: absolute;
-    left: 100px;
-    color: rgba(255,255,255,1);
-    font-size: 20px;
-}
-
-div.user-profile > span.user-name {
-    font-weight: bold;
-}
 
 section.movie-ratings {
     width: 100%;
@@ -271,22 +188,4 @@ div.rating-title {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
-}
-
-form#myratings-form {
-    display: inline-block;
-}
-
-form#myratings-form > div {
-    display: inline-block;
-}
-
-form#myratings-form > div > input {
-    padding: 7px;
-    margin-right: 15px;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,1);
-    font-weight: bold;
-    cursor: pointer;
 }

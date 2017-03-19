@@ -6,6 +6,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/description.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/myrating.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/register.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
@@ -57,14 +58,14 @@
             {% else %}
                 <div class="header-input-div">
                     <a href="{% url 'login' %}">
-                        <input type="button" value="log in">
+                        <input id="no_login" type="button" value="log in">
                     </a>
                     <div class="input-dialog">
                     </div>
                 </div>
             <div class="header-input-div">
                 <a href="{% url 'register' %}">
-                    <input type="button" value="sign up">
+                    <input id="no_login" type="button" value="sign up">
                 </a>
             </div>
             {% endif %}

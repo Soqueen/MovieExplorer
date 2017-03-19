@@ -27,7 +27,7 @@
         {% else %}
             <section class="displaying-movie-description">
                 <div class="page">
-    <p><a href="#media-popup" data-media="//www.youtube.com/embed/YoXa2Pl7Hk0">click me</a></p>
+    <p><a href="#media-popup" data-media="http://www.youtube.com/embed/YoXa2Pl7Hk0">click me</a></p>
 
     <div class="popup" id="media-popup">
         <iframe width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
@@ -66,11 +66,11 @@
                                                 <img src="{% static "img/no_trailer_button.png" %}">
                                                 <p id="label_play_trailer">No Trailer Found</p>
                                             {% else %}
-                                                <img id="play-trailer" onclick="playTrailer()" src="{% static "img/play_trailer_button.png" %}" />
+                                            <img id="play-trailer" onclick="playTrailer()" src="{% static "img/play_trailer_button.png" %}"/>
                                                 <!--<a href={{video_link}}>-->
                                                     <!--<input type="image" name="Trailer_button" src="{% static "img/play_trailer_button.png" %}">-->
                                                 <!--</a>-->
-                                                <p id="label_play_trailer">Play Trailer</p>
+                                            <a href={{video_link}}><p id="label_play_trailer">Play Trailer</p> </a>
                                             {% endif %}
                                         </td>
                                     </tr>

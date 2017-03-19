@@ -51,7 +51,7 @@ table#movie-view td > div > table#containerS3{
     display: inline-block;
 }
 
-table#movie-view td > div> table#containerS3 td> p#label_play_trailer{
+table#movie-view td > div> table#containerS3 td> a > p#label_play_trailer{
     font-size: 22px;
     font-style: italic;
     color: rgba(140, 127, 114,1);

@@ -128,12 +128,14 @@
                     <input type="hidden" id="translate-value" value="0">
                     {% for movie in similar %}
                     <div id="movie-post">
+                        <span style="cursor:pointer">
                         <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
                             <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';"><br>
                             <span >{{movie.title}}</span>
                             {% csrf_token %}
                             <input type="hidden" value={{movie.id}} name="id_movie"}>
                         </form>
+                        </span>
                     </div>
                     {% endfor %}
                 </div>

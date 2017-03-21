@@ -251,6 +251,18 @@ def search(request):
             sort_option = 'popularity.desc'
         context['sort_selected'] = sort_option
 
+        # Convert sort_option
+        if (sort_option == 'release_date.desc'):
+            sort_by = 'release_date'
+            reversed = True
+        elif (sort_option == 'release_date.asc'):
+            sort_by = 'release_date'
+            reversed = False
+        else:
+            sort_by = 'popularity'
+            reversed = True
+
+
         # Select the page to be requested from the API
         if request.POST.__contains__('prev_page'):
             page = request.POST.get('prev_page', '2')
@@ -280,25 +292,17 @@ def search(request):
                 context['search'] = search_query
 
                 context['status'] = 'success'
-                movie_query = search.movie(page=page, query=search_query)
-                # context['results'] = movie_query['results']
 
                 # ------ Sort Results ----------
-                if (sort_option == 'release_date.desc'):
-                    sort_by = 'release_date'
-                    reversed = True
-                elif (sort_option == 'release_date.asc'):
-                    sort_by = 'release_date'
-                    reversed = False
-                else:
-                    sort_by = 'popularity'
-                    reversed = True
-
-                # get neccesary info and put into list of tuples
+                cur_page = 1
                 results_list = []
-                for r in search.results:
-                    results_list = results_list + [(r['id'], r['poster_path'], r['title'], r[sort_by])]
+                while (cur_page <= 5):
+                    movie_query = search.movie(page=cur_page, query=search_query)
 
+                    # get necessary info and put into list of tuples
+                    for r in search.results:
+                        results_list = results_list + [(r['id'], r['poster_path'], r['title'], r[sort_by])]
+                    cur_page += 1
                 # sort
                 results_sorted = sorted(results_list, key=itemgetter(3), reverse=reversed)
 

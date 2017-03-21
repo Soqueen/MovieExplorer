@@ -26,18 +26,12 @@
             </div>
         {% else %}
             <section class="displaying-movie-description">
-                <button id="myBtn" onclick="submit();">Open Modal</button>
+                <!--<div class="page">-->
+    <!--<p><a href="#media-popup" data-media="http://www.youtube.com/embed/YoXa2Pl7Hk0">click me</a></p>-->
 
-                <!-- The Modal -->
-                <div id="myModal" class="modal">
-
-                  <!-- Modal content -->
-                  <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p>Some text in the Modal..</p>
-                  </div>
-
-                </div>
+    <!--<div class="popup" id="media-popup">-->
+        <!--<iframe width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>-->
+    <!--</div>-->
                 <table id="movie-view">
                     <tr>
                         <td>
@@ -72,11 +66,12 @@
                                                 <img src="{% static "img/no_trailer_button.png" %}">
                                                 <p id="label_play_trailer">No Trailer Found</p>
                                             {% else %}
-                                                <img id="play-trailer" onclick="playTrailer()" src="{% static "img/play_trailer_button.png" %}" />
+                                            <a href={{video_link}}>
+                                                <img id="play-trailer" height="80px" onclick="playTrailer()" src="{% static "img/play_trailer_button.png" %}"/>
                                                 <!--<a href={{video_link}}>-->
                                                     <!--<input type="image" name="Trailer_button" src="{% static "img/play_trailer_button.png" %}">-->
                                                 <!--</a>-->
-                                                <p id="label_play_trailer">Play Trailer</p>
+                                            <p id="label_play_trailer">Play Trailer</p> </a>
                                             {% endif %}
                                         </td>
                                     </tr>
@@ -105,15 +100,23 @@
                                   </form>
                                 </div><br><br>
                             {% endif %}
-                            <div>
-                                <iframe width="420" height="345" src={{video_link_emb}}></iframe>
-                            </div>
                         </td>
                     </tr>
+                    {% if video_link != 'No Trailer Found'%}
+                    <tr>
+                        <th colspan="2">
+                            <div>
+                                <iframe width="100%" height="480px" src={{video_link_emb}}></iframe>
+                            </div>
+                        </th>
+                    </tr>
+                    {% endif %}
                 </table>
             </section>
 
+
             <section class="similar-movies">
+                {% if similar != None %}
                 <div class="prev" onclick="prev();">
                     <
                 </div>
@@ -126,16 +129,22 @@
                     <input type="hidden" id="translate-value" value="0">
                     {% for movie in similar %}
                     <div id="movie-post">
+                        <span style="cursor:pointer">
                         <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
                             <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';"><br>
                             <span >{{movie.title}}</span>
                             {% csrf_token %}
                             <input type="hidden" value={{movie.id}} name="id_movie"}>
                         </form>
+                        </span>
                     </div>
                     {% endfor %}
                 </div>
+                {% else %}
+                <span class="similar-subtitle"> NO SIMILAR MOVIES FOUND</span>
+                {% endif %}
             </section>
+
 
     {% endif %}
 {% endblock %}

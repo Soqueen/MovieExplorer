@@ -25,29 +25,26 @@ $(document).ready(function(){
 });
 
 
+// JQuery for Popup example
+$("[data-media]").on("click", function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var videoUrl = $this.attr("data-media");
+    var popup = $this.attr("href");
+    var $popupIframe = $(popup).find("iframe");
 
-// Get the modal
-var modal = document.getElementById('myModal');
+    $popupIframe.attr("src", videoUrl);
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+    $this.closest(".page").addClass("show-popup");
+});
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+$(".popup").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-    modal.style.display = "block";
-}
+    $(".page").removeClass("show-popup");
+});
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+$(".popup > iframe").on("click", function(e) {
+    e.stopPropagation();
+});

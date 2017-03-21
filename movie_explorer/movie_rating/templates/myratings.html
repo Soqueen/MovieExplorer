@@ -24,16 +24,20 @@
                         <table>
                             <tr>
                                 <td>
-                                    <form id="return_description_img" method="POST" action="/description/" onclick="submit();">
+                                    <form id="return_description_img" method="GET" action="/description/{{result.0.id}}/" onclick="submit();">
                                         {% csrf_token %}
-                                        <input type="hidden" value={{result.0.id}} name="id_movie"><img style="width: 50px;" src="{{ result.2 }}{{ result.0.poster_path }}">
+                                        <span style="cursor:pointer">
+                                            <input type="hidden" value={{result.0.id}} name="id_movie"><img style="width: 50px;" src="{{ result.2 }}{{ result.0.poster_path }}">
+                                        </span>
                                     </form>
                                 </td>
                                 <td style="width: 236px">
                                     <div class="rating-title">
-                                        <form id="return_description" method="POST" action="/description/" onclick="submit();">
+                                        <form id="return_description" method="GET" action="/description/{{result.0.id}}/" onclick="submit();">
                                             {% csrf_token %}
-                                            <input type="hidden" value={{result.0.id}} name="id_movie">{{ result.0.title }}
+                                            <span style="cursor:pointer">
+                                                <input type="hidden" value={{result.0.id}} name="id_movie">{{ result.0.title }}
+                                            </span>
                                         </form>
                                     </div>
                                     {% if result.1 == 5 %}

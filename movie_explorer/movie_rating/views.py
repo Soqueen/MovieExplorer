@@ -301,7 +301,7 @@ def search(request):
 
                     # get necessary info and put into list of tuples
                     for r in search.results:
-                        results_list = results_list + [(r['id'], r['poster_path'], r['title'], r[sort_by])]
+                        results_list += [(r['id'], r['poster_path'], r['title'], r[sort_by])]
                     cur_page += 1
                 # sort
                 results_sorted = sorted(results_list, key=itemgetter(3), reverse=reversed)
@@ -309,10 +309,9 @@ def search(request):
                 # back to dict
                 results_dict = []
                 for i in results_sorted:
-                    results_dict = results_dict + [{'id': i[0], 'poster_path': i[1], 'title': i[2]}]
+                    results_dict += [{'id': i[0], 'poster_path': i[1], 'title': i[2]}]
 
                 context['results'] = results_dict
-
 
                 context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
                 context['page_num'] = page

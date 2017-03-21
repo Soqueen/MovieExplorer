@@ -107,13 +107,6 @@
                     <form role="form" id="optionsForm" action="" method="post">
                         {% csrf_token %}
                         <input type="hidden" value="{{search}}" name="search"}>
-                        {% if page_num != '1' %}
-                            <button name="prev_page" type="submit" value="{{page_num}}" onclick="document.getElementById('id_search').submit();">Previous page</button>
-                        {% endif %}
-                            Current Page: {{page_num}}
-                        {% if last_page == 'false' %}
-                            <button name="next_page" type="submit" value="{{page_num}}" onclick="document.getElementById('id_search').submit();">Next Page</button>
-                        {% endif %}
                     </form>
 
                 {% endif %}

@@ -262,19 +262,6 @@ def search(request):
             sort_by = 'popularity'
             reversed = True
 
-
-        # Select the page to be requested from the API
-        if request.POST.__contains__('prev_page'):
-            page = request.POST.get('prev_page', '2')
-            pageNumber = int(page)
-            page = str(pageNumber - 1)
-        elif request.POST.__contains__('next_page'):
-            page = request.POST.get('next_page', '0')
-            pageNumber = int(page)
-            page = str(pageNumber + 1)
-        else:
-            page = '1'
-
         # Check if query is empty
         if len(search_query) == 0:
             context['status'] = 'empty'
@@ -314,11 +301,6 @@ def search(request):
                 context['results'] = results_dict
 
                 context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-                context['page_num'] = page
-
-                context['last_page'] = 'false'
-                if int(page) == movie_query['total_pages']:
-                    context['last_page'] = 'true'
 
                 if len(context['results']) == 0:
                     context['status'] = 'noresult'

@@ -17,6 +17,7 @@ from django.http import Http404
 import requests
 from django.db.models import Avg
 from django.template import RequestContext
+from operator import itemgetter
 
 # For UserModelEmailBackend
 from django.contrib.auth.hashers import check_password
@@ -235,7 +236,7 @@ def search(request):
     
     # Set the page to search
     context = {'page_type': 'search_page'}
-   
+
     """ Handle registration form """
     if request.method == 'POST':
         response = dict(
@@ -243,6 +244,12 @@ def search(request):
         )
 
         search_query = request.POST['search']
+
+        try:
+            sort_option = request.POST['search_sort_by']
+        except:
+            sort_option = 'popularity.desc'
+        context['sort_selected'] = sort_option
 
         # Select the page to be requested from the API
         if request.POST.__contains__('prev_page'):
@@ -274,7 +281,34 @@ def search(request):
 
                 context['status'] = 'success'
                 movie_query = search.movie(page=page, query=search_query)
-                context['results'] = movie_query['results']
+                # context['results'] = movie_query['results']
+
+                # ------ Sort Results ----------
+                if (sort_option == 'release_date.desc'):
+                    sort_by = 'release_date'
+                    reversed = True
+                elif (sort_option == 'release_date.asc'):
+                    sort_by = 'release_date'
+                    reversed = False
+                else:
+                    sort_by = 'popularity'
+                    reversed = True
+
+                # get neccesary info and put into list of tuples
+                results_list = []
+                for r in search.results:
+                    results_list = results_list + [(r['id'], r['poster_path'], r['title'], r[sort_by])]
+
+                # sort
+                results_sorted = sorted(results_list, key=itemgetter(3), reverse=reversed)
+
+                # back to dict
+                results_dict = []
+                for i in results_sorted:
+                    results_dict = results_dict + [{'id': i[0], 'poster_path': i[1], 'title': i[2]}]
+
+                context['results'] = results_dict
+
 
                 context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
                 context['page_num'] = page

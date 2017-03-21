@@ -66,11 +66,12 @@
                                                 <img src="{% static "img/no_trailer_button.png" %}">
                                                 <p id="label_play_trailer">No Trailer Found</p>
                                             {% else %}
-                                            <img id="play-trailer" onclick="playTrailer()" src="{% static "img/play_trailer_button.png" %}"/>
+                                            <a href={{video_link}}>
+                                                <img id="play-trailer" height="80px" onclick="playTrailer()" src="{% static "img/play_trailer_button.png" %}"/>
                                                 <!--<a href={{video_link}}>-->
                                                     <!--<input type="image" name="Trailer_button" src="{% static "img/play_trailer_button.png" %}">-->
                                                 <!--</a>-->
-                                            <a href={{video_link}}><p id="label_play_trailer">Play Trailer</p> </a>
+                                            <p id="label_play_trailer">Play Trailer</p> </a>
                                             {% endif %}
                                         </td>
                                     </tr>

@@ -60,9 +60,9 @@
                                                 <img src="{% static "img/no_trailer_button.png" %}">
                                                 <p id="label_play_trailer">No Trailer Found</p>
                                             {% else %}
-                                            <a class="youtube-pop-up" href={{video_link}}>
+                                            <a class="youtube-pop-up" href={{video_link}} onclick="event.preventDefault();open_popup();">
                                                 <img id="play-trailer" src="{% static "img/play_trailer_button.png"%}"/>
-                                                <p id="label_play_trailer">Play Trailer</p> </a>
+                                                <p id="label_play_trailer">Play Trailer</p>
                                             </a>
                                             {% endif %}
                                         </td>

@@ -8,10 +8,12 @@ function open_popup() {
         document.body.append(div);
     }
 
+    $('body').css("overflow", "hidden");
+
     $('#youtube-pop-video').css({
         "background-color": "rgba(0, 0, 0, 0.5)",
         "position": "absolute",
-        "top": "0",
+        "top": $("body").scrollTop(),
         "text-align": "center",
         "width": "100%",
         "height": "120%",
@@ -41,6 +43,7 @@ function open_popup() {
     $('#youtube-pop-video').append(iframe);
 
     $(".fa-times").click(function () {
+        $("body").css("overflow", "initial");
         $('#youtube-pop-video').remove();
     });
 }

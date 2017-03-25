@@ -104,19 +104,20 @@
                     <!--</tr>-->
                     <!--{% endif %}-->
                     {% if user.is_authenticated %}
-                    <section class="Insert_Comment">
-                        <form method="POST" id="create_comment">
-                            <tr>
-                                <td>
-                                    Comment:
-                                </td>
-                                <td>
-                                    <input type="text" name="comment" placeholder="Write comment 0/100">
-                                    <!--Need to add a onsubmit to trigger js function to submit comment-->
-                                </td>
-                            </tr>
-                        </form>
-                    </section>
+
+                        <section class="Insert_Comment">
+                            <form method="POST" id="create_comment">
+                                <tr>
+                                    <td>
+                                        Comment:
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment" placeholder="Write comment 0/100">
+                                        <!--Need to add a onsubmit to trigger js function to submit comment-->
+                                    </td>
+                                </tr>
+                            </form>
+                        </section>
                     {% endif %}
                 </table>
             </section>

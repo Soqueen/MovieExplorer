@@ -1,68 +1,38 @@
-<!doctype html>
+{% extends 'base.html' %}
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{% block title %}Registration{% endblock %}
 
-  <title>The Movie Explorer </title>
-  <meta name="description" content="The Movie Explorer">
-  <meta name="author" content="Felix Dube">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
-    <script src="{% static "js/search.js" %}"></script>
-</head>
-
-<body>
-<div id="background-div"></div>
-    <header>
-        <div class="header-container">
-            <img src="{% static "img/profile_white.png" %}">
-            {% if user.is_authenticated %}
-                <div class="user-profile">
-                    Welcome, <span class="user-name">{{ user.username }}</span>
-                </div>
-                <div class="header-input-div">
-                    <a href="{% url 'logout' %}">
-                        <input type="button" value="log out">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div >
-            {% else %}
-                <div class="header-input-div">
-                    <a href="{% url 'login' %}">
-                        <input type="button" value="log in">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div>
-            <div class="header-input-div">
-                <a href="{% url 'register' %}">
-                    <input type="button" value="sign up">
-                </a>
-            </div>
-            {% endif %}
-        </div>
-    </header>
-    <section class="header-empty">
-    </section>
+{% block content %}
+<!--You need this load static tag to make it work-->
+{% load static %}
     <section class="page-title">
         Welcome to Movie Explorer!
     </section>
 
 <!--    Search Bar  -->
     <section class="search-section">
-        <form method="POST" action='/search/'>
+        <form id="id_search" method="POST" action='/search/'>
             {% csrf_token %}
             <input type="text" class="search-bar" name="search">
             <input type="submit" value="Search">
         </form>
+        <br><br>
 
-
-        {% if page_type != 'search_page' %}
-            <br><br>
+        {% if page_type == 'search_page' %}
+        <!-----Sorting menu for search results------>
             <div class="label-container">
-                <label for="id_genre">Genre:</label>
+                <label for="id_search_sort_by">Sort by:</label>&nbsp;&nbsp;
+                <select id="id_search_sort_by" form="optionsForm" name="search_sort_by" onchange="this.form.submit();">
+                    <option value="popularity.desc"{% if sort_selected == 'popularity.desc' %}selected{% endif %}>Popular</option>
+                    <option value="release_date.desc"{% if sort_selected == 'release_date.desc' %}selected{% endif %}>New-Old</option>
+                    <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Old-New</option>
+                </select>
+            </div>
+    </section>
+        {% else %}
+        <!-----filter and sort menus for home page------>
+            <div class="label-container">
+                <label for="id_genre">Genre:</label>&nbsp;&nbsp;
                 <select id="id_genre" form="optionsForm" name="genre" onchange="document.getElementById('optionsForm').submit();">
                     <option value=""{% if genre_selected == '' %}selected{% endif %}>All</option>
                     <option value="28"{% if genre_selected == '28' %}selected{% endif %}>Action</option>
@@ -87,32 +57,28 @@
                 </select>
             </div>
             <div class="label-container">
-                <label for="id_sort_by">Sort by:</label>
+                <label for="id_sort_by">Sort by:</label>&nbsp;&nbsp;
                 <select id="id_sort_by" form="optionsForm" name="sort_by" onchange="this.form.submit();">
                     <option value="popularity.desc"{% if sort_selected == 'popularity.desc' %}selected{% endif %}>Most Popular</option>
                     <option value="release_date.desc"{% if sort_selected == 'release_date.desc' %}selected{% endif %}>Most Recent</option>
                     <option value="release_date.asc"{% if sort_selected == 'release_date.asc' %}selected{% endif %}>Oldest Release</option>
                 </select>
             </div>
-        </section>
+    </section>
             <!-- Next and Previous Page-->
             <form role="form" id="optionsForm" action="" method="post">
                 {% csrf_token %}
                 {% if page_num != '1' %}
                     <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous Page</button>
                 {% endif %}
-                Current Page: {{page_num}}
+                Current Page:&nbsp;{{page_num}}
                 {% if last_page == 'false' %}
                     <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
                 {% endif %}
             </form>
-
-        {% else %}
-            </section>
         {% endif %}
 
     <!-- Section used for displaying results-->
-    {% block content %}
         {% if status == 'failure' %}
             <div id="movies-error">
                 OOPS...<br>
@@ -134,43 +100,28 @@
         </section>
         {% else %}
             <section class="page-section">
-                {% if user.is_authenticated %}
-                            <form method="POST" action="/myratings/" onclick="submit();">
-                                <div>
-                                {% csrf_token %}
-                                <input type="button" value="My Movie Ratings">
-                                </div>
-                            </form>
-                 {% endif %}
                 {% if page_type == 'search_page' %}
                     Search Results for: <span id="search-result">{{search}}</span><br><br>
-                     <!-- Next and Previous Page-->
+
+                    <!-- Next and Previous Page-->
                     <form role="form" id="optionsForm" action="" method="post">
                         {% csrf_token %}
-                        <input type="hidden" value={{search}} name="search"}>
-                        {% if page_num != '1' %}
-                            <button name="prev_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Previous page</button>
-                        {% endif %}
-                            Current Page: {{page_num}}
-                        {% if last_page == 'false' %}
-                            <button name="next_page" type="submit" value="{{page_num}}" onclick="this.form.submit();">Next Page</button>
-                        {% endif %}
+                        <input type="hidden" value="{{search}}" name="search"}>
                     </form>
+
                 {% endif %}
             </section>
             <section class="playing-movies">
                 {% for movie in results %}
                     <div class="hidden-movie">
-                        <form method="POST" action="/description/" onclick="submit();">
+                        <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
                             <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';">
                             <span class="movie-title">{{movie.title}}</span>
                             {% csrf_token %}
-                            <input type="hidden" value={{movie.id}} name="id_movie"}>
+                            <input type="hidden" value={{movie.id}} name="tmdb_movie_id"}>
                         </form>
                     </div>
                 {% endfor %}
             </section>
         {% endif %}
     {% endblock %}
-
-</body>

@@ -1,53 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}Movie Explorer Login{% endblock %}</title>
+    <title style="font">Movie Explorer</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/description.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/myrating.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/register.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+    <script src="{% static "js/search.js" %}"></script>
+    <script src="{% static "js/base.js" %}"></script>
+    <script src="{% static "js/jquery-3.2.0.js" %}"></script>
+    <script src="{% static "js/description.js" %}"></script>
+    <script src="{% static "js/similar_movies.js" %}"></script>
+    <script src="{% static "js/youtube-pop-up.js" %}"></script>
+
 </head>
 <body>
-<!--<header>
-    <h1>MOVIE EXPLORER</h1>
-    {% if user.is_authenticated %}
-    Hi {{ user.username }}!
-    <a href="{% url 'logout' %}">logout</a>
-    {% else %}
-    <a href="{% url 'login' %}">login</a>
+    <div id="background-div"></div>
 
-    {% endif %}
-</header>-->
     <header>
         <div class="header-container">
-            <img src="{% static "img/profile_white.png" %}">
+            <a href="{% url 'home' %}">
+                <input type="image" name="home"  src="{% static "img/logo_homepage.png" %}">
+            </a>
             {% if user.is_authenticated %}
                 <div class="user-profile">
                     Welcome, <span class="user-name">{{ user.username }}</span>
                 </div>
+
+                {% if page_type != 'myrating_page' %}
+                    <form method="POST" id="myratings-form" action="/myratings/" onclick="submit();">
+                        <div>
+                            {% csrf_token %}
+                            <input type="button" name="my-ratings" value="My Ratings">
+                        </div>
+                    </form>
+                {% endif %}
+
                 <div class="header-input-div">
                     <a href="{% url 'logout' %}">
-                        <input type="button" name="logout" value="log out">
+                        <input type="button" value="log out">
+                    </a>
+                </div >
+
+                <input onclick="showMenu()" class="dropbtn" type="image" src="{% static "img/hamburger.png" %}">
+                <div class="header-input-div">
+                      <div id="myDropdown" class="dropdown-content">
+                        <a href="{% url 'changePassword' %}">Change Password</a>
+                      </div>
+                </div>
+
+            {% else %}
+                <div class="header-input-div">
+                    <a href="{% url 'login' %}">
+                        <input id="no_login" type="button" value="log in">
                     </a>
                     <div class="input-dialog">
                     </div>
-                </div >
-            {% else %}
-            <div class="header-input-div">
-                <a href="{% url 'home' %}">
-                    <input type="button" name="home" value="home">
-                </a>
-            </div>
-            <div class="header-input-div">
-                <a href="{% url 'login' %}">
-                    <input type="button" name="login" value="log in">
-                </a>
-                <div class="input-dialog">
                 </div>
-            </div>
             <div class="header-input-div">
                 <a href="{% url 'register' %}">
-                    <input type="button" name="signup" value="sign up">
+                    <input id="no_login"  type="button" value="sign up">
                 </a>
             </div>
             {% endif %}

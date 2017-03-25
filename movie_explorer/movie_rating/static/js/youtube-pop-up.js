@@ -17,7 +17,7 @@ function open_popup() {
         "text-align": "center",
         "width": "100%",
         "height": "120%",
-        "padding-top": "15%",
+        "padding-top": "10%",
         "z-index": "1100",
     });
 

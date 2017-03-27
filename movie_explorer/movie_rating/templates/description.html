@@ -135,7 +135,8 @@
 
                             {% for comment in comments %}
                                 <tr>
-                                    <td>{{comment}}</td>
+                                    <td>{{comment.user}}</td>
+                                    <td>{{comment.comment}}</td>
                                 </tr>
                             {% endfor %}
 

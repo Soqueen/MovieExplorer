@@ -1,14 +1,25 @@
+@keyframes nextMovies {
+    0% {transform: translateX(0px);}
+    100% {transform: translateX(100px);}
+}
+
 table#movie-view {
     width: 95%;
     margin: auto;
 }
 
 table#movie-view td {
-    padding: 75px;
+    padding: 55px;
     color: rgba(255,255,255,1);
     font-size: 20px;
     text-align: center;
     vertical-align: top;
+}
+
+table#movie-view td > img {
+    width:370px;
+    height:650px;
+    display: inline-block;
 }
 
 table#movie-view td > span.tagline {
@@ -23,4 +34,182 @@ table#movie-view td > span.overview {
 section.displaying-movie-description {
     background-color: rgba(33,33,33,0.5);
     box-shadow: 0px 0px 10px 0px rgba(255,255,255,1);
+}
+
+table#movie-view td > div > table#containerS3 td > a > img#play-trailer{
+    height:80px;
+}
+
+table#movie-view td > div > table#containerS3 td > img{
+    width:4em;
+    height:4em;
+}
+
+table#movie-view td > div > table#containerS3{
+    width: 470px;
+    display: inline-block;
+}
+
+table#movie-view td > div> table#containerS3 td> a > p#label_play_trailer{
+    font-size: 22px;
+    font-style: italic;
+    color: rgba(140, 127, 114,1);
+}
+
+table#movie-view td > div> table#containerS3 td> p > span#average_rate{
+    font-size: 25px;
+    font-weight: bold;
+    color: rgba(140, 127, 114,1);
+}
+
+table#movie-view td > div> table#containerS3 td> p > span#max_star{
+    font-size: 18px;
+    color: rgba(140, 127, 114,1);
+}
+
+section.similar-movies > div.slider-container > form > img{
+    overflow:auto;
+    white-space:nowrap;
+}
+
+/* Display Similar Movie*/
+
+section.similar-movies {
+    position: relative;
+    width: 100%;
+    padding-top: 25px;
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-bottom: 25px;
+    box-shadow: 0px 0px 20px 0px rgba(255,255,255,1);
+    background-color: rgba(33,33,33,0.85);
+    color: rgba(233,233,233,1);
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+div#movie-post {
+    display: inline-block;
+    width: 200px;
+    margin-right: 40px;
+    text-align: center;
+    overflow: auto;
+    text-overflow: ellipsis;
+    background-color: rgba(14,14,14,1);
+}
+
+div#movie-post img {
+    width: 200px;
+    height: 300px;
+}
+
+div#movie-post > span {
+    font-weight: bold;
+}
+
+.similar-subtitle {
+    color: rgba(100,150,240,0.8);
+    font-size: 200%;
+    font-weight: bold;
+}
+
+div#similar-movies-container {
+    transition: .6s;
+}
+
+div.next {
+    position: absolute;
+    top:0;
+    right: 0;
+    width: 75px;
+    height: 100%;
+    padding-left: 15px;
+    background-color: rgba(33,33,33,1);
+    text-align: left;
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 409px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+div.prev {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 75px;
+    height: 100%;
+    padding-right: 15px;
+    background-color: rgba(33,33,33,1);
+    text-align: right;
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 409px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+div.prev:hover, div.next:hover {
+    box-shadow: 0px 0px 30px 0px rgba(240,240,240,1);
+}
+
+/*CSS for the Pop up*/
+section.displaying-movie-description > .page {
+    position: relative;
+    height:100%;
+}
+
+section.displaying-movie-description > .popup {
+    position:absolute;
+    z-index:2;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    opacity:0;
+    visibility:hidden;
+    transition:.3s ease;
+}
+
+section.displaying-movie-description > .show-popup .popup {
+    opacity:1;
+    visibility: visible;
+}
+
+section.displaying-movie-description > .popup > iframe {
+    position:absolute;
+    top:50px;
+    left:50%;
+    margin-left:-280px;
+}
+
+.page {
+    position: relative;
+    height:100%;
+}
+
+.popup {
+    position:absolute;
+    z-index:2;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    opacity:0;
+    visibility:hidden;
+    transition:.3s ease;
+}
+
+.show-popup .popup {
+    opacity:1;
+    visibility: visible;
+}
+
+.popup > iframe {
+    position:absolute;
+    top:50px;
+    left:50%;
+    margin-left:-280px;
 }

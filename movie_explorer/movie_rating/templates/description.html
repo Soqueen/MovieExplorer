@@ -103,22 +103,48 @@
                         <!--</th>-->
                     <!--</tr>-->
                     <!--{% endif %}-->
-                    {% if user.is_authenticated %}
 
-                        <section class="Insert_Comment">
+                    <!-- This is Story 18: Comments -->
+                    <!-- Changes by Rais starts here -->
+
+                    {% if user.is_authenticated %}
+                        <!--Add a for loop to get user comments-->
+                        <section class="insert-comment">
                             <form method="POST" id="create_comment">
                                 <tr>
                                     <td>
-                                        Comment:
-                                    </td>
-                                    <td>
-                                        <input type="text" name="comment" placeholder="Write comment 0/100">
+
+                                        {% csrf_token %}
+                                        <input type="text" name="comment" placeholder="Write your comment here" onsubmit="add_comment()">
+
                                         <!--Need to add a onsubmit to trigger js function to submit comment-->
                                     </td>
                                 </tr>
                             </form>
                         </section>
+
                     {% endif %}
+
+                    <section class="view-comments" id="id-view-comments">
+                        {% if not comments %}
+                            <tr>
+                                <td>No comments.</td>
+                            </tr>
+
+                        {% else %}
+
+                            {% for comment in comments %}
+                                <tr>
+                                    <td>{{comment}}</td>
+                                </tr>
+                            {% endfor %}
+
+                        {% endif %}
+
+                    </section>
+                    
+                    <!-- End of Story 18 -->                    
+
                 </table>
             </section>
 

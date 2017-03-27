@@ -1,59 +1,16 @@
-<!doctype html>
+{% extends 'base.html' %}
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{% block title %}Descriptions{% endblock %}
 
-  <title>The Movie Explorer </title>
-  <meta name="description" content="The Movie Explorer">
-  <meta name="author" content="Vivak Patel">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/description.css" %}">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static "css/stars.css" %}">
-</head>
-
-<body>
-<div id="background-div"></div>
-    <header>
-        <div class="header-container">
-            <img src="{% static "img/profile_white.png" %}">
-            {% if user.is_authenticated %}
-                <div class="user-profile">
-                    Welcome, <span class="user-name">{{ user.username }}</span>
-                </div>
-                <div class="header-input-div">
-                    <a href="{% url 'logout' %}">
-                        <input type="button" value="log out">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div >
-            {% else %}
-                <div class="header-input-div">
-                    <a href="{% url 'login' %}">
-                        <input type="button" value="log in">
-                    </a>
-                    <div class="input-dialog">
-                    </div>
-                </div>
-            <div class="header-input-div">
-                <a href="{% url 'register' %}">
-                    <input type="button" value="sign up">
-                </a>
-            </div>
-            {% endif %}
-        </div>
-    </header>
-    <section class="header-empty">
-    </section>
+{% block content %}
+<!--You need this load static tag to make it work-->
+{% load static %}
     <section class="page-title">
         {{results.title}}&nbsp;({{results.release_date}}, {{results.runtime}} mins)
     </section>
 
+
     <!-- Section used for displaying 'More Description' results -->
-    {% block content %}
         {% if status == 'failure' %}
          <section class="errors">
             <div id="movies-error">
@@ -75,42 +32,127 @@
                             <img src="{{image_path}}{{results.poster_path}}"}} onerror="this.src='{% static "img/no_image_available_big.png" %}';">
                         </td>
                         <td>
-                            {% if user.is_authenticated %}
-                            <form method="POST" action="/myratings/" onclick="submit();">
-                                <div>
-                                {% csrf_token %}
-                                <input type="button" value="My Movie Ratings">
-                                </div>
-                            </form>
-                                <div class="star">
-                                  <form method="POST" action="/rated/">
-                                      {% csrf_token %}
-                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" onchange="this.form.submit();" {% if current_rating == '5' %} checked{% endif %}/>
-                                    <label class="star star-5" for="star-5"></label>
-                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" onchange="this.form.submit();" {% if current_rating == '4' %} checked{% endif %}/>
-                                    <label class="star star-4" for="star-4"></label>
-                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" onchange="this.form.submit();"{% if current_rating == '3' %} checked{% endif %}/>
-                                    <label class="star star-3" for="star-3"></label>
-                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" onchange="this.form.submit();"{% if current_rating == '2' %} checked{% endif %}/>
-                                    <label class="star star-2" for="star-2"></label>
-                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" onchange="this.form.submit();"{% if current_rating == '1' %} checked{% endif %}/>
-                                    <label class="star star-1" for="star-1"></label>
-                                      <input type="hidden" value={{results.id}} name="id_movie"}>
-                                  </form>
-                                </div><br><br>
-                                <!--<p style="color:white;">Your current rating: {{ current_rating }}</p>-->
-                            {% endif %}
+                            <div>
+                                <table id="containerS3">
+                                    <tr>
+                                        <td >
+                                            {% if rating.rating__avg == None %}
+                                                <img src="{% static "img/empty_star.png" %}">
+                                                <p>
+                                                    <span >-/</span>
+                                                    <span id="max_star">5.0</span>
+                                                </p>
+                                            {% else %}
+                                                {% if rating.rating__avg < 3.0 %}
+                                                    <img src="{% static "img/average_bad_star.png" %}">
+                                                {% else %}
+                                                     <img src="{% static "img/average_good_star.png" %}">
+                                                {% endif %}
+                                                <p>
+                                                    <span >{{rating.rating__avg}}/</span>
+                                                    <span id="max_star">5.0</span>
+                                                </p>
+                                            {% endif %}
+
+                                        </td>
+                                        <td>
+                                            {% if video_link == 'No Trailer Found'%}
+                                                <img src="{% static "img/no_trailer_button.png" %}">
+                                                <p id="label_play_trailer">No Trailer Found</p>
+                                            {% else %}
+                                            <a class="youtube-pop-up" href={{video_link}} onclick="event.preventDefault();open_popup();">
+                                                <img id="play-trailer" src="{% static "img/play_trailer_button.png"%}"/>
+                                                <p id="label_play_trailer">Play Trailer</p>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                             <span class="tagline">{{results.tagline}}</span><br><br><br>
                             <span class="overview">
                                 {{results.overview}}
                             </span><br><br>
                             <p style="color:white;">{{results.genre}}Genres: {% for name in genre %} {{ name }} {% endfor %}</p>
-
+                            {% if user.is_authenticated %}
+                                <div class="stars">
+                                  <form method="POST" id="rating_stars">
+                                      {% csrf_token %}
+                                    {# onchange="this.form.submit();"#}
+                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" onchange="rate_movie()" {% if current_rating == '5' %} checked{% endif %}/>
+                                    <label class="star star-5" for="star-5"></label>
+                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" onchange="rate_movie()" {% if current_rating == '4' %} checked{% endif %}/>
+                                    <label class="star star-4" for="star-4"></label>
+                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" onchange="rate_movie()" {% if current_rating == '3' %} checked{% endif %}/>
+                                    <label class="star star-3" for="star-3"></label>
+                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" onchange="rate_movie()" {% if current_rating == '2' %} checked{% endif %}/>
+                                    <label class="star star-2" for="star-2"></label>
+                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" onchange="rate_movie()" {% if current_rating == '1' %} checked{% endif %}/>
+                                    <label class="star star-1" for="star-1"></label><input type="hidden" value={{results.id}} name="id_movie"}>
+                                  </form>
+                                </div><br><br>
+                            {% endif %}
                         </td>
                     </tr>
+                    <!--{% if video_link != 'No Trailer Found'%}-->
+                    <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<div>-->
+                                <!--<iframe width="100%" height="480px" src={{video_link_emb}}></iframe>-->
+                            <!--</div>-->
+                        <!--</th>-->
+                    <!--</tr>-->
+                    <!--{% endif %}-->
+                    {% if user.is_authenticated %}
+
+                        <section class="Insert_Comment">
+                            <form method="POST" id="create_comment">
+                                <tr>
+                                    <td>
+                                        Comment:
+                                    </td>
+                                    <td>
+                                        <input type="text" name="comment" placeholder="Write comment 0/100">
+                                        <!--Need to add a onsubmit to trigger js function to submit comment-->
+                                    </td>
+                                </tr>
+                            </form>
+                        </section>
+                    {% endif %}
                 </table>
             </section>
-        {% endif %}
-    {% endblock %}
 
-</body>
+
+            <section class="similar-movies">
+                {% if similar != None %}
+                <div class="prev" onclick="prev();">
+                    <
+                </div>
+                <div class="next" onclick="next();">
+                    >
+                </div>
+                <span class="similar-subtitle"> SIMILAR MOVIES</span>
+                <br><br><br><br>
+                <div id="similar-movies-container">
+                    <input type="hidden" id="translate-value" value="0">
+                    {% for movie in similar %}
+                    <div id="movie-post">
+                        <span style="cursor:pointer">
+                        <form method="GET" action="/description/{{ movie.id }}/" onclick="submit();">
+                            <img src="{{image_path}}{{movie.poster_path}}"}} onerror="this.src='{% static "img/no_image_available.png" %}';"><br>
+                            <span >{{movie.title}}</span>
+                            {% csrf_token %}
+                            <input type="hidden" value={{movie.id}} name="id_movie"}>
+                        </form>
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <span class="similar-subtitle"> NO SIMILAR MOVIES FOUND</span>
+                {% endif %}
+            </section>
+
+
+    {% endif %}
+{% endblock %}

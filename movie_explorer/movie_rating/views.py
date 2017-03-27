@@ -15,6 +15,9 @@ from .models import MovieRatings
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 import requests
+from django.db.models import Avg
+from django.template import RequestContext
+from operator import itemgetter
 
 # For UserModelEmailBackend
 from django.contrib.auth.hashers import check_password
@@ -24,7 +27,7 @@ from django.contrib.auth.backends import ModelBackend
 # Create your views here.
 class MovieView(TemplateView):
     tmdb.API_KEY = settings.TMDB_API_KEY
-    template_name = 'movie.html'  # SET TEMPLATE NAME
+    template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
         try:
@@ -42,6 +45,102 @@ class MovieView(TemplateView):
             print ("THE API IS WRONG")
             context["status"] = 'failure'
             return context
+
+class MovieDescriptionView(TemplateView):
+    tmdb.API_KEY = settings.TMDB_API_KEY
+    template_name = 'description.html'
+
+    def get_context_data (self, **kwargs):
+        movieID = self.kwargs['tmdb_movie_id']
+        context = {}
+        try:
+            current_user = self.request.user
+            movies = tmdb.Movies(int(movieID))
+            config = tmdb.Configuration().info()
+            POSTER_SIZE = 3
+
+            context['status'] = 'success'
+            context['results'] =  movies.info()
+            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
+            #Get average rating from the DB
+            context['rating'] = MovieRatings.objects.all().filter(movie_id = int(movieID)).aggregate(Avg('rating'))
+
+            context['videos'] = movies.videos()
+            # context['video_link'] = "https://www.youtube.com/watch?v=" + context['videos']['results'][0]['key']
+            context['video_link'] = ""
+            context['video_link_emb'] = ""
+            for x in context['videos']['results']:
+                if x['type'] == "Trailer":
+                    context['video_link'] = "https://www.youtube.com/watch?v=" + x['key']
+                    context['video_link_emb'] = "https://www.youtube.com/embed/" + x['key']
+                    break
+            if context['video_link'] == "":
+                context['video_link'] = "No Trailer Found"
+                # context['video_link'] = context['videos']['results']
+
+            context['genre'] = []
+            for x in context['results']['genres']:
+                context['genre'].append(x['name'])
+            # context['title'] = context['results']['original_title']
+
+            #Show stars
+            if current_user.is_authenticated:
+                try:
+                    m = MovieRatings.objects.get(user=current_user, movie_id=movies.id)
+                    rating = m.rating
+                except:
+                    rating = 0
+                context['current_rating'] = str(rating)
+
+            #Similar movies
+            similar_movies = movies.similar_movies(page =1 ) #only show one page :(
+            if similar_movies['total_results'] == 0:
+                context['similar'] = None
+            else :
+                context['similar'] = similar_movies['results']
+
+            return context
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+            context = {}
+            print ("THE API IS WRONG")
+            context["status"] = 'failure'
+            return context
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        context_instance = RequestContext(request)
+        action = request.POST.get('action', '')
+        if action == "rate_movie":
+            # get important info
+            movieID = int(request.POST['movie_id'])
+            rating_given = int(request.POST['rating'])
+            current_user = request.user
+            updated = False
+
+            if current_user.is_authenticated:
+                try:
+                    movie = MovieRatings.objects.get(user=current_user, movie_id=movieID)
+                    # update rating
+                    movie.rating = int(rating_given)
+                    movie.save()
+                    updated = True
+                except MovieRatings.DoesNotExist:
+                    MovieRatings.objects.create(user=current_user, movie_id=movieID, rating=rating_given)
+                    updated = True
+
+            res = {}
+            if updated:
+                res['status'] = 'success'
+                res['current_rating'] = str(rating_given)
+                res['rating'] = MovieRatings.objects.all().filter(movie_id=int(movieID)).aggregate(Avg('rating'))
+                return render(request, 'description.html', res )
+            else:
+                res['status'] = 'failure'
+                return render(request, 'description.html', res )
+        return render(request, 'description.html', {} )
+
+
 
 def register(request):
     """ Handle registration form """
@@ -133,12 +232,11 @@ class UserModelEmailBackend(ModelBackend):
             # No user was found, return None - triggers default login failed
             return None
 
-
 def search(request):
     
     # Set the page to search
-    context = {'page_type' : 'search_page'}
-   
+    context = {'page_type': 'search_page'}
+
     """ Handle registration form """
     if request.method == 'POST':
         response = dict(
@@ -147,17 +245,22 @@ def search(request):
 
         search_query = request.POST['search']
 
-        # Select the page to be requested from the API
-        if request.POST.__contains__('prev_page'):
-            page = request.POST.get('prev_page', '2')
-            pageNumber = int(page)
-            page = str(pageNumber - 1)
-        elif request.POST.__contains__('next_page'):
-            page = request.POST.get('next_page', '0')
-            pageNumber = int(page)
-            page = str(pageNumber + 1)
+        try:
+            sort_option = request.POST['search_sort_by']
+        except:
+            sort_option = 'popularity.desc'
+        context['sort_selected'] = sort_option
+
+        # Convert sort_option
+        if (sort_option == 'release_date.desc'):
+            sort_by = 'release_date'
+            reversed = True
+        elif (sort_option == 'release_date.asc'):
+            sort_by = 'release_date'
+            reversed = False
         else:
-            page = '1'
+            sort_by = 'popularity'
+            reversed = True
 
         # Check if query is empty
         if len(search_query) == 0:
@@ -176,15 +279,28 @@ def search(request):
                 context['search'] = search_query
 
                 context['status'] = 'success'
-                movie_query = search.movie(page=page, query=search_query)
-                context['results'] = movie_query['results']
+
+                # ------ Sort Results ----------
+                cur_page = 1
+                results_list = []
+                while (cur_page <= 5):
+                    movie_query = search.movie(page=cur_page, query=search_query)
+
+                    # get necessary info and put into list of tuples
+                    for r in search.results:
+                        results_list += [(r['id'], r['poster_path'], r['title'], r[sort_by])]
+                    cur_page += 1
+                # sort
+                results_sorted = sorted(results_list, key=itemgetter(3), reverse=reversed)
+
+                # back to dict
+                results_dict = []
+                for i in results_sorted:
+                    results_dict += [{'id': i[0], 'poster_path': i[1], 'title': i[2]}]
+
+                context['results'] = results_dict
 
                 context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-                context['page_num'] = page
-
-                context['last_page'] = 'false'
-                if int(page) == movie_query['total_pages']:
-                    context['last_page'] = 'true'
 
                 if len(context['results']) == 0:
                     context['status'] = 'noresult'
@@ -253,98 +369,8 @@ def sort(request):
         context["status"] = 'failure'
         return render(request, 'home.html', context)
 
-
-def description(request):
-    context = {}
-    if request.method == 'POST':
-        response = dict(
-            errors=list(),
-        )
-
-        movieID = request.POST['id_movie']
-
-        tmdb.API_KEY = settings.TMDB_API_KEY
-
-        try:
-            movies = tmdb.Movies(int(movieID))
-            config = tmdb.Configuration().info()
-            POSTER_SIZE = 3
-
-            context['status'] = 'success'
-            context['results'] =  movies.info()
-            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-
-            context['genre'] = []
-            for x in context['results']['genres']:
-                context['genre'].append(x['name'])
-            # context['title'] = context['results']['original_title']
-
-            if request.user.is_authenticated:
-
-                # ----show stars----
-                try:
-                    m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
-                    rating = m.rating
-                except:
-                    rating = 0
-                context['current_rating'] = str(rating)
-
-            return render(request, 'description.html', context)
-
-        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
-            context = {}
-            print ("THE API IS WRONG")
-            context["status"] = 'failure'
-            return render(request, 'description.html', context)
-                
-    else:
-        raise Http404("No Movie Selected")
-
-
-def rate(request):
-    context = {}
-    if request.method == 'POST':
-        response = dict(
-            errors=list(),
-        )
-        tmdb.API_KEY = settings.TMDB_API_KEY
-        movieID = request.POST['id_movie']
-
-        try:
-            movies = tmdb.Movies(int(movieID))
-            config = tmdb.Configuration().info()
-            POSTER_SIZE = 3
-
-            context['status'] = 'success'
-            context['results'] = movies.info()
-            context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
-
-            rating = request.POST.get('star', 0)
-            if request.user.is_authenticated:
-                try:
-                    m = MovieRatings.objects.get(user=request.user, movie_id=movies.id)
-                    # ----Update star rating----
-                    m.rating = int(rating)
-                    m.save()
-                except MovieRatings.DoesNotExist:
-                    # ----Create star rating----
-                    MovieRatings.objects.create(user=request.user, movie_id=movies.id, rating=rating)
-                except:
-                    context['status'] = 'databaseError'
-                context['current_rating'] = str(rating)
-
-            return render(request, 'description.html', context)
-
-        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
-            print("THE API IS WRONG")
-            context["status"] = 'failure'
-            return render(request, 'description.html', context)
-
-    else:
-        raise Http404("No Movie Selected")
-
 def viewRatings(request):
-    context = {}
+    context = {'page_type': 'myrating_page'}
     myratings = []
     if request.method == 'POST':
         response = dict(
@@ -372,3 +398,57 @@ def viewRatings(request):
 
     else:
         raise Http404("No Movie Selected")
+
+def changePass(request):
+    if request.user.is_authenticated:
+        """ Handle change password form """
+        if request.method == 'POST':
+            response = dict(
+                errors=list(),
+            )
+            oldPass = request.POST['oldPass']
+            newPass = request.POST['newPass']
+            confirmPass = request.POST['confirmPass']
+
+            #   First check if the fields are not empty
+            if not oldPass:
+                response['errors'].append(' Please fill in your old password.')
+            if not newPass:
+                response['errors'].append(' Please fill in your new password.')
+            if not confirmPass:
+                response['errors'].append(' Please confirm your password.')
+
+            # If any are empty, return errors immediately
+            if response['errors']:
+                return render(request, 'changePassword.html', response)
+
+            # Next, check if old password is correct
+            if not request.user.check_password(oldPass):
+                response['errors'].append(' Your password is incorrect. Try again.')
+
+            # Check if new passwords match
+            if newPass != confirmPass:
+                response['errors'].append(' New Password and Confirm Password do not match.')
+
+            # Check if new password is different from old one
+            if oldPass == newPass:
+                response['errors'].append(' New Password is the same as Old Password')
+
+            if response['errors']:
+                return render(request, 'changePassword.html', response)
+            else:
+                # Set the new password
+                user = request.user
+                user.set_password(newPass)
+                user.save()
+                response['success'] = 'You password has been changed :)'
+
+                # Log user back in (since this logged them out)
+                login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
+
+                return render(request, 'changePassword.html', response)
+
+        else:
+            return render(request, 'changePassword.html')
+    else:
+        return redirect('//')

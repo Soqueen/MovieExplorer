@@ -60,9 +60,10 @@
                                                 <img src="{% static "img/no_trailer_button.png" %}">
                                                 <p id="label_play_trailer">No Trailer Found</p>
                                             {% else %}
-                                            <a href={{video_link}}>
-                                                <img id="play-trailer" onclick="playTrailer()" src="{% static "img/play_trailer_button.png" %}"/>
-                                            <p id="label_play_trailer">Play Trailer</p> </a>
+                                            <a class="youtube-pop-up" href={{video_link}} onclick="event.preventDefault();open_popup();">
+                                                <img id="play-trailer" src="{% static "img/play_trailer_button.png"%}"/>
+                                                <p id="label_play_trailer">Play Trailer</p>
+                                            </a>
                                             {% endif %}
                                         </td>
                                     </tr>
@@ -93,15 +94,57 @@
                             {% endif %}
                         </td>
                     </tr>
-                    {% if video_link != 'No Trailer Found'%}
-                    <tr>
-                        <th colspan="2">
-                            <div>
-                                <iframe width="100%" height="480px" src={{video_link_emb}}></iframe>
-                            </div>
-                        </th>
-                    </tr>
+                    <!--{% if video_link != 'No Trailer Found'%}-->
+                    <!--<tr>-->
+                        <!--<th colspan="2">-->
+                            <!--<div>-->
+                                <!--<iframe width="100%" height="480px" src={{video_link_emb}}></iframe>-->
+                            <!--</div>-->
+                        <!--</th>-->
+                    <!--</tr>-->
+                    <!--{% endif %}-->
+
+                    <!-- This is Story 18: Comments -->
+                    <!-- Changes by Rais starts here -->
+
+                    {% if user.is_authenticated %}
+                        <!--Add a for loop to get user comments-->
+                        <section class="insert-comment">
+                            <form method="POST" id="create_comment">
+                                <tr>
+                                    <td>
+
+                                        {% csrf_token %}
+                                        <input type="text" name="comment" placeholder="Write your comment here" onsubmit="add_comment()">
+
+                                        <!--Need to add a onsubmit to trigger js function to submit comment-->
+                                    </td>
+                                </tr>
+                            </form>
+                        </section>
+
                     {% endif %}
+
+                    <section class="view-comments" id="id-view-comments">
+                        {% if not comments %}
+                            <tr>
+                                <td>No comments.</td>
+                            </tr>
+
+                        {% else %}
+
+                            {% for comment in comments %}
+                                <tr>
+                                    <td>{{comment}}</td>
+                                </tr>
+                            {% endfor %}
+
+                        {% endif %}
+
+                    </section>
+                    
+                    <!-- End of Story 18 -->                    
+
                 </table>
             </section>
 

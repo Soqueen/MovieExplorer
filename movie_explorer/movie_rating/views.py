@@ -6,12 +6,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.db.utils import DatabaseError
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from django.views.generic import ListView
-from .models import MovieRatings
+from .models import MovieRatings, MovieComments
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 import requests
@@ -92,6 +93,18 @@ class MovieDescriptionView(TemplateView):
                     rating = 0
                 context['current_rating'] = str(rating)
 
+            #Show comments
+            if current_user.is_authenticated:
+                try:
+                    c = MovieComments.objects.filter(movie_id=movies.id).all()
+                    print (c)
+                except DatabaseError:
+                    print ("unable to access db")
+                
+                context['comments']=c
+
+
+
             #Similar movies
             similar_movies = movies.similar_movies(page =1 ) #only show one page :(
             if similar_movies['total_results'] == 0:
@@ -138,6 +151,28 @@ class MovieDescriptionView(TemplateView):
             else:
                 res['status'] = 'failure'
                 return render(request, 'description.html', res )
+
+
+        elif action == "add_comment":
+
+            movieID = int(request.POST['movie_id'])
+            #comment_given = 
+            current_user = request.user
+
+            res = {}
+
+            if current_user.is_authenticated:
+                try:
+                    MovieComments.object.create(user=current_user, movie_id=movieID, comment=comment_given)
+                    res['status'] = 'success'
+                    # reload newly added comments
+                except DatabaseError:
+                    print ("Error in database. Unable to add comment")
+                    res['status'] = 'failure'
+
+            return render(request, 'description.html', res)
+            
+
         return render(request, 'description.html', {} )
 
 class MyRatingsView(TemplateView):

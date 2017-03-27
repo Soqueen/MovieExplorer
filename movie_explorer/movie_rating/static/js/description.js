@@ -15,30 +15,37 @@ function rate_movie (result_id){
             movie_id: movie,
         }
     });
-    $('#containerS3').load(' #containerS3');
+    var container = $('#containerS3');
+    container.load(' #containerS3', function (){
+        container.children('#containerS3').unwrap();
+    });
 }
 
+/**
+ * This is Story 18: Comments. Changes by Rais starts here.
+ */
 
-// JQuery for Popup example
-$("[data-media]").on("click", function(e) {
-    e.preventDefault();
-    var $this = $(this);
-    var videoUrl = $this.attr("data-media");
-    var popup = $this.attr("href");
-    var $popupIframe = $(popup).find("iframe");
+function add_comment (){
+    console.log("adding");
+    var comment_content = $("input[type='text'][name='comment']").String(); //String not int
+    console.log(comment_content); 
+    var movie = $("input[name=id_movie]").val();
+    console.log("ajax");
+    $.ajax({
+        method: 'POST',
+        data: {
+            csrfmiddlewaretoken: document.cookie.split('=')[1],
+            action: "add_comment",
+            comment: comment_content,
+            movie_id: movie,
+        }
+    });
+    var container = $('#id-view-comments');
+    container.load(' #id-view-comments', function (){
+        container.children('#id-view-comments').unwrap();
+    });
+}
 
-    $popupIframe.attr("src", videoUrl);
-
-    $this.closest(".page").addClass("show-popup");
-});
-
-$(".popup").on("click", function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    $(".page").removeClass("show-popup");
-});
-
-$(".popup > iframe").on("click", function(e) {
-    e.stopPropagation();
-});
+/**
+ * End of Story 18
+ */

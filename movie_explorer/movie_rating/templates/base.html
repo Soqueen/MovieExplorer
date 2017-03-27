@@ -34,7 +34,7 @@
                 </div>
 
                 {% if page_type != 'myrating_page' %}
-                    <form method="POST" id="myratings-form" action="/myratings/" onclick="submit();">
+                    <form method="GET" id="myratings-form" action="/myratings/" onclick="submit();">
                         <div>
                             {% csrf_token %}
                             <input type="button" name="my-ratings" value="My Ratings">

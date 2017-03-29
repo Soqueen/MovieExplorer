@@ -3,8 +3,8 @@
  * Created by aimee on 3/18/17.
  */
 
-function rate_movie (result_id){
-    var star_val = $("input[type='radio'][name='star_'+result_id]:checked").val();
+function rate_movie (){
+    var star_val = $("input[type='radio'][name='star']:checked").val();
     var movie = $("input[name=id_movie]").val();
     $.ajax({
         method: 'POST',

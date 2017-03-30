@@ -108,7 +108,6 @@
                     <!-- Changes by Rais starts here -->
 
                     {% if user.is_authenticated %}
-                        <!--Add a for loop to get user comments-->
                         <section class="insert-comment">
                             <form method="POST" id="create_comment">
                                 <tr>
@@ -120,29 +119,25 @@
                                 </tr>
                             </form>
                         </section>
-
                     {% endif %}
 
 
-                    <div  id="id-view-comments">
                     <section class="view-comments">
-                        {% if not comments %}
-                            <tr>
-                                <td>No comments.</td>
-                            </tr>
-
-                        {% else %}
-
-                            {% for comment in comments reversed %}
+                        <div  id="id-view-comments">
+                            {% if not comments %}
                                 <tr>
-                                    <td>{{comment.user}}</td>
-                                   <td>{{comment.comment}}</td>
+                                    <td>No comments.</td>
                                 </tr>
-                            {% endfor %}
-
-                        {% endif %}
+                            {% else %}
+                                {% for comment in comments reversed %}
+                                    <tr>
+                                        <td>{{comment.user}}</td>
+                                        <td>{{comment.comment}}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                     </section>
-                    </div>
                     
                     <!-- End of Story 18 -->                    
 

@@ -110,13 +110,11 @@
                     {% if user.is_authenticated %}
                         <!--Add a for loop to get user comments-->
                         <section class="insert-comment">
-                            <form method="POST" id="create_comment">
+                            <form onsubmit="add_comment()" method="POST" id="create_comment">
                                 <tr>
                                     <td>
-
                                         {% csrf_token %}
-                                        <input type="text" name="comment" placeholder="Write your comment here" onsubmit="add_comment()">
-
+                                        <input type="text" name="comment" placeholder="Write your comment here">
                                         <!--Need to add a onsubmit to trigger js function to submit comment-->
                                     </td>
                                 </tr>
@@ -125,7 +123,7 @@
 
                     {% endif %}
 
-                    <section class="view-comments" id="id-view-comments">
+                    <section class="view-comments">
                         {% if not comments %}
                             <tr>
                                 <td>No comments.</td>

@@ -26,11 +26,8 @@ function rate_movie (){
  */
 
 function add_comment (){
-    console.log("adding");
-    var comment_content = $("input[type='text'][name='comment']").String(); //String not int
-    console.log(comment_content); 
+    var comment_content = $("input[type='text'][name='comment']").val(); //String not int
     var movie = $("input[name=id_movie]").val();
-    console.log("ajax");
     $.ajax({
         method: 'POST',
         data: {
@@ -44,6 +41,7 @@ function add_comment (){
     container.load(' #id-view-comments', function (){
         container.children('#id-view-comments').unwrap();
     });
+    
 }
 
 /**

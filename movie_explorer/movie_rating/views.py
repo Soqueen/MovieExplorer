@@ -155,17 +155,18 @@ class MovieDescriptionView(TemplateView):
 
         elif action == "add_comment":
 
+            print("views.py accessed")
+
             movieID = int(request.POST['movie_id'])
-            comment_given = int(request.POST['comment'])
+            comment_given = str(request.POST['comment'])
             current_user = request.user
 
             res = {}
 
             if current_user.is_authenticated:
                 try:
-                    MovieComments.object.create(user=current_user, movie_id=movieID, comment=comment_given)
                     res['status'] = 'success'
-                    res['comment'] = str
+                    res['comment'] = MovieComments.objects.create(user=current_user, movie_id=movieID, comment=comment_given)
                     # reload newly added comments
                 except DatabaseError:
                     print ("Error in database. Unable to add comment")

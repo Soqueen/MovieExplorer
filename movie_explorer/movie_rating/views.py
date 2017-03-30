@@ -156,21 +156,25 @@ class MovieDescriptionView(TemplateView):
             movieID = int(request.POST['movie_id'])
             comment_given = str(request.POST['comment'])
             current_user = request.user
-
-            res = {}
-
-            MovieComments.objects.create(user=current_user, movie_id=movieID, comment=comment_given)
+            updated = False
 
             if current_user.is_authenticated:
                 try:
-                    res['status'] = 'success'
-                    res['comments'] = MovieComments.objects.all().filter(movie_id=int(movieID))
-                    # reload newly added comments
+                    MovieComments.objects.create(user=current_user, movie_id=movieID, comment=comment_given)
+                    updated = True
                 except DatabaseError:
                     print ("Error in database. Unable to add comment")
-                    res['status'] = 'failure'
 
-            return render(request, 'description.html', res)
+            res = {}
+            if updated:
+                res['status'] = 'success'
+                res['comments'] = MovieComments.objects.all().filter(movie_id=int(movieID))
+                return render(request, 'description.html', res)
+                # reload newly added comments
+            else:
+                res['status'] = 'failure'
+                return render(request, 'description.html', res)
+        
             
         return render(request, 'description.html', {} )
 

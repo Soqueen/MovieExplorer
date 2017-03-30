@@ -94,14 +94,12 @@ class MovieDescriptionView(TemplateView):
                 context['current_rating'] = str(rating)
 
             #Show comments
-            if current_user.is_authenticated:
-                try:
-                    c = MovieComments.objects.filter(movie_id=movies.id).all()
-                    print (c)
-                except DatabaseError:
-                    print ("unable to access db")
-                
-                context['comments']=c
+            try:
+                c = MovieComments.objects.filter(movie_id=movies.id).all()
+            except DatabaseError:
+                print ("Unable to access database.")
+            
+            context['comments']=c
 
             #Similar movies
             similar_movies = movies.similar_movies(page =1 ) #only show one page :(

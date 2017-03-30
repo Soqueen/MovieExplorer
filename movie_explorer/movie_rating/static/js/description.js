@@ -39,6 +39,7 @@ function add_comment (){
             movie_id: movie,
         }
     });
+    location.reload();
     var container = $('#id-view-comments');
     container.load(' #id-view-comments', function (){
         container.children('#id-view-comments').unwrap();

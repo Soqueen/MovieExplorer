@@ -164,7 +164,7 @@ class MovieDescriptionView(TemplateView):
             if current_user.is_authenticated:
                 try:
                     res['status'] = 'success'
-                    res['comment'] = MovieComments.objects.all().filter(movie_id=int(movieID))
+                    res['comments'] = MovieComments.objects.all().filter(movie_id=int(movieID))
                     # reload newly added comments
                 except DatabaseError:
                     print ("Error in database. Unable to add comment")

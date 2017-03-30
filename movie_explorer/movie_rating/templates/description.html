@@ -110,7 +110,7 @@
                     {% if user.is_authenticated %}
                         <!--Add a for loop to get user comments-->
                         <section class="insert-comment">
-                            <form onsubmit="add_comment()" method="POST" id="create_comment">
+                            <form onsubmit="event.preventDefault();add_comment();" method="POST" id="create_comment">
                                 <tr>
                                     <td>
                                         {% csrf_token %}
@@ -124,6 +124,7 @@
                     {% endif %}
 
                     <section class="view-comments">
+                    <div  id="id-view-comments">
                         {% if not comments %}
                             <tr>
                                 <td>No comments.</td>
@@ -139,7 +140,7 @@
                             {% endfor %}
 
                         {% endif %}
-
+                    </div>
                     </section>
                     
                     <!-- End of Story 18 -->                    

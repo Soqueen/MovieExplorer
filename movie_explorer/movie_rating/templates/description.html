@@ -94,6 +94,7 @@
                             {% endif %}
                         </td>
                     </tr>
+
                     <!--{% if video_link != 'No Trailer Found'%}-->
                     <!--<tr>-->
                         <!--<th colspan="2">-->
@@ -106,39 +107,44 @@
 
                     <!-- This is Story 18: Comments -->
                     <!-- Changes by Rais starts here -->
-
-                    {% if user.is_authenticated %}
+                    <tr>
+                        {% if user.is_authenticated %}
                         <section class="insert-comment">
                             <form method="POST" id="create_comment">
-                                <tr>
-                                    <td>
-                                        {% csrf_token %}
-                                        <textarea type="text" name="comment" placeholder="Write your comment here"></textarea>
-                                        <button type="button" onclick="add_comment();">Submit</button>
-                                    </td>
-                                </tr>
+                                <table id="new-comment">
+                                    <tr>
+                                        <td>
+                                            {% csrf_token %}
+                                            <textarea type="text" name="comment" placeholder="Write your comment here"></textarea>
+                                            <button type="button" onclick="add_comment();">Submit</button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </form>
                         </section>
-                    {% endif %}
+                        {% endif %}
+                    </tr>
 
-
-                    <section class="view-comments">
-                        <div  id="id-view-comments">
-                            {% if not comments %}
-                                <tr>
-                                    <td>No comments.</td>
-                                </tr>
-                            {% else %}
-                                {% for comment in comments reversed %}
-                                    <tr>
-                                        <td>{{comment.user}}</td>
-                                        <td>{{comment.comment}}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endif %}
+                    <tr>
+                        <section class="view-comments">
+                            <div  id="id_view_comments">
+                                <table>
+                                    {% if not comments %}
+                                        <tr>
+                                            <td>No comments.</td>
+                                        </tr>
+                                    {% else %}
+                                        {% for comment in comments reversed %}
+                                            <tr>
+                                                <td>{{comment.user}}</td>
+                                                <td>{{comment.comment}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                </table>
                         </div>
                     </section>
-                    
+                    </tr>
                     <!-- End of Story 18 -->                    
 
                 </table>

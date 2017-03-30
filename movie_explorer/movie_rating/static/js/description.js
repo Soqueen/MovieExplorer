@@ -37,10 +37,14 @@ function add_comment (){
             action: "add_comment",
             comment: comment_content,
             movie_id: movie,
+        },
+        success: function(){
+            var comments = $('#id_view_comments');
+            comments.load(' #id_view_comments', function (){
+                container.children('#id_view_comments').unwrap();
+            });
         }
     });
-
-    location.reload();
 }
 
 /**

@@ -66,6 +66,9 @@ table#movie-view td > div> table#containerS3 td> p > span#max_star{
     font-size: 18px;
     color: rgba(140, 127, 114,1);
 }
+section.view-comments{
+    font-size: 18px;
+}
 
 section.similar-movies > div.slider-container > form > img{
     overflow:auto;

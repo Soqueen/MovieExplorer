@@ -28,7 +28,7 @@ function rate_movie (){
  */
 
 function add_comment (){
-    var comment_content = $("input[type='text'][name='comment']").val(); //String not int
+    var comment_content = $("textarea[type='text'][name='comment']").val(); //String not int
     var movie = $("input[name=id_movie]").val();
     $.ajax({
         method: 'POST',
@@ -39,6 +39,7 @@ function add_comment (){
             movie_id: movie,
         }
     });
+
     location.reload();
     var container = $('#id-view-comments');
     container.load(' #id-view-comments', function (){

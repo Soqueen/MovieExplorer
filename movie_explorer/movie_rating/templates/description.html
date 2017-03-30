@@ -114,8 +114,8 @@
                                 <tr>
                                     <td>
                                         {% csrf_token %}
-                                        <input type="text" name="comment" placeholder="Write your comment here">
-                                        <!--Need to add a onsubmit to trigger js function to submit comment-->
+                                        <textarea type="text" name="comment" placeholder="Write your comment here"></textarea>
+                                        <button type="button" onclick="event.preventDefault();add_comment();">Submit</button>
                                     </td>
                                 </tr>
                             </form>
@@ -133,7 +133,7 @@
 
                         {% else %}
 
-                            {% for comment in comments %}
+                            {% for comment in comments reversed %}
                                 <tr>
                                     <td>{{comment.user}}</td>
                                     <td>{{comment.comment}}</td>

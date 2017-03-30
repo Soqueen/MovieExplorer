@@ -5,6 +5,7 @@
 {% block content %}
 <!--You need this load static tag to make it work-->
 {% load static %}
+
     <section class="page-title">
         My Ratings
     </section>
@@ -19,6 +20,7 @@
         </section>
         {% else %}
             <section class="movie-ratings">
+
                 {% for result in results %}
                     <div class="movie-rating">
                         <table>
@@ -31,7 +33,7 @@
                                         </span>
                                     </form>
                                 </td>
-                                <td style="width: 236px">
+                                <td style="width:50px">
                                     <div class="rating-title">
                                         <form id="return_description" method="GET" action="/description/{{result.0.id}}/" onclick="submit();">
                                             {% csrf_token %}
@@ -40,17 +42,35 @@
                                             </span>
                                         </form>
                                     </div>
-                                    {% if result.1 == 5 %}
-                                        <img src="{% static "img/5_stars.png" %}">
-                                    {% elif result.1 == 4 %}
-                                        <img src="{% static "img/4_stars.png" %}">
-                                    {% elif result.1 == 3 %}
-                                        <img src="{% static "img/3_stars.png" %}">
-                                    {% elif result.1 == 2 %}
-                                        <img src="{% static "img/2_stars.png" %}">
-                                    {% elif result.1 == 1 %}
-                                        <img src="{% static "img/1_stars.png" %}">
-                                    {% endif %}
+
+                                    <div class="stars-new">
+                                        <div id="stars-new-{{result.0.id}}">
+                                        <input type="hidden" name="rating" id="rating" value="{{result.1}}" />
+                                        <ul onMouseOut="resetRating({{result.0.id}});">
+                                            <li class="{% if result.1 >= 1 %}selected{% endif %}"
+                                                onmouseover="highlightStar(this,{{result.0.id}});"
+                                                onmouseout="removeHighlight({{result.0.id}});"
+                                                onClick="addRating(this,{{result.0.id}});">&#9733;</li>
+                                            <li class="{% if result.1 >= 2 %}selected{% endif %}"
+                                                onmouseover="highlightStar(this,{{result.0.id}});"
+                                                onmouseout="removeHighlight({{result.0.id}});"
+                                                onClick="addRating(this,{{result.0.id}});">&#9733;</li>
+                                            <li class="{% if result.1 >= 3 %}selected{% endif %}"
+                                                onmouseover="highlightStar(this,{{result.0.id}});"
+                                                onmouseout="removeHighlight({{result.0.id}});"
+                                                onClick="addRating(this,{{result.0.id}});">&#9733;</li>
+                                            <li class="{% if result.1 >= 4 %}selected{% endif %}"
+                                                onmouseover="highlightStar(this,{{result.0.id}});"
+                                                onmouseout="removeHighlight({{result.0.id}});"
+                                                onClick="addRating(this,{{result.0.id}});">&#9733;</li>
+                                            <li class="{% if result.1 >= 5 %}selected{% endif %}"
+                                                onmouseover="highlightStar(this,{{result.0.id}});"
+                                                onmouseout="removeHighlight({{result.0.id}});"
+                                                onClick="addRating(this,{{result.0.id}});">&#9733;</li>
+                                        </ul>
+
+
+                                    </div><br><br>
                                 </td>
                                 <!--<td>{{result.0.id}}</td>-->
                             </tr>

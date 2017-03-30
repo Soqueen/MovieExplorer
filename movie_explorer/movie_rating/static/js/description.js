@@ -15,9 +15,11 @@ function rate_movie (){
             movie_id: movie,
         }
     });
+    
     var container = $('#containerS3');
     container.load(' #containerS3', function (){
         container.children('#containerS3').unwrap();
+
     });
 }
 

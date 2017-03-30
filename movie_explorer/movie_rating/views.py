@@ -103,8 +103,6 @@ class MovieDescriptionView(TemplateView):
                 
                 context['comments']=c
 
-
-
             #Similar movies
             similar_movies = movies.similar_movies(page =1 ) #only show one page :(
             if similar_movies['total_results'] == 0:
@@ -155,18 +153,18 @@ class MovieDescriptionView(TemplateView):
 
         elif action == "add_comment":
 
-            print("views.py accessed")
-
             movieID = int(request.POST['movie_id'])
             comment_given = str(request.POST['comment'])
             current_user = request.user
 
             res = {}
 
+            MovieComments.objects.create(user=current_user, movie_id=movieID, comment=comment_given)
+
             if current_user.is_authenticated:
                 try:
                     res['status'] = 'success'
-                    res['comment'] = MovieComments.objects.create(user=current_user, movie_id=movieID, comment=comment_given)
+                    res['comment'] = MovieComments.objects.all().filter(movie_id=int(movieID))
                     # reload newly added comments
                 except DatabaseError:
                     print ("Error in database. Unable to add comment")
@@ -174,7 +172,6 @@ class MovieDescriptionView(TemplateView):
 
             return render(request, 'description.html', res)
             
-
         return render(request, 'description.html', {} )
 
 

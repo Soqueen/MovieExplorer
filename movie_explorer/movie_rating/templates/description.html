@@ -124,7 +124,7 @@
                     {% endif %}
 
 
-                    <div  id="idviewcomments">
+                    <div  id="id-view-comments">
                     <section class="view-comments">
                         {% if not comments %}
                             <tr>
@@ -136,7 +136,7 @@
                             {% for comment in comments reversed %}
                                 <tr>
                                     <td>{{comment.user}}</td>
-                                    <td>{{comment.comment}}</td>
+                                   <td>{{comment.comment}}</td>
                                 </tr>
                             {% endfor %}
 

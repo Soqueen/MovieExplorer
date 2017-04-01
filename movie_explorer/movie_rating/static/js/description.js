@@ -30,7 +30,11 @@ function rate_movie (){
 function add_comment (){
     var comment_content = $("textarea[type='text'][name='comment']").val();
     var movie = $("input[name=id_movie]").val();
-    $.ajax({
+
+    if (comment_content == "") {
+        alert("You cannot submit an empty comment");
+    } else {
+        $.ajax({
         method: 'POST',
         data: {
             csrfmiddlewaretoken: document.cookie.split('=')[1],
@@ -42,10 +46,11 @@ function add_comment (){
             var comments = $('#section-view');
             comments.load(' #section-view', function (){
                 container.children('#section-view').unwrap();
-            });
+            }); 
         }
 
-    });
+        });   
+    }
 }
 
 /**

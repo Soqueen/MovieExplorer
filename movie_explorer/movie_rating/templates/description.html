@@ -108,8 +108,9 @@
                                 {% csrf_token %}
                                 <div>
                                     <textarea type="text" name="comment"
-                                              placeholder="Write your comment here"></textarea>
+                                              placeholder="Leave a public comment here..."></textarea>
                                 </div>
+                                <br>
                                 <div>
                                     <button type="button" onclick="add_comment();">Share</button>
                                 </div>
@@ -126,13 +127,13 @@
 
                     {% if not comments %}
 
-                    </p>No Comments</p>
+                    <p>No Comments Found...</p>
 
                     {% else %}
                     {% for comment in comments reversed %}
                     <br>
                         <a class = "user-img">
-                            <img src="{% static "img/avatar.png" %}">
+                            <img src="{% static "img/avatar3.png" %}">
                         </a>
                         <div class="contain">
                             <a class="author">{{comment.user}}</a>

@@ -39,11 +39,12 @@ function add_comment (){
             movie_id: movie,
         },
         success: function(){
-            var comments = $('#id_view_comments');
-            comments.load(' #id_view_comments', function (){
-                container.children('#id_view_comments').unwrap();
+            var comments = $('#section-view');
+            comments.load(' #section-view', function (){
+                container.children('#section-view').unwrap();
             });
         }
+
     });
 }
 

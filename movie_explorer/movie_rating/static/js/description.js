@@ -42,7 +42,7 @@ function add_comment (){
         success: function(){
             var comments = $('#section-view');
             comments.load(' #section-view', function (){
-                container.children('#section-view').unwrap();
+                comments.children('#section-view').unwrap();
             });
         }
     });

@@ -94,51 +94,63 @@
                             {% endif %}
                         </td>
                     </tr>
-
-                    <!-- This is Story 18: Comments -->
-                    <!-- Changes by Rais starts here -->
-                    <tr>
-                        {% if user.is_authenticated %}
-                        <section class="insert-comment">
-                            <form method="POST" id="create_comment">
-                                <table id="new-comment">
-                                    <tr>
-                                        <td>
-                                            {% csrf_token %}
-                                            <textarea type="text" name="comment" placeholder="Write your comment here"></textarea>
-                                            <button type="button" onclick="add_comment();">Submit</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
-                        </section>
-                        {% endif %}
-                    </tr>
-
-                    <tr>
-                        <section class="view-comments">
-                            <div  id="id_view_comments">
-                                <table>
-                                    {% if not comments %}
-                                        <tr>
-                                            <td>No comments.</td>
-                                        </tr>
-                                    {% else %}
-                                        {% for comment in comments reversed %}
-                                            <tr>
-                                                <td>{{comment.user}}</td>
-                                                <td>{{comment.comment}}</td>
-                                                <td>{{ comment.date }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                    {% endif %}
-                                </table>
-                        </div>
-                    </section>
-                    </tr>
-                    <!-- End of Story 18 -->                    
-
                 </table>
+            </section>
+            <br><br>
+                 <span class="similar-subtitle"> COMMENTS</span>
+            <br><br>
+            {% if user.is_authenticated %}
+            <section class="insert-comment">
+                <form method="POST" id="create_comment">
+                    <table id="new-comment">
+                        <tr>
+                            <td>
+                                {% csrf_token %}
+                                <div>
+                                    <textarea type="text" name="comment"
+                                              placeholder="Write your comment here"></textarea>
+                                </div>
+                                <div>
+                                    <button type="button" onclick="add_comment();">Share</button>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </section>
+            {% endif %}
+
+            <section class="view-comments">
+                <div id="id_view_comments">
+
+                    {% if not comments %}
+
+                    </p>No Comments</p>
+
+                    {% else %}
+                    {% for comment in comments reversed %}
+                    <br>
+                        <a class = "user-img">
+                            <img src="{% static "img/profile_white.png" %}">
+                        </a>
+                        <div class="contain">
+                            <a class="author">{{comment.user}}</a>
+
+                            <div class="meta">
+                                <span>{{ comment.date }}</span>
+                            </div>
+
+                            <div class="render">
+                                {{comment.comment}}
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                    {% endif %}
+
+                </div>
             </section>
 
 

@@ -66,9 +66,7 @@ table#movie-view td > div> table#containerS3 td> p > span#max_star{
     font-size: 18px;
     color: rgba(140, 127, 114,1);
 }
-section.view-comments{
-    font-size: 18px;
-}
+
 
 section.similar-movies > div.slider-container > form > img{
     overflow:auto;
@@ -110,7 +108,7 @@ div#movie-post > span {
     font-weight: bold;
 }
 
-.similar-subtitle {
+span.similar-subtitle {
     color: rgba(100,150,240,0.8);
     font-size: 200%;
     font-weight: bold;
@@ -216,3 +214,109 @@ section.displaying-movie-description > .popup > iframe {
     left:50%;
     margin-left:-280px;
 }
+
+table#new-comment{
+    margin: auto;
+}
+
+/* Comment Box*/
+table#new-comment td > div > textarea{
+    font-size: 100%;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,1);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(17,17,17,1);
+    border-radius: 4px;
+    resize: none;
+    width: 600px;
+    height:140px;
+    color: rgba(191, 189, 189 , 1);
+}
+
+table#new-comment td > div > button {
+    background-color: rgba(44,44,44,1);
+    box-shadow: 0px 0px 10px 0px rgba(240,240,240, 0.9);
+    border: 2px solid rgba(17,17,17,1);
+    border-radius: 5px;
+    color: rgba(255,255,255,0.9);
+    padding: 12px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: 18px bold system-ui;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+section.view-comments{
+    font-size: 18px;
+    color : white;
+    padding-left: 500px;
+    padding-right:500px;
+    float: left;
+    height: 340px;
+    overflow-y:scroll;
+
+}
+
+section.view-comments > div#id_view_comments  {
+    position: relative;
+    background: 0 0;
+    margin: .5em 0 0;
+    padding: .5em 0 0;
+    border: none;
+    border-top: none;
+    line-height: 1.2;
+}
+
+
+section.view-comments > div#id_view_comments > a.user-img> img {
+    display: block;
+    width: 2.5em;
+    height: auto;
+    float: left;
+    margin: .2em 0 0;
+}
+
+/*section.view-comments > div#id_view_comments > a.user-img> img {
+    position: absolute;
+    width: 74px;
+    border: none;
+    border-radius: 40px;
+
+}*/
+
+/* author, date and comment container*/
+section.view-comments > div#id_view_comments > div.contain {
+    display: block;
+    margin-left: 3.5em;
+}
+/* author */
+section.view-comments > div#id_view_comments > div.contain > a.author {
+    font-size: 1em;
+    color: rgba(255,255,255,.87);
+    font-weight: 700;
+}
+
+/* date container*/
+section.view-comments > div#id_view_comments > div.contain > div.meta{
+    display: inline-block;
+    margin-left: .5em;
+    color: rgba(255,255,255,.4);
+    font-size: .875em;
+}
+
+/* date */
+section.view-comments > div#id_view_comments > div.contain > div.meta > span{
+    display: inline-block;
+    margin: 0 .5em 0 0;
+}
+
+/* message */
+section.view-comments > div#id_view_comments > div.contain > div.render{
+    margin: .25em 0 .5em;
+    font-size: 1em;
+    word-wrap: break-word;
+    color: rgba(255,255,255,.87);
+    line-height: 1.3;
+}
+

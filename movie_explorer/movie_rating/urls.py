@@ -18,4 +18,5 @@ urlpatterns = [
     # url(r'^rated/', views.rate, name='rated'),
     url(r'^myratings/', MyRatingsView.as_view(), name='myratings'),
     url(r'^changepassword/', views.changePass, name='changePassword'),
+    url(r'^profile/', views.profile, name='profile'),
 ]

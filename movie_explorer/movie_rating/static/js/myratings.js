@@ -17,7 +17,7 @@ function removeHighlight(id) {
 function addRating(obj,id) {
 	$('#stars-new-'+id+' li').each(function(index) {
 		$(this).addClass('selected');
-		$('#stars-new-'+id+' #rating').val((index+1));
+		$('#stars-new-'+id+' #rating').val((index));
 		if(index == $('#stars-new-'+id+' li').index(obj)) {
 			return false;
 		}
@@ -37,9 +37,13 @@ function resetRating(id) {
 	if($('#stars-new-'+id+' #rating').val() != 0) {
 		$('#stars-new-'+id+' li').each(function(index) {
 			$(this).addClass('selected');
-			if((index+1) == $('#stars-new-'+id+' #rating').val()) {
+			if((index) == $('#stars-new-'+id+' #rating').val()) {
 				return false;
 			}
 		});
 	}
+}
+
+function deleteRating(id) {
+
 }

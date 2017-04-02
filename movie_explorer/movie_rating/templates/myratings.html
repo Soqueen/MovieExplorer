@@ -47,6 +47,11 @@
                                         <div id="stars-new-{{result.0.id}}">
                                         <input type="hidden" name="rating" id="rating" value="{{result.1}}" />
                                         <ul onMouseOut="resetRating({{result.0.id}});">
+                                            <li class="{% if result.1 >= 5 %}selected{% endif %}" id="ex"
+                                                onmouseover="highlightStar(this,{{result.0.id}});"
+                                                onmouseout="removeHighlight({{result.0.id}});"
+                                                onClick="addRating(this,{{result.0.id}});">&#x2573;</li>
+                                            &ensp;
                                             <li class="{% if result.1 >= 1 %}selected{% endif %}"
                                                 onmouseover="highlightStar(this,{{result.0.id}});"
                                                 onmouseout="removeHighlight({{result.0.id}});"

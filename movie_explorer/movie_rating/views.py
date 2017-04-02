@@ -65,7 +65,8 @@ class MovieDescriptionView(TemplateView):
             context['image_path'] = config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]
             #Get average rating from the DB
             context['rating'] = MovieRatings.objects.all().filter(movie_id = int(movieID)).aggregate(Avg('rating'))
-            context['rating_formatted'] = "{:.2f}".format(context['rating']['rating__avg'])
+            if context['rating']['rating__avg'] is not None:
+                context['rating_formatted'] = "{:.2f}".format(context['rating']['rating__avg'])
 
             context['videos'] = movies.videos()
             # context['video_link'] = "https://www.youtube.com/watch?v=" + context['videos']['results'][0]['key']

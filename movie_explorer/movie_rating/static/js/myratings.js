@@ -17,27 +17,32 @@ function removeHighlight(id) {
 function addRating(obj,id) {
 	$('#stars-new-'+id+' li').each(function(index) {
 		$(this).addClass('selected');
-		$('#stars-new-'+id+' #rating').val((index+1));
+		$('#stars-new-'+id+' #rating').val((index));
 		if(index == $('#stars-new-'+id+' li').index(obj)) {
 			return false;
 		}
 	});
+    var rating = $('#stars-new-' + id + ' #rating').val();
+    console.log(rating);
     $.ajax({
         method: 'POST',
         data: {
             csrfmiddlewaretoken: document.cookie.split('=')[1],
             action: "rate_movie",
-            rating: $('#stars-new-' + id + ' #rating').val(),
+            rating: rating,
             movie_id: id,
         }
     });
+    if (rating == 0){
+    	location.reload();
+	}
 }
 
 function resetRating(id) {
 	if($('#stars-new-'+id+' #rating').val() != 0) {
 		$('#stars-new-'+id+' li').each(function(index) {
 			$(this).addClass('selected');
-			if((index+1) == $('#stars-new-'+id+' #rating').val()) {
+			if((index) == $('#stars-new-'+id+' #rating').val()) {
 				return false;
 			}
 		});

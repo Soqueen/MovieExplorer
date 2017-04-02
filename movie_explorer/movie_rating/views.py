@@ -222,9 +222,13 @@ class MyRatingsView(TemplateView):
             if current_user.is_authenticated:
                 try:
                     movie = MovieRatings.objects.get(user=current_user, movie_id=movieID)
-                    # update rating
-                    movie.rating = int(rating_given)
-                    movie.save()
+
+                    if rating_given == 0:
+                        movie.delete()
+                    else:
+                        # update rating
+                        movie.rating = int(rating_given)
+                        movie.save()
                     updated = True
                 except MovieRatings.DoesNotExist:
                     MovieRatings.objects.create(user=current_user, movie_id=movieID, rating=rating_given)
@@ -498,9 +502,6 @@ def viewRatings(request):
     else:
         raise Http404("No Movie Selected")
 
-
-
-
 def changePass(request):
     if request.user.is_authenticated:
         """ Handle change password form """
@@ -532,12 +533,11 @@ def changePass(request):
             if newPass != confirmPass:
                 response['errors'].append(' New Password and Confirm Password do not match.')
 
-            # Check if new password is different from old one
-            if oldPass == newPass:
-                response['errors'].append(' New Password is the same as Old Password')
-
             if response['errors']:
                 return render(request, 'changePassword.html', response)
+            elif oldPass == newPass:
+                response['noChange'] = 'New Password is the same as Old Password'
+                return render(request, 'profile.html', response)
             else:
                 # Set the new password
                 user = request.user
@@ -548,9 +548,15 @@ def changePass(request):
                 # Log user back in (since this logged them out)
                 login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
 
-                return render(request, 'changePassword.html', response)
+                return render(request, 'profile.html', response)
 
         else:
             return render(request, 'changePassword.html')
+    else:
+        return redirect('//')
+
+def profile(request):
+    if request.user.is_authenticated:
+        return render(request, 'profile.html')
     else:
         return redirect('//')

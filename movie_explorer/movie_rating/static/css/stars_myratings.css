@@ -6,12 +6,22 @@ li {
     font-size: 30px;
 }
 
-.highlight, .selected {
+div.stars-new .highlight, .selected {
     color: #FFDD44;
     text-shadow: 0 0 1px #F48F0A;
+}
+
+#ex {
+    color: rgba(240, 50, 50, 0.8);
+    text-shadow: 0 0 1px rgba(240, 50, 50, 0.8);
 }
 
 div.stars-new {
     text-align: left;
     height: 40px;
+    cursor: pointer;
+}
+
+div.stars-new ul {
+    padding-left: 10px;
 }

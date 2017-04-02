@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from movie_rating.views import MovieDescriptionView
+from movie_rating.views import MyRatingsView
 
 from . import views
 
@@ -15,6 +16,6 @@ urlpatterns = [
     # url(r'^description/', views.description, name='description'),
     url(r'^description/(?P<tmdb_movie_id>\d+)/', MovieDescriptionView.as_view(), name='description'),
     # url(r'^rated/', views.rate, name='rated'),
-    url(r'^myratings/', views.viewRatings, name='myratings'),
+    url(r'^myratings/', MyRatingsView.as_view(), name='myratings'),
     url(r'^changepassword/', views.changePass, name='changePassword'),
 ]

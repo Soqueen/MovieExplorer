@@ -16,8 +16,7 @@ function open_popup() {
         "top": $("body").scrollTop(),
         "text-align": "center",
         "width": "100%",
-        "height": "120%",
-        "padding-top": "10%",
+        "height": "100%",
         "z-index": "1100",
     });
 

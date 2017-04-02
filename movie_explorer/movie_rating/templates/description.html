@@ -94,32 +94,64 @@
                             {% endif %}
                         </td>
                     </tr>
-                    <!--{% if video_link != 'No Trailer Found'%}-->
-                    <!--<tr>-->
-                        <!--<th colspan="2">-->
-                            <!--<div>-->
-                                <!--<iframe width="100%" height="480px" src={{video_link_emb}}></iframe>-->
-                            <!--</div>-->
-                        <!--</th>-->
-                    <!--</tr>-->
-                    <!--{% endif %}-->
-                    {% if user.is_authenticated %}
-
-                        <section class="Insert_Comment">
-                            <form method="POST" id="create_comment">
-                                <tr>
-                                    <td>
-                                        Comment:
-                                    </td>
-                                    <td>
-                                        <input type="text" name="comment" placeholder="Write comment 0/100">
-                                        <!--Need to add a onsubmit to trigger js function to submit comment-->
-                                    </td>
-                                </tr>
-                            </form>
-                        </section>
-                    {% endif %}
                 </table>
+            </section>
+            <br><br>
+                 <span class="similar-subtitle"> COMMENTS</span>
+            <br><br>
+            {% if user.is_authenticated %}
+            <section class="insert-comment">
+                <form method="POST" id="create_comment">
+                    <table id="new-comment">
+                        <tr>
+                            <td>
+                                {% csrf_token %}
+                                <div>
+                                    <textarea type="text" name="comment"
+                                              placeholder="Leave a public comment here..."></textarea>
+                                </div>
+                                <br>
+                                <div>
+                                    <button type="button" onclick="add_comment();">Share</button>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </section>
+            {% endif %}
+
+            <section class="view-comments" id="section-view">
+                <div id="id_view_comments">
+
+                    {% if not comments %}
+
+                    <p>No Comments Found...</p>
+
+                    {% else %}
+                    {% for comment in comments reversed %}
+                    <br>
+                        <a class = "user-img">
+                            <img src="{% static "img/avatar3.png" %}">
+                        </a>
+                        <div class="contain">
+                            <a class="author">{{comment.user}}</a>
+
+                            <div class="meta">
+                                <span>{{ comment.date }}</span>
+                            </div>
+
+                            <div class="render">
+                                {{comment.comment|linebreaks}}
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                    {% endif %}
+
+                </div>
             </section>
 
 

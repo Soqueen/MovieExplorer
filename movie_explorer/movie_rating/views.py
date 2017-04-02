@@ -6,12 +6,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.db.utils import DatabaseError
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from django.views.generic import ListView
-from .models import MovieRatings
+from .models import MovieRatings, MovieComments
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 import requests
@@ -92,6 +93,14 @@ class MovieDescriptionView(TemplateView):
                     rating = 0
                 context['current_rating'] = str(rating)
 
+            #Show comments
+            try:
+                c = MovieComments.objects.filter(movie_id=movies.id).all()
+            except DatabaseError:
+                print ("Unable to access database.")
+            
+            context['comments']=c
+
             #Similar movies
             similar_movies = movies.similar_movies(page =1 ) #only show one page :(
             if similar_movies['total_results'] == 0:
@@ -138,9 +147,99 @@ class MovieDescriptionView(TemplateView):
             else:
                 res['status'] = 'failure'
                 return render(request, 'description.html', res )
+
+
+        elif action == "add_comment":
+
+            movieID = int(request.POST['movie_id'])
+            comment_given = str(request.POST['comment'])
+            current_user = request.user
+            updated = False
+
+            if current_user.is_authenticated:
+                try:
+                    MovieComments.objects.create(user=current_user, movie_id=movieID, comment=comment_given)
+                    updated = True
+                except DatabaseError:
+                    print ("Error in database. Unable to add comment")
+
+            res = {}
+            if updated:
+                res['status'] = 'success'
+                res['comments'] = MovieComments.objects.all().filter(movie_id=int(movieID))
+                return render(request, 'description.html', res)
+                # reload newly added comments
+            else:
+                res['status'] = 'failure'
+                return render(request, 'description.html', res)
+        
+            
         return render(request, 'description.html', {} )
 
+class MyRatingsView(TemplateView):
+    tmdb.API_KEY = settings.TMDB_API_KEY
+    template_name = 'myratings.html'
 
+    def get_context_data(self, **kwargs):
+        context = {'page_type': 'myrating_page'}
+        myratings = []
+        try:
+            data_entries = MovieRatings.objects.filter(user=self.request.user)
+
+            for entry in data_entries:
+                movie = tmdb.Movies(int(entry.movie_id))
+                config = tmdb.Configuration().info()
+                POSTER_SIZE = 1
+                myratings.insert(0, (movie.info(), entry.rating,
+                                     config['images']['base_url'] + config['images']['poster_sizes'][POSTER_SIZE]))
+
+            if self.request.user.is_authenticated:
+                if not myratings:
+                    context['status'] = 'failure'
+                else:
+                    context['status'] = 'success'
+                    context['results'] = myratings
+
+            return context
+
+        except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+            context = {}
+            print ("API ERROR")
+            context["status"] = 'failure'
+            return context
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        context_instance = RequestContext(request)
+        action = request.POST.get('action', '')
+        if action == "rate_movie":
+            # get important info
+            movieID = int(request.POST['movie_id'])
+            rating_given = int(request.POST['rating'])
+            current_user = request.user
+            updated = False
+
+            if current_user.is_authenticated:
+                try:
+                    movie = MovieRatings.objects.get(user=current_user, movie_id=movieID)
+                    # update rating
+                    movie.rating = int(rating_given)
+                    movie.save()
+                    updated = True
+                except MovieRatings.DoesNotExist:
+                    MovieRatings.objects.create(user=current_user, movie_id=movieID, rating=rating_given)
+                    updated = True
+
+            res = {}
+            if updated:
+                res['status'] = 'success'
+                res['current_rating'] = str(rating_given)
+                res['rating'] = MovieRatings.objects.all().filter(movie_id=int(movieID)).aggregate(Avg('rating'))
+                return render(request, 'myratings.html', res )
+            else:
+                res['status'] = 'failure'
+                return render(request, 'myratings.html', res )
+        return render(request, 'myratings.html', {} )
 
 def register(request):
     """ Handle registration form """
@@ -398,6 +497,9 @@ def viewRatings(request):
 
     else:
         raise Http404("No Movie Selected")
+
+
+
 
 def changePass(request):
     if request.user.is_authenticated:

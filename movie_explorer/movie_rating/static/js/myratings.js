@@ -22,15 +22,20 @@ function addRating(obj,id) {
 			return false;
 		}
 	});
+    var rating = $('#stars-new-' + id + ' #rating').val();
+    console.log(rating);
     $.ajax({
         method: 'POST',
         data: {
             csrfmiddlewaretoken: document.cookie.split('=')[1],
             action: "rate_movie",
-            rating: $('#stars-new-' + id + ' #rating').val(),
+            rating: rating,
             movie_id: id,
         }
     });
+    if (rating == 0){
+    	location.reload();
+	}
 }
 
 function resetRating(id) {
@@ -42,8 +47,4 @@ function resetRating(id) {
 			}
 		});
 	}
-}
-
-function deleteRating(id) {
-
 }

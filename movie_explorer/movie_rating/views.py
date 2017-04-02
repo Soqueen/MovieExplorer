@@ -217,6 +217,7 @@ class MyRatingsView(TemplateView):
             movieID = int(request.POST['movie_id'])
             rating_given = int(request.POST['rating'])
             current_user = request.user
+            updated = False
 
             if current_user.is_authenticated:
                 try:
@@ -228,8 +229,21 @@ class MyRatingsView(TemplateView):
                         # update rating
                         movie.rating = int(rating_given)
                         movie.save()
+                    updated = True
                 except MovieRatings.DoesNotExist:
                     MovieRatings.objects.create(user=current_user, movie_id=movieID, rating=rating_given)
+                    updated = True
+
+            res = {}
+            if updated:
+                res['status'] = 'success'
+                res['current_rating'] = str(rating_given)
+                res['rating'] = MovieRatings.objects.all().filter(movie_id=int(movieID)).aggregate(Avg('rating'))
+                return render(request, 'myratings.html', res )
+            else:
+                res['status'] = 'failure'
+                return render(request, 'myratings.html', res )
+        return render(request, 'myratings.html', {} )
 
 def register(request):
     """ Handle registration form """

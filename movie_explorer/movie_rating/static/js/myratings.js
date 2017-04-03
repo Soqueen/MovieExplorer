@@ -34,7 +34,12 @@ function addRating(obj,id) {
         }
     });
     if (rating == 0){
-    	location.reload();
+        // From http://stackoverflow.com/questions/8075463/in-ajax-data-is-deleted-from-database-but-disappear-from-screen-when-refreshed
+        if (http.status == 200) { //on successful server response
+            location.reload();
+        }
+        location.href="/myratings/";
+
 	}
 }
 

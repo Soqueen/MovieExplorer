@@ -220,6 +220,7 @@ class MyRatingsView(TemplateView):
             rating_given = int(request.POST['rating'])
             current_user = request.user
             updated = False
+            context = {}
 
             if current_user.is_authenticated:
                 try:
@@ -236,16 +237,31 @@ class MyRatingsView(TemplateView):
                     MovieRatings.objects.create(user=current_user, movie_id=movieID, rating=rating_given)
                     updated = True
 
-            res = {}
-            if updated:
-                res['status'] = 'success'
-                res['current_rating'] = str(rating_given)
-                res['rating'] = MovieRatings.objects.all().filter(movie_id=int(movieID)).aggregate(Avg('rating'))
-                return render(request, 'myratings.html', res )
-            else:
-                res['status'] = 'failure'
-                return render(request, 'myratings.html', res )
-        return render(request, 'myratings.html', {} )
+                myratings=[]
+
+                try:
+                    data_entries = MovieRatings.objects.filter(user=request.user)
+
+                    for entry in data_entries:
+                        movie = tmdb.Movies(int(entry.movie_id))
+                        config = tmdb.Configuration().info()
+                        POSTER_SIZE = 1
+                        myratings.insert(0, (movie.info(), entry.rating,
+                                             config['images']['base_url'] + config['images']['poster_sizes'][
+                                                 POSTER_SIZE]))
+
+                    if not myratings:
+                        context['status'] = 'failure'
+                    else:
+                        context['status'] = 'success'
+                        context['results'] = myratings
+
+                except (requests.exceptions.HTTPError, tmdb.APIKeyError)as e:
+                    context["status"] = 'failure'
+
+            return render(request, 'myratings.html', context)
+
+        return render(request, 'myratings.html', {})
 
 def register(request):
     """ Handle registration form """
